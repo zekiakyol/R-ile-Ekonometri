@@ -1,0 +1,68 @@
+--- 
+title: "R ile Ekonometri"
+author: 
+  name: "Prof. Dr. Hüseyin Taştan"
+  affiliation: "Yıldız Teknik Üniversitesi"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+reference-section-title: Kaynaklar
+link-citations: yes
+description: "Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları"
+always_allow_html: true
+---
+
+# Dersin amacı ve kapsamı {-} 
+
+- Bu dersin amacı `R` programı ile ekonometrik analizin temel düzeyde öğretilmesidir.
+
+- Bu amaçla ilk olarak `R` programının temel ilkeleri tanıtılacak ve Tidyverse paketleri ile işlevselliğinin nasıl arttırılabileceği gösterilecektir. 
+
+- Ekonometrik analizin temelini oluşturan regresyon analizi, kesit-veri ve zaman serisi verileri için ayrı ayrı ele alınacaktır. 
+
+- Daha önce `R` ve ekonometri derslerini almış olmak gerekli değildir. Ancak üniversite düzeyinde istatistik bilgisi faydalı olabilir. 
+
+- Dersin sonunda katılımcılar `R` programını kendi uygulamalı ekonometrik analizlerinde kullanabilme becerisi edineceklerdir. 
+
+
+# Dersin içeriği {-} 
+
+- `R` programının tanıtımı
+
+- Temel `R`
+
+- `R` Tidyverse paketler topluluğunun tanıtımı
+
+- Tidyverse paketleri
+  - tibble, tidyr, readr, 
+  - dplyr
+  - ggplot2 
+  - ve diğerleri
+  
+- Kesit verilerle regresyon analizi 
+
+  - `lm()` fonksiyonu 
+  - Fonksiyon kalıpları
+  - Kukla değişkenler 
+  - Etkileşim terimleri 
+  - Hipotez testleri 
+  
+- Zaman serileriyle regresyon analizi
+
+  - `R`'da zaman serisi nesneleri
+  - Zaman serilerinin temel özellikleri 
+  - Zaman serilerinde bağımlılık ve durağanlık
+  - Statik ve dinamik zaman serisi modelleri 
+  - Birim kök ve durağanlık testleri 
+  - Vektör otoregresyon modeli ve Granger nedenselliği 
+  - Eşbütünleşme ve hata düzeltme modelleri 
+  
+- R Markdown ile raporlama ve tekrarlanabilir araştırma
+  - R kodları ile yorum ve açıklamaların birlikte hazırlanması
+  - Word, pdf, veya html gibi formatlara dönüştürülmesi
+  - Verilerin analize hazır hale getirilmesinden sonuçların elde edilmesine kadar tüm aşamaların raporlanması ve başkaları tarafından tekrarlanabilmesi/sonuçların yeniden üretilebilmesi 
+  

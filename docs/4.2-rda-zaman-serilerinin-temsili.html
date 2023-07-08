@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.2 R’da Zaman Serilerinin Temsili | R ile Ekonometri</title>
+  <meta name="description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.2 R’da Zaman Serilerinin Temsili | R ile Ekonometri" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.2 R’da Zaman Serilerinin Temsili | R ile Ekonometri" />
+  
+  <meta name="twitter:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+
+
+<meta name="date" content="2023-07-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="4.1-zaman-serileri.html"/>
+<link rel="next" href="4.3-klasik-zaman-serisi-ayrıştırması.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R ile Ekonometri</a></li>
+<li><a href="https://github.com/htastan">Prof. Dr. Hüseyin Taştan</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Dersin amacı ve kapsamı</a></li>
+<li class="chapter" data-level="" data-path="dersin-içeriği.html"><a href="dersin-içeriği.html"><i class="fa fa-check"></i>Dersin içeriği</a></li>
+<li class="chapter" data-level="1" data-path="1-temelR.html"><a href="1-temelR.html"><i class="fa fa-check"></i><b>1</b> Temel R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1.1-R-kurulum.html"><a href="1.1-R-kurulum.html"><i class="fa fa-check"></i><b>1.1</b> Kurulum</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-R-console.html"><a href="1.2-R-console.html"><i class="fa fa-check"></i><b>1.2</b> R Komut Satırı (Console)</a></li>
+<li class="chapter" data-level="1.3" data-path="1.3-R-nesne.html"><a href="1.3-R-nesne.html"><i class="fa fa-check"></i><b>1.3</b> <code>R</code>’da Nesneler</a></li>
+<li class="chapter" data-level="1.4" data-path="1.4-R-vektor.html"><a href="1.4-R-vektor.html"><i class="fa fa-check"></i><b>1.4</b> Vektörler</a></li>
+<li class="chapter" data-level="1.5" data-path="1.5-R-log-vek.html"><a href="1.5-R-log-vek.html"><i class="fa fa-check"></i><b>1.5</b> Mantıksal vektörler</a></li>
+<li class="chapter" data-level="1.6" data-path="1.6-R-matris.html"><a href="1.6-R-matris.html"><i class="fa fa-check"></i><b>1.6</b> Matrisler</a></li>
+<li class="chapter" data-level="1.7" data-path="1.7-R-liste.html"><a href="1.7-R-liste.html"><i class="fa fa-check"></i><b>1.7</b> Listeler</a></li>
+<li class="chapter" data-level="1.8" data-path="1.8-R-data-fr.html"><a href="1.8-R-data-fr.html"><i class="fa fa-check"></i><b>1.8</b> Veri Çerçeveleri (Data Frames)</a></li>
+<li class="chapter" data-level="1.9" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html"><i class="fa fa-check"></i><b>1.9</b> Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#plot-fonksiyonu"><i class="fa fa-check"></i><b>1.9.1</b> Plot fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.2" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#eğri-çizimi"><i class="fa fa-check"></i><b>1.9.2</b> Eğri çizimi</a></li>
+<li class="chapter" data-level="1.9.3" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#histogram"><i class="fa fa-check"></i><b>1.9.3</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.4" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kutu-çizimi"><i class="fa fa-check"></i><b>1.9.4</b> Kutu çizimi</a></li>
+<li class="chapter" data-level="1.9.5" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#örneklem-birikimli-yoğunluk-fonksiyonu"><i class="fa fa-check"></i><b>1.9.5</b> Örneklem birikimli yoğunluk fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.6" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#serpilme-çizimi"><i class="fa fa-check"></i><b>1.9.6</b> Serpilme çizimi</a></li>
+<li class="chapter" data-level="1.9.7" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kategorik-değişkenler"><i class="fa fa-check"></i><b>1.9.7</b> Kategorik değişkenler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html"><i class="fa fa-check"></i><b>1.10</b> Temel Programlama</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#mantıksal-işlemler"><i class="fa fa-check"></i><b>1.10.1</b> Mantıksal işlemler</a></li>
+<li class="chapter" data-level="1.10.2" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#koşullu-işlem"><i class="fa fa-check"></i><b>1.10.2</b> Koşullu işlem</a></li>
+<li class="chapter" data-level="1.10.3" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#döngüler"><i class="fa fa-check"></i><b>1.10.3</b> Döngüler</a></li>
+<li class="chapter" data-level="1.10.4" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#fonksiyonel-işlemler"><i class="fa fa-check"></i><b>1.10.4</b> Fonksiyonel İşlemler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="1.11-R-fonksiyon.html"><a href="1.11-R-fonksiyon.html"><i class="fa fa-check"></i><b>1.11</b> R Fonksiyonları</a></li>
+<li class="chapter" data-level="1.12" data-path="1.12-R-paket.html"><a href="1.12-R-paket.html"><i class="fa fa-check"></i><b>1.12</b> R Paketleri</a></li>
+<li class="chapter" data-level="1.13" data-path="1.13-R-dizin.html"><a href="1.13-R-dizin.html"><i class="fa fa-check"></i><b>1.13</b> Çalışma dizini</a></li>
+<li class="chapter" data-level="1.14" data-path="1.14-r-ile-online-veri-indirme.html"><a href="1.14-r-ile-online-veri-indirme.html"><i class="fa fa-check"></i><b>1.14</b> R ile Online Veri İndirme</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-tidyRgiris.html"><a href="2-tidyRgiris.html"><i class="fa fa-check"></i><b>2</b> R Tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2.1-r-tidy-veri-çerçeveleri.html"><a href="2.1-r-tidy-veri-çerçeveleri.html"><i class="fa fa-check"></i><b>2.1</b> R “Tidy” veri çerçeveleri</a></li>
+<li class="chapter" data-level="2.2" data-path="2.2-readr-paketi-ile-verilerin-okutulması.html"><a href="2.2-readr-paketi-ile-verilerin-okutulması.html"><i class="fa fa-check"></i><b>2.2</b> <code>{readr}</code> Paketi ile Verilerin okutulması</a></li>
+<li class="chapter" data-level="2.3" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><i class="fa fa-check"></i><b>2.3</b> <code>{tidyr}</code> Paketi ile Verilerin Düzenlenmesi</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#kayıp-gözlemler"><i class="fa fa-check"></i><b>2.3.1</b> Kayıp gözlemler</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#hücrelerin-ayrılması-veya-birleştirilmesi"><i class="fa fa-check"></i><b>2.3.2</b> Hücrelerin ayrılması veya birleştirilmesi</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html"><i class="fa fa-check"></i><b>2.4</b> <code>{dplyr}</code> Paketi ile Verilerin Manipülasyonu</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#filter-gözlemlerin-filtrelenmesi"><i class="fa fa-check"></i><b>2.4.1</b> <code>filter()</code>: gözlemlerin filtrelenmesi</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#select-değişkenlerin-seçimi"><i class="fa fa-check"></i><b>2.4.2</b> <code>select()</code>: değişkenlerin seçimi</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#mutate-yeni-değişken-oluşturma"><i class="fa fa-check"></i><b>2.4.3</b> <code>mutate()</code>: yeni değişken oluşturma</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#arrange-verilerin-sıralanması"><i class="fa fa-check"></i><b>2.4.4</b> <code>arrange()</code>: verilerin sıralanması</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#group_by-verilerin-gruplanması"><i class="fa fa-check"></i><b>2.4.5</b> <code>group_by()</code>: verilerin gruplanması</a></li>
+<li class="chapter" data-level="2.4.6" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#summarize-verilerin-özetlenmesi"><i class="fa fa-check"></i><b>2.4.6</b> <code>summarize()</code>: verilerin özetlenmesi</a></li>
+<li class="chapter" data-level="2.4.7" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#veri-setlerinin-birleştirilmesi"><i class="fa fa-check"></i><b>2.4.7</b> Veri setlerinin birleştirilmesi</a></li>
+<li class="chapter" data-level="2.4.8" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#diğer-fonksiyonlar"><i class="fa fa-check"></i><b>2.4.8</b> Diğer fonksiyonlar</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html"><i class="fa fa-check"></i><b>2.5</b> <code>{ggplot2}</code> Paketi ile Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bir-grafiğin-katmanları"><i class="fa fa-check"></i><b>2.5.1</b> Bir grafiğin katmanları</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#renk-şekil-ve-büyüklük"><i class="fa fa-check"></i><b>2.5.2</b> Renk, şekil, ve büyüklük</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#fasetler"><i class="fa fa-check"></i><b>2.5.3</b> Fasetler</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#eksenler-başlık-ve-etiketlerin-kontrolü"><i class="fa fa-check"></i><b>2.5.4</b> Eksenler, başlık, ve etiketlerin kontrolü</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#dağılım-grafikleri"><i class="fa fa-check"></i><b>2.5.5</b> Dağılım Grafikleri</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#histogram-geom_histogram"><i class="fa fa-check"></i><b>2.5.6</b> Histogram: <code>geom_histogram()</code></a></li>
+<li class="chapter" data-level="2.5.7" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#yoğunluk-geom_density"><i class="fa fa-check"></i><b>2.5.7</b> Yoğunluk: <code>geom_density()</code></a></li>
+<li class="chapter" data-level="2.5.8" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#kutu-çizimi-geom_boxplot"><i class="fa fa-check"></i><b>2.5.8</b> Kutu Çizimi: <code>geom_boxplot()</code></a></li>
+<li class="chapter" data-level="2.5.9" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#keman-grafiği-geom_violin"><i class="fa fa-check"></i><b>2.5.9</b> Keman grafiği: <code>geom_violin()</code></a></li>
+<li class="chapter" data-level="2.5.10" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#qq-grafiği"><i class="fa fa-check"></i><b>2.5.10</b> QQ Grafiği</a></li>
+<li class="chapter" data-level="2.5.11" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bar-plot"><i class="fa fa-check"></i><b>2.5.11</b> Bar plot</a></li>
+<li class="chapter" data-level="2.5.12" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#çizgi-ve-nokta-grafiği"><i class="fa fa-check"></i><b>2.5.12</b> Çizgi ve Nokta grafiği</a></li>
+<li class="chapter" data-level="2.5.13" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#temalar"><i class="fa fa-check"></i><b>2.5.13</b> Temalar</a></li>
+<li class="chapter" data-level="2.5.14" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#interaktif-grafik"><i class="fa fa-check"></i><b>2.5.14</b> Interaktif grafik</a></li>
+<li class="chapter" data-level="2.5.15" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#harita-çizimi"><i class="fa fa-check"></i><b>2.5.15</b> Harita çizimi</a></li>
+<li class="chapter" data-level="2.5.16" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#ggplot2-uzantıları"><i class="fa fa-check"></i><b>2.5.16</b> <code>ggplot2</code> Uzantıları</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="2.6-forcats.html"><a href="2.6-forcats.html"><i class="fa fa-check"></i><b>2.6</b> <code>{forcats}</code> Paketi ile Kategorik Değişkenlerin İşlenmesi</a></li>
+<li class="chapter" data-level="2.7" data-path="2.7-stringr.html"><a href="2.7-stringr.html"><i class="fa fa-check"></i><b>2.7</b> <code>{stringr}</code> Paketi ile Karakter Değişkenlerinin İşlenmesi</a></li>
+<li class="chapter" data-level="2.8" data-path="2.8-lubridate.html"><a href="2.8-lubridate.html"><i class="fa fa-check"></i><b>2.8</b> <code>{lubridate}</code> Paketi ile Tarih-Zaman İşlemleri</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-Kesit.html"><a href="3-Kesit.html"><i class="fa fa-check"></i><b>3</b> Regresyon Analizi: Kesit Veri</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3.1-ekonometriye-giriş.html"><a href="3.1-ekonometriye-giriş.html"><i class="fa fa-check"></i><b>3.1</b> Ekonometriye Giriş</a></li>
+<li class="chapter" data-level="3.2" data-path="3.2-veri-türleri.html"><a href="3.2-veri-türleri.html"><i class="fa fa-check"></i><b>3.2</b> Veri Türleri</a></li>
+<li class="chapter" data-level="3.3" data-path="3.3-basit-regresyon-modeli.html"><a href="3.3-basit-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.3</b> Basit Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.4" data-path="3.4-popülasyon-regresyon-fonksiyonu.html"><a href="3.4-popülasyon-regresyon-fonksiyonu.html"><i class="fa fa-check"></i><b>3.4</b> Popülasyon Regresyon Fonksiyonu</a></li>
+<li class="chapter" data-level="3.5" data-path="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><a href="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><i class="fa fa-check"></i><b>3.5</b> (Sıradan) En Küçük Kareler (EKK) Yöntemi ile Tahmin</a></li>
+<li class="chapter" data-level="3.6" data-path="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><a href="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><i class="fa fa-check"></i><b>3.6</b> Popülasyon ve Örneklem Regresyon Fonksiyonları</a></li>
+<li class="chapter" data-level="3.7" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html"><i class="fa fa-check"></i><b>3.7</b> Fonksiyon kalıpları</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#regresyon-modelinin-doğrusallığı"><i class="fa fa-check"></i><b>3.7.1</b> Regresyon modelinin doğrusallığı</a></li>
+<li class="chapter" data-level="3.7.2" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#doğrusal-olmama"><i class="fa fa-check"></i><b>3.7.2</b> Doğrusal olmama</a></li>
+<li class="chapter" data-level="3.7.3" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-level"><i class="fa fa-check"></i><b>3.7.3</b> Log-level</a></li>
+<li class="chapter" data-level="3.7.4" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#level-log"><i class="fa fa-check"></i><b>3.7.4</b> Level-log</a></li>
+<li class="chapter" data-level="3.7.5" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-log-sabit-esneklik-modeli"><i class="fa fa-check"></i><b>3.7.5</b> Log-log (Sabit esneklik modeli)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="3.8-çoklu-regresyon-modeli.html"><a href="3.8-çoklu-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.8</b> Çoklu Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.9" data-path="3.9-r-lm-fonksiyonu.html"><a href="3.9-r-lm-fonksiyonu.html"><i class="fa fa-check"></i><b>3.9</b> R <code>lm()</code> Fonksiyonu</a></li>
+<li class="chapter" data-level="3.10" data-path="3.10-kukla-kategorik-değişkenler.html"><a href="3.10-kukla-kategorik-değişkenler.html"><i class="fa fa-check"></i><b>3.10</b> Kukla (kategorik) değişkenler</a></li>
+<li class="chapter" data-level="3.11" data-path="3.11-etkileşim-değişkenleri.html"><a href="3.11-etkileşim-değişkenleri.html"><i class="fa fa-check"></i><b>3.11</b> Etkileşim değişkenleri</a></li>
+<li class="chapter" data-level="3.12" data-path="3.12-karesel-ve-polinom-terimler.html"><a href="3.12-karesel-ve-polinom-terimler.html"><i class="fa fa-check"></i><b>3.12</b> Karesel ve polinom terimler</a></li>
+<li class="chapter" data-level="3.13" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html"><i class="fa fa-check"></i><b>3.13</b> Hipotez testleri</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-karar-kuralı"><i class="fa fa-check"></i><b>3.13.1</b> t-testi karar kuralı</a></li>
+<li class="chapter" data-level="3.13.2" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#p-değeri"><i class="fa fa-check"></i><b>3.13.2</b> p-değeri</a></li>
+<li class="chapter" data-level="3.13.3" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-örnek"><i class="fa fa-check"></i><b>3.13.3</b> t-testi: Örnek</a></li>
+<li class="chapter" data-level="3.13.4" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-çoklu-doğrusal-kısıtların-testi"><i class="fa fa-check"></i><b>3.13.4</b> F Testi: Çoklu Doğrusal Kısıtların Testi</a></li>
+<li class="chapter" data-level="3.13.5" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#dışlama-kısıtları"><i class="fa fa-check"></i><b>3.13.5</b> Dışlama kısıtları</a></li>
+<li class="chapter" data-level="3.13.6" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-için-karar-kuralı"><i class="fa fa-check"></i><b>3.13.6</b> F testi için karar kuralı</a></li>
+<li class="chapter" data-level="3.13.7" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#doğrusal-kısıtlar-örnek"><i class="fa fa-check"></i><b>3.13.7</b> Doğrusal kısıtlar: örnek</a></li>
+<li class="chapter" data-level="3.13.8" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#regresyonun-bütün-olarak-anlamlılığı"><i class="fa fa-check"></i><b>3.13.8</b> Regresyonun Bütün Olarak Anlamlılığı</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="3.14-regresyon-analizinde-potansiyel-problemler.html"><a href="3.14-regresyon-analizinde-potansiyel-problemler.html"><i class="fa fa-check"></i><b>3.14</b> Regresyon Analizinde Potansiyel Problemler</a></li>
+<li class="chapter" data-level="3.15" data-path="3.15-kestirim-prediction.html"><a href="3.15-kestirim-prediction.html"><i class="fa fa-check"></i><b>3.15</b> Kestirim (Prediction)</a></li>
+<li class="chapter" data-level="3.16" data-path="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><a href="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><i class="fa fa-check"></i><b>3.16</b> Makine Öğrenmesi ve Regresyon Analizi</a></li>
+<li class="chapter" data-level="3.17" data-path="3.17-regresyon-ve-gözetimli-öğrenme.html"><a href="3.17-regresyon-ve-gözetimli-öğrenme.html"><i class="fa fa-check"></i><b>3.17</b> Regresyon ve gözetimli öğrenme</a></li>
+<li class="chapter" data-level="3.18" data-path="3.18-test-mse.html"><a href="3.18-test-mse.html"><i class="fa fa-check"></i><b>3.18</b> Test MSE</a></li>
+<li class="chapter" data-level="3.19" data-path="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><a href="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><i class="fa fa-check"></i><b>3.19</b> Aşırı uyum ve makine öğrenmesi</a></li>
+<li class="chapter" data-level="3.20" data-path="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><a href="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><i class="fa fa-check"></i><b>3.20</b> Biri Hariç Çapraz Geçerleme, LOOCV (Leave-one-out Cross Validation)</a></li>
+<li class="chapter" data-level="3.21" data-path="3.21-k-katlı-çapraz-geçerleme.html"><a href="3.21-k-katlı-çapraz-geçerleme.html"><i class="fa fa-check"></i><b>3.21</b> <span class="math inline">\(k\)</span>-Katlı Çapraz Geçerleme</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-Zaman.html"><a href="4-Zaman.html"><i class="fa fa-check"></i><b>4</b> Regresyon Analizi: Zaman Serileri</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4.1-zaman-serileri.html"><a href="4.1-zaman-serileri.html"><i class="fa fa-check"></i><b>4.1</b> Zaman Serileri</a></li>
+<li class="chapter" data-level="4.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html"><i class="fa fa-check"></i><b>4.2</b> R’da Zaman Serilerinin Temsili</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#ts-nesnesi"><i class="fa fa-check"></i><b>4.2.1</b> <code>ts</code> Nesnesi</a></li>
+<li class="chapter" data-level="4.2.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#zoo-nesnesi"><i class="fa fa-check"></i><b>4.2.2</b> <code>zoo</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.3" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#xts-nesnesi"><i class="fa fa-check"></i><b>4.2.3</b> <code>xts</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.4" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#tsibble-nesnesi"><i class="fa fa-check"></i><b>4.2.4</b> <code>tsibble</code> nesnesi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html"><i class="fa fa-check"></i><b>4.3</b> Klasik Zaman Serisi Ayrıştırması</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html#örnek-turist-sayısı"><i class="fa fa-check"></i><b>4.3.1</b> Örnek: Turist sayısı</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html"><i class="fa fa-check"></i><b>4.4</b> Zaman Serilerinde Bağımlılık</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#otokorelasyon-fonksiyonu-acf"><i class="fa fa-check"></i><b>4.4.1</b> Otokorelasyon Fonksiyonu (ACF)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#pür-rassal-süreç-white-noise"><i class="fa fa-check"></i><b>4.4.2</b> Pür rassal süreç (white noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="4.5-durağanlık.html"><a href="4.5-durağanlık.html"><i class="fa fa-check"></i><b>4.5</b> Durağanlık</a></li>
+<li class="chapter" data-level="4.6" data-path="4.6-birim-kök-ve-durağanlık-testleri.html"><a href="4.6-birim-kök-ve-durağanlık-testleri.html"><i class="fa fa-check"></i><b>4.6</b> Birim kök ve durağanlık testleri</a></li>
+<li class="chapter" data-level="4.7" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><i class="fa fa-check"></i><b>4.7</b> Zaman Serileriyle Regresyon Analizi: Statik Modeller</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-statik-phillips-eğrisi"><i class="fa fa-check"></i><b>4.7.1</b> Örnek: Statik Phillips Eğrisi</a></li>
+<li class="chapter" data-level="4.7.2" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-beklentilerle-genişletilmiş-phillips-eğirisi"><i class="fa fa-check"></i><b>4.7.2</b> Örnek: Beklentilerle genişletilmiş Phillips eğirisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><i class="fa fa-check"></i><b>4.8</b> Dinamik Modeller: Dağıtılmış Gecikme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html#örnek-vergi-teşvikleri-ile-doğurganlık-ilişkisi"><i class="fa fa-check"></i><b>4.8.1</b> Örnek: Vergi teşvikleri ile Doğurganlık ilişkisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html"><i class="fa fa-check"></i><b>4.9</b> Vektör Otoregresyon (VAR) modeli</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html#örnek-bist100-ve-döviz-kurları-için-bir-var-modeli"><i class="fa fa-check"></i><b>4.9.1</b> Örnek: BIST100 ve Döviz kurları için bir VAR modeli</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html"><i class="fa fa-check"></i><b>4.10</b> Granger-nedensellik testi</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html#örnek"><i class="fa fa-check"></i><b>4.10.1</b> Örnek</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="4.11-kurmaca-regresyon-problemi.html"><a href="4.11-kurmaca-regresyon-problemi.html"><i class="fa fa-check"></i><b>4.11</b> Kurmaca Regresyon Problemi</a></li>
+<li class="chapter" data-level="4.12" data-path="4.12-eşbütünleşme-cointegration.html"><a href="4.12-eşbütünleşme-cointegration.html"><i class="fa fa-check"></i><b>4.12</b> Eşbütünleşme (cointegration)</a></li>
+<li class="chapter" data-level="4.13" data-path="4.13-engle-granger-eşbütünleşme-testi.html"><a href="4.13-engle-granger-eşbütünleşme-testi.html"><i class="fa fa-check"></i><b>4.13</b> Engle-Granger eşbütünleşme testi</a></li>
+<li class="chapter" data-level="4.14" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html"><i class="fa fa-check"></i><b>4.14</b> Hata Düzeltme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.14.1" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html#örnek-3-aylık-ve-6-aylık-hazine-bonosu-faiz-oranları-eşbütünleşik-mi"><i class="fa fa-check"></i><b>4.14.1</b> Örnek: 3-aylık ve 6-aylık hazine bonosu faiz oranları eşbütünleşik mi?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.15" data-path="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><a href="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><i class="fa fa-check"></i><b>4.15</b> Vektör Hata Düzeltme Modeli (VEC) vs. VAR</a></li>
+<li class="chapter" data-level="4.16" data-path="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><a href="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><i class="fa fa-check"></i><b>4.16</b> Çok değişkenli modellerde eşbütünleşme</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-Rmarkdown.html"><a href="5-Rmarkdown.html"><i class="fa fa-check"></i><b>5</b> RMarkdown ile Raporlama</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5.1-r-markdown-nedir.html"><a href="5.1-r-markdown-nedir.html"><i class="fa fa-check"></i><b>5.1</b> R Markdown Nedir?</a></li>
+<li class="chapter" data-level="5.2" data-path="5.2-başlık-ve-diğer-seçenekler.html"><a href="5.2-başlık-ve-diğer-seçenekler.html"><i class="fa fa-check"></i><b>5.2</b> Başlık ve diğer seçenekler</a></li>
+<li class="chapter" data-level="5.3" data-path="5.3-programların-eklenmesi.html"><a href="5.3-programların-eklenmesi.html"><i class="fa fa-check"></i><b>5.3</b> Programların eklenmesi</a></li>
+<li class="chapter" data-level="5.4" data-path="5.4-program-opsiyonları.html"><a href="5.4-program-opsiyonları.html"><i class="fa fa-check"></i><b>5.4</b> Program opsiyonları</a></li>
+<li class="chapter" data-level="5.5" data-path="5.5-metin.html"><a href="5.5-metin.html"><i class="fa fa-check"></i><b>5.5</b> Metin</a></li>
+<li class="chapter" data-level="5.6" data-path="5.6-grafikler.html"><a href="5.6-grafikler.html"><i class="fa fa-check"></i><b>5.6</b> Grafikler</a></li>
+<li class="chapter" data-level="5.7" data-path="5.7-tablolar.html"><a href="5.7-tablolar.html"><i class="fa fa-check"></i><b>5.7</b> Tablolar</a></li>
+<li class="chapter" data-level="5.8" data-path="5.8-r-markdown-cheatsheets.html"><a href="5.8-r-markdown-cheatsheets.html"><i class="fa fa-check"></i><b>5.8</b> R Markdown Cheatsheets</a></li>
+<li class="chapter" data-level="5.9" data-path="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><a href="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><i class="fa fa-check"></i><b>5.9</b> Örnek: Türkiye’de İllerde Yaşam İndeksi Göstergeleri (2015)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="" target="blank">Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R ile Ekonometri</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="rda-zaman-serilerinin-temsili" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> R’da Zaman Serilerinin Temsili<a href="4.2-rda-zaman-serilerinin-temsili.html#rda-zaman-serilerinin-temsili" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>Zaman serileriyle veri analizinde kullandığımız yazılım ne olursa olsun veri tipine ilişkin özelleştirilmiş fonksiyon ve algoritmaların kullanılması bir zorunluluktur.</p></li>
+<li><p><code>R</code> programında da, tıpkı diğerlerinde olduğu gibi, veri setinin bir zaman serisi olduğunun tanıtılması gerekir.</p></li>
+<li><p><code>R</code>’da zaman serilerini temsil etmenin birden fazla yolu vardır.</p></li>
+<li><p>Yaygın olarak kullanılan nesne sınıfları aşağıda tanıtılmıştır. Daha fazla bilgi için bkz. <a href="https://cran.r-project.org/web/views/TimeSeries.html">CRAN Task View: Time Series Analysis</a></p></li>
+</ul>
+<div id="ts-nesnesi" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> <code>ts</code> Nesnesi<a href="4.2-rda-zaman-serilerinin-temsili.html#ts-nesnesi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Temel <code>R</code>’da bir zaman serisi <code>ts</code> nesnesi ile temsil edilebilir. Düzenli aralıklarla ölçülmüş ve kayıp gözlemlerin olmadığı veri setleri için idealdir.</p></li>
+<li><p>Örnek:</p></li>
+</ul>
+<div class="sourceCode" id="cb749"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb749-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb749-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb749-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb749-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb749-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb749-3" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>##  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684  0.4874291
+##  [8]  0.7383247  0.5757814 -0.3053884</code></pre>
+<div class="sourceCode" id="cb751"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb751-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb751-1" tabindex="-1"></a><span class="fu">class</span>(x)</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p><code>x</code> değişkeninin sınıfı sayısaldır (numeric). Şimdi bir zaman serisi, <code>ts</code>, nesnesi oluşturalım. Zamanın yıllık olarak 2010-2019 arasında ölçüldüğünü farzedelim:</p>
+<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb753-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb753-1" tabindex="-1"></a>ts_annual <span class="ot">&lt;-</span> <span class="fu">ts</span>(x, <span class="at">start =</span> <span class="dv">2010</span>, <span class="at">frequency =</span> <span class="dv">1</span>)</span>
+<span id="cb753-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb753-2" tabindex="-1"></a>ts_annual</span></code></pre></div>
+<pre><code>## Time Series:
+## Start = 2010 
+## End = 2019 
+## Frequency = 1 
+##  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684  0.4874291
+##  [8]  0.7383247  0.5757814 -0.3053884</code></pre>
+<p>Oluşturulan nesnenin sınıfı ve özellikleri:</p>
+<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb755-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb755-1" tabindex="-1"></a><span class="fu">class</span>(ts_annual)</span></code></pre></div>
+<pre><code>## [1] &quot;ts&quot;</code></pre>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb757-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb757-1" tabindex="-1"></a><span class="fu">attributes</span>(ts_annual)</span></code></pre></div>
+<pre><code>## $tsp
+## [1] 2010 2019    1
+## 
+## $class
+## [1] &quot;ts&quot;</code></pre>
+<p><code>ts_annual</code> vektörünün sınıfı <code>ts</code>’dir. <code>tsp</code> (attribute) zamanın başlangıç, bitiş ve frekansını gösterir. Yıllık veri için frekans 1’dir.</p>
+<ul>
+<li>Temel <code>R</code>’ın <code>plot</code> fonksiyonu zaman serisi nesnelerini algılar ve grafiği buna uygun olarak çizer:</li>
+</ul>
+<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb759-1" tabindex="-1"></a><span class="fu">plot</span>(ts_annual)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-385-1.png" width="672" /></p>
+<ul>
+<li>Nümerik vektör <code>x</code> ile grafik:</li>
+</ul>
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb760-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb760-1" tabindex="-1"></a><span class="fu">plot</span>(x)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-386-1.png" width="672" /></p>
+<ul>
+<li>Zaman serilerinden oluşan bir değişkenler kümesi:</li>
+</ul>
+<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
+<span id="cb761-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">120</span></span>
+<span id="cb761-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-3" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb761-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-4" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb761-5"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-5" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb761-6"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-6" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span>t <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x1 <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb761-7"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-7" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x1, x2)</span>
+<span id="cb761-8"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb761-8" tabindex="-1"></a><span class="fu">head</span>(df1)</span></code></pre></div>
+<pre><code>##          y         x1         x2
+## 1 11.01752 -0.5121391 -0.6665832
+## 2 17.13793  2.4851837 -0.3467479
+## 3 14.11995  1.0078262 -0.4358330
+## 4 16.11770  0.2928146 -1.9470039
+## 5 11.83468 -0.2089594 -0.8379082
+## 6 17.89354  1.8580924 -0.7415289</code></pre>
+<ul>
+<li>Yukarıdaki veri çerçevesinin aylık verilerden oluştuğunu ve 2010m1’den itibaren 10 yıllık bir dönemi kapsadığını düşünelim:</li>
+</ul>
+<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb763-1" tabindex="-1"></a>ts_monthly <span class="ot">&lt;-</span> <span class="fu">ts</span>(df1, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2019</span>, <span class="dv">12</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb763-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb763-2" tabindex="-1"></a><span class="fu">head</span>(ts_monthly)</span></code></pre></div>
+<pre><code>##             y         x1         x2
+## [1,] 11.01752 -0.5121391 -0.6665832
+## [2,] 17.13793  2.4851837 -0.3467479
+## [3,] 14.11995  1.0078262 -0.4358330
+## [4,] 16.11770  0.2928146 -1.9470039
+## [5,] 11.83468 -0.2089594 -0.8379082
+## [6,] 17.89354  1.8580924 -0.7415289</code></pre>
+<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb765-1" tabindex="-1"></a><span class="fu">attributes</span>(ts_monthly)</span></code></pre></div>
+<pre><code>## $dim
+## [1] 120   3
+## 
+## $dimnames
+## $dimnames[[1]]
+## NULL
+## 
+## $dimnames[[2]]
+## [1] &quot;y&quot;  &quot;x1&quot; &quot;x2&quot;
+## 
+## 
+## $tsp
+## [1] 2010.000 2019.917   12.000
+## 
+## $class
+## [1] &quot;mts&quot;    &quot;ts&quot;     &quot;matrix&quot;</code></pre>
+<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb767-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb767-1" tabindex="-1"></a><span class="fu">class</span>(ts_monthly)</span></code></pre></div>
+<pre><code>## [1] &quot;mts&quot;    &quot;ts&quot;     &quot;matrix&quot;</code></pre>
+<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb769-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb769-1" tabindex="-1"></a><span class="fu">plot</span>(ts_monthly)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-391-1.png" width="672" /></p>
+<ul>
+<li>Benzer şekilde çeyreklik veriler için <code>frequency = 4</code> olarak belirlenebilir:</li>
+</ul>
+<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb770-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb770-1" tabindex="-1"></a>ts_quarterly <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">runif</span>(<span class="dv">8</span>), <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">4</span>)</span>
+<span id="cb770-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb770-2" tabindex="-1"></a>ts_quarterly</span></code></pre></div>
+<pre><code>##           Qtr1      Qtr2      Qtr3      Qtr4
+## 2018 0.7304693 0.7870054 0.8954003 0.3331258
+## 2019 0.8876747 0.6141378 0.7607281 0.5440350</code></pre>
+<ul>
+<li>Verilerin bir alt kümesi <code>window()</code> fonksiyonu ile oluşturulabilir. Örneğin,</li>
+</ul>
+<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb772-1" tabindex="-1"></a>ts_monthly_subset <span class="ot">&lt;-</span> <span class="fu">window</span>(ts_monthly, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2018</span>,<span class="dv">1</span>))</span>
+<span id="cb772-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb772-2" tabindex="-1"></a>ts_monthly_subset</span></code></pre></div>
+<pre><code>##                 y          x1          x2
+## Jan 2018 18.40797 -0.33324995  0.10869187
+## Feb 2018 15.74612 -0.39793547  1.45290569
+## Mar 2018 19.74570 -0.50115035 -0.61267109
+## Apr 2018 18.01528 -0.77273822 -0.06516846
+## May 2018 15.36078 -1.71239612  0.26570978
+## Jun 2018 17.60987 -0.79921870 -0.01060245
+## Jul 2018 16.49052 -1.41085475  0.33320645
+## Aug 2018 23.21067  0.53275820 -0.79305213
+## Sep 2018 24.64894 -0.39770077 -1.19191589
+## Oct 2018 19.28710 -0.28435325  0.69395132
+## Nov 2018 24.51503  0.12498413 -1.19316828
+## Dec 2018 27.16400  0.78012669 -1.41040845
+## Jan 2019 19.16921 -0.87559719  0.40811576
+## Feb 2019 15.56407 -1.15936503  1.04478745
+## Mar 2019 19.88641 -0.14586878  0.39343983
+## Apr 2019 17.44377 -1.67842869  0.48269703
+## May 2019 19.31902 -1.32258464  0.02858935
+## Jun 2019 18.43350 -0.55887740  0.41441915
+## Jul 2019 18.84263 -2.48978148 -0.61271368
+## Aug 2019 22.35360  1.17918927  0.76866790
+## Sep 2019 23.95577  0.79370484 -0.31469479
+## Oct 2019 23.80681  1.60743480  0.37070328
+## Nov 2019 27.92537  0.06594797 -1.93087451
+## Dec 2019 20.57888  1.02900536  0.79631138</code></pre>
+</div>
+<div id="zoo-nesnesi" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> <code>zoo</code> nesnesi<a href="4.2-rda-zaman-serilerinin-temsili.html#zoo-nesnesi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p><code>ts</code> objelerinde zaman tanımı sadece nümerik olabilir. Aylık, çeyreklik, yıllık verilerde bu sorun olmasa da düzensiz ölçümlü verilerde ve saatlik gözlemlerin yer aldığı verilerde sorun yaratabilir.</p></li>
+<li><p>Alternatiflerden biri <code>zoo</code> paketidir (ve sınıfı). Bu paket <a href="http://dx.doi.org/10.18637/jss.v014.i06">Zeileis and Grothendieck (2005)</a> tarafından yazılmıştır. Detaylar için bkz. : <a href="https://cran.r-project.org/web/packages/zoo/index.html">zoo: S3 Infrastructure for Regular and Irregular Time Series (Z’s Ordered Observations)</a>.</p></li>
+</ul>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb774-1" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb774-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb774-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb774-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb774-3" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>), <span class="at">length =</span> n, <span class="at">by =</span> <span class="st">&quot;days&quot;</span>)</span>
+<span id="cb774-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb774-4" tabindex="-1"></a>dates</span></code></pre></div>
+<pre><code>##  [1] &quot;2020-12-01&quot; &quot;2020-12-02&quot; &quot;2020-12-03&quot; &quot;2020-12-04&quot; &quot;2020-12-05&quot; &quot;2020-12-06&quot;
+##  [7] &quot;2020-12-07&quot; &quot;2020-12-08&quot; &quot;2020-12-09&quot; &quot;2020-12-10&quot;</code></pre>
+<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb776-1" tabindex="-1"></a>x_zoo <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(n), <span class="at">order.by =</span> dates)</span>
+<span id="cb776-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb776-2" tabindex="-1"></a>x_zoo</span></code></pre></div>
+<pre><code>##  2020-12-01  2020-12-02  2020-12-03  2020-12-04  2020-12-05  2020-12-06  2020-12-07 
+##  0.82822485 -0.27596111  0.90011072  0.40052611 -2.43993993  1.70488277 -0.35356859 
+##  2020-12-08  2020-12-09  2020-12-10 
+## -0.40279204 -0.01563910  0.04372756</code></pre>
+<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb778-1" tabindex="-1"></a><span class="fu">class</span>(x_zoo)</span></code></pre></div>
+<pre><code>## [1] &quot;zoo&quot;</code></pre>
+<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb780-1" tabindex="-1"></a><span class="fu">plot</span>(x_zoo)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-396-1.png" width="672" /></p>
+<ul>
+<li><code>ts</code> nesnesi bir <code>zoo</code> nesnesine <code>as.zoo()</code> fonksiyonu ile dönüştürülebilir. Tersi için <code>as.ts()</code> fonksiyonu kullanılabilir:</li>
+</ul>
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb781-1" tabindex="-1"></a>zoo_monthly <span class="ot">&lt;-</span> <span class="fu">as.zoo</span>(ts_monthly)</span>
+<span id="cb781-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb781-2" tabindex="-1"></a><span class="fu">plot</span>(zoo_monthly)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-397-1.png" width="672" /></p>
+<p>Örnek: <code>AirPassengers</code> verileri</p>
+<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb782-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">autoplot.zoo</span>(<span class="fu">as.zoo</span>(AirPassengers)))</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-398-1.png" width="672" /></p>
+</div>
+<div id="xts-nesnesi" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> <code>xts</code> nesnesi<a href="4.2-rda-zaman-serilerinin-temsili.html#xts-nesnesi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Diğer bir alternatif <code>xts</code> (Extensible Time Series) paketidir ve <code>zoo</code> paketini baz alır. Daha fazla detay için bkz. CRAN sayfası: <a href="https://cran.r-project.org/web/packages/xts/index.html">xts: eXtensible Time Series</a>.</li>
+</ul>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb783-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb783-1" tabindex="-1"></a><span class="fu">library</span>(xts)</span></code></pre></div>
+<pre><code>## 
+## ################################### WARNING ###################################
+## # We noticed you have dplyr installed. The dplyr lag() function breaks how    #
+## # base R&#39;s lag() function is supposed to work, which breaks lag(my_xts).      #
+## #                                                                             #
+## # Calls to lag(my_xts) that you enter or source() into this session won&#39;t     #
+## # work correctly.                                                             #
+## #                                                                             #
+## # All package code is unaffected because it is protected by the R namespace   #
+## # mechanism.                                                                  #
+## #                                                                             #
+## # Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
+## #                                                                             #
+## # You can use stats::lag() to make sure you&#39;re not using dplyr::lag(), or you #
+## # can add conflictRules(&#39;dplyr&#39;, exclude = &#39;lag&#39;) to your .Rprofile to stop   #
+## # dplyr from breaking base R&#39;s lag() function.                                #
+## ################################### WARNING ###################################</code></pre>
+<pre><code>## 
+## Attaching package: &#39;xts&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, last</code></pre>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb787-1" tabindex="-1"></a>xts_data1 <span class="ot">&lt;-</span> <span class="fu">xts</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="dv">5</span>), <span class="at">order.by=</span><span class="fu">Sys.Date</span>()<span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) </span>
+<span id="cb787-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb787-2" tabindex="-1"></a><span class="fu">colnames</span>(xts_data1) <span class="ot">&lt;-</span> <span class="st">&quot;var1&quot;</span></span>
+<span id="cb787-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb787-3" tabindex="-1"></a>xts_data1</span></code></pre></div>
+<pre><code>##                 var1
+## 2023-07-03 0.5986281
+## 2023-07-04 0.4638573
+## 2023-07-05 0.6464816
+## 2023-07-06 0.7256413
+## 2023-07-07 0.2013998</code></pre>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb789-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb789-1" tabindex="-1"></a><span class="co"># sunspots data</span></span>
+<span id="cb789-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb789-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;sunspots&quot;</span>)</span>
+<span id="cb789-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb789-3" tabindex="-1"></a>xts_sunspots <span class="ot">&lt;-</span> <span class="fu">as.xts</span>(sunspots)</span>
+<span id="cb789-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb789-4" tabindex="-1"></a><span class="fu">head</span>(xts_sunspots)</span></code></pre></div>
+<pre><code>##          [,1]
+## Jan 1749 58.0
+## Feb 1749 62.6
+## Mar 1749 70.0
+## Apr 1749 55.7
+## May 1749 85.0
+## Jun 1749 83.5</code></pre>
+<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb791-1" tabindex="-1"></a><span class="fu">class</span>(xts_sunspots)</span></code></pre></div>
+<pre><code>## [1] &quot;xts&quot; &quot;zoo&quot;</code></pre>
+<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb793-1" tabindex="-1"></a><span class="fu">periodicity</span>(xts_sunspots)</span></code></pre></div>
+<pre><code>## Monthly periodicity from Jan 1749 to Dec 1983</code></pre>
+<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb795-1" tabindex="-1"></a><span class="fu">plot</span>(xts_sunspots)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-402-1.png" width="672" /></p>
+<ul>
+<li>Örnek: günlük veriler</li>
+</ul>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb796-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb796-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;sample_matrix&quot;</span>)</span>
+<span id="cb796-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb796-2" tabindex="-1"></a>xts_daily <span class="ot">&lt;-</span> <span class="fu">as.xts</span>(sample_matrix)</span>
+<span id="cb796-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb796-3" tabindex="-1"></a><span class="fu">head</span>(xts_daily)</span></code></pre></div>
+<pre><code>##                Open     High      Low    Close
+## 2007-01-02 50.03978 50.11778 49.95041 50.11778
+## 2007-01-03 50.23050 50.42188 50.23050 50.39767
+## 2007-01-04 50.42096 50.42096 50.26414 50.33236
+## 2007-01-05 50.37347 50.37347 50.22103 50.33459
+## 2007-01-06 50.24433 50.24433 50.11121 50.18112
+## 2007-01-07 50.13211 50.21561 49.99185 49.99185</code></pre>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb798-1" tabindex="-1"></a><span class="fu">plot</span>(xts_daily)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-404-1.png" width="672" /></p>
+</div>
+<div id="tsibble-nesnesi" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> <code>tsibble</code> nesnesi<a href="4.2-rda-zaman-serilerinin-temsili.html#tsibble-nesnesi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Başka bir alternatif zaman serisi gruplarının tanımlanmasına izin veren <code>tsibble</code> nesnesidir. <code>tidyverts</code> paketler topluluğunun bir parçasıdır ve R. Hyndman vd tarafından geliştirilmiştir, bkz. <a href="https://tidyverts.org/">tidyverts</a></p></li>
+<li><p><code>tidyverts</code> şu paketlerden oluşur: <code>tsibble</code>, <code>fable</code>, <code>feasts</code>, ve <code>tsibbledata.</code> Bu paketlerde yer alan fonksiyonlar <code>tidyverse</code> paketleriyle uyumlu çalışır.</p></li>
+<li><p>Daha fazla detay için bkz <a href="https://cran.r-project.org/web/packages/tsibble/index.html">tsibble: Tidy Temporal Data Frames and Tools</a>. Ayrıca bkz. <a href="https://otexts.com/fpp3/">Hyndman, R.J., &amp; Athanasopoulos, G. (2019) Forecasting: principles and practice, 3rd edition, OTexts: Melbourne, Australia.</a></p></li>
+<li><p><code>tsibble</code> nesnesi oluşturmak için</p></li>
+</ul>
+<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb799-1" tabindex="-1"></a><span class="co"># library(tidyverts)</span></span>
+<span id="cb799-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb799-2" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;tsibble&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:zoo&#39;:
+## 
+##     index</code></pre>
+<pre><code>## The following object is masked from &#39;package:lubridate&#39;:
+## 
+##     interval</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb804-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb804-1" tabindex="-1"></a>tsdata1 <span class="ot">&lt;-</span> <span class="fu">tsibble</span>(<span class="at">year =</span> <span class="dv">2017</span><span class="sc">:</span><span class="dv">2019</span>, </span>
+<span id="cb804-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb804-2" tabindex="-1"></a>                   <span class="at">var1 =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">90</span>, <span class="dv">105</span>), </span>
+<span id="cb804-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb804-3" tabindex="-1"></a>                   <span class="at">index =</span> year)</span>
+<span id="cb804-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb804-4" tabindex="-1"></a>tsdata1</span></code></pre></div>
+<pre><code>## # A tsibble: 3 x 2 [1Y]
+##    year  var1
+##   &lt;int&gt; &lt;dbl&gt;
+## 1  2017   100
+## 2  2018    90
+## 3  2019   105</code></pre>
+<ul>
+<li><p>Bir <code>tsibble</code> nesnesinde zamanı temsil eden bir <strong>index değişkeni</strong> bulunur. Yukarıdaki örnekte zaman indeksi <code>year</code> değişkenidir</p></li>
+<li><p>Örnek: Minimal bir panel veri seti</p></li>
+</ul>
+<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb806-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-1" tabindex="-1"></a>tsdata2 <span class="ot">&lt;-</span> <span class="fu">tsibble</span>(<span class="at">year =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2017</span>,<span class="dv">3</span>), <span class="fu">rep</span>(<span class="dv">2018</span>,<span class="dv">3</span>)), </span>
+<span id="cb806-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-2" tabindex="-1"></a>                   <span class="at">province =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Istanbul&quot;</span>, <span class="st">&quot;Ankara&quot;</span>, <span class="st">&quot;Izmir&quot;</span>),<span class="dv">2</span>), </span>
+<span id="cb806-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-3" tabindex="-1"></a>                   <span class="at">GDPpc =</span> <span class="fu">c</span>(<span class="dv">65195</span>,<span class="dv">51922</span>,<span class="dv">45102</span>,<span class="dv">76769</span>,<span class="dv">60249</span>,<span class="dv">54305</span>), </span>
+<span id="cb806-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-4" tabindex="-1"></a>                   <span class="at">index =</span> year, </span>
+<span id="cb806-5"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-5" tabindex="-1"></a>                   <span class="at">key =</span> province</span>
+<span id="cb806-6"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-6" tabindex="-1"></a>                   )</span>
+<span id="cb806-7"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb806-7" tabindex="-1"></a>tsdata2</span></code></pre></div>
+<pre><code>## # A tsibble: 6 x 3 [1Y]
+## # Key:       province [3]
+##    year province GDPpc
+##   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1  2017 Ankara   51922
+## 2  2018 Ankara   60249
+## 3  2017 Istanbul 65195
+## 4  2018 Istanbul 76769
+## 5  2017 Izmir    45102
+## 6  2018 Izmir    54305</code></pre>
+<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb808-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb808-1" tabindex="-1"></a><span class="fu">index</span>(tsdata2)</span></code></pre></div>
+<pre><code>## year</code></pre>
+<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb810-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb810-1" tabindex="-1"></a><span class="fu">key</span>(tsdata2)</span></code></pre></div>
+<pre><code>## [[1]]
+## province</code></pre>
+<ul>
+<li>Örnek: Ülke veri seti (<code>tsibbledata</code> paketinden)</li>
+</ul>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb812-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb812-1" tabindex="-1"></a><span class="fu">library</span>(tsibbledata)</span>
+<span id="cb812-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb812-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;global_economy&quot;</span>)</span>
+<span id="cb812-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb812-3" tabindex="-1"></a>global_economy</span></code></pre></div>
+<pre><code>## # A tsibble: 15,150 x 9 [1Y]
+## # Key:       Country [263]
+##    Country     Code   Year         GDP Growth   CPI Imports Exports Population
+##    &lt;fct&gt;       &lt;fct&gt; &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Afghanistan AFG    1960  537777811.     NA    NA    7.02    4.13    8996351
+##  2 Afghanistan AFG    1961  548888896.     NA    NA    8.10    4.45    9166764
+##  3 Afghanistan AFG    1962  546666678.     NA    NA    9.35    4.88    9345868
+##  4 Afghanistan AFG    1963  751111191.     NA    NA   16.9     9.17    9533954
+##  5 Afghanistan AFG    1964  800000044.     NA    NA   18.1     8.89    9731361
+##  6 Afghanistan AFG    1965 1006666638.     NA    NA   21.4    11.3     9938414
+##  7 Afghanistan AFG    1966 1399999967.     NA    NA   18.6     8.57   10152331
+##  8 Afghanistan AFG    1967 1673333418.     NA    NA   14.2     6.77   10372630
+##  9 Afghanistan AFG    1968 1373333367.     NA    NA   15.2     8.90   10604346
+## 10 Afghanistan AFG    1969 1408888922.     NA    NA   15.0    10.1    10854428
+## # ℹ 15,140 more rows</code></pre>
+<p><code>global_economy</code> veri setinde zaman indeksi <code>Year</code> ve anahtar (key) değişkeni <code>Country</code>’dir.</p>
+<ul>
+<li>Sıklıkla kullanılan zaman formatları ve ilgili fonksiyonlar (Kaynak: <a href="https://otexts.com/fpp3/">Hyndman and Athanasopoulos (2019) Forecasting: principles and practice, 3rd edition</a>)</li>
+</ul>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="39%" />
+<col width="39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Interval</strong></th>
+<th><strong>Class</strong></th>
+<th><strong>Function</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Annual</td>
+<td><code>integer</code>/<code>double</code></td>
+<td><code>start:end</code></td>
+</tr>
+<tr class="even">
+<td>Quarterly</td>
+<td><code>yearquarter</code></td>
+<td><code>yearquarter()</code></td>
+</tr>
+<tr class="odd">
+<td>Monthly</td>
+<td><code>yearmonth</code></td>
+<td><code>yearmonth()</code></td>
+</tr>
+<tr class="even">
+<td>Weekly</td>
+<td><code>yearweek</code></td>
+<td><code>yearweek()</code></td>
+</tr>
+<tr class="odd">
+<td>Daily</td>
+<td><code>Date</code>/<code>difftime</code></td>
+<td><code>as_date()</code>, <code>ymd()</code></td>
+</tr>
+<tr class="even">
+<td>Subdaily</td>
+<td><code>POSIXt</code>/<code>difftime</code>/<code>hms</code></td>
+<td><code>as_datetime()</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Mevcut bir zaman serisi nesnesi <code>tsibble</code> nesnesine dönüştürülebilir. Örneğin,</li>
+</ul>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb814-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-1" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb814-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb814-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-3" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb814-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-4" tabindex="-1"></a><span class="fu">library</span>(xts)</span>
+<span id="cb814-5"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-5" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb814-6"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-6" tabindex="-1"></a><span class="co"># use built-in daily data on closing prices from xts package</span></span>
+<span id="cb814-7"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;sample_matrix&quot;</span>)</span>
+<span id="cb814-8"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb814-8" tabindex="-1"></a><span class="fu">head</span>(sample_matrix)</span></code></pre></div>
+<pre><code>##                Open     High      Low    Close
+## 2007-01-02 50.03978 50.11778 49.95041 50.11778
+## 2007-01-03 50.23050 50.42188 50.23050 50.39767
+## 2007-01-04 50.42096 50.42096 50.26414 50.33236
+## 2007-01-05 50.37347 50.37347 50.22103 50.33459
+## 2007-01-06 50.24433 50.24433 50.11121 50.18112
+## 2007-01-07 50.13211 50.21561 49.99185 49.99185</code></pre>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-1" tabindex="-1"></a><span class="co"># convert sample_matrix into tibble and create a date variable</span></span>
+<span id="cb816-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-2" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">date =</span> <span class="fu">rownames</span>(sample_matrix), </span>
+<span id="cb816-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-3" tabindex="-1"></a>              <span class="at">close =</span> sample_matrix[,<span class="dv">4</span>]</span>
+<span id="cb816-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-4" tabindex="-1"></a>              )</span>
+<span id="cb816-5"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-5" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span> </span>
+<span id="cb816-6"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(date))</span>
+<span id="cb816-7"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb816-7" tabindex="-1"></a>df1</span></code></pre></div>
+<pre><code>## # A tibble: 180 × 2
+##    date       close
+##    &lt;date&gt;     &lt;dbl&gt;
+##  1 2007-01-02  50.1
+##  2 2007-01-03  50.4
+##  3 2007-01-04  50.3
+##  4 2007-01-05  50.3
+##  5 2007-01-06  50.2
+##  6 2007-01-07  50.0
+##  7 2007-01-08  50.0
+##  8 2007-01-09  49.9
+##  9 2007-01-10  50.0
+## 10 2007-01-11  50.2
+## # ℹ 170 more rows</code></pre>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb818-1" tabindex="-1"></a>tsibble_daily <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(df1, <span class="at">index =</span> date)</span>
+<span id="cb818-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb818-2" tabindex="-1"></a>tsibble_daily</span></code></pre></div>
+<pre><code>## # A tsibble: 180 x 2 [1D]
+##    date       close
+##    &lt;date&gt;     &lt;dbl&gt;
+##  1 2007-01-02  50.1
+##  2 2007-01-03  50.4
+##  3 2007-01-04  50.3
+##  4 2007-01-05  50.3
+##  5 2007-01-06  50.2
+##  6 2007-01-07  50.0
+##  7 2007-01-08  50.0
+##  8 2007-01-09  49.9
+##  9 2007-01-10  50.0
+## 10 2007-01-11  50.2
+## # ℹ 170 more rows</code></pre>
+<ul>
+<li><p>Günlük verilerden oluşan bu veri setinden hareketle aylık ortalamaları hesaplayarak yeni bir veri seti oluşturalım.</p></li>
+<li><p>Bunun için önce <code>tsibble::yearmonth()</code> fonksiyonunu kullanarak <code>year_month</code> isminde yeni bir değişken oluşturalım. Bu değişkeni gruplamada kullanacağız.</p></li>
+</ul>
+<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb820-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb820-1" tabindex="-1"></a>tsibble_monthly <span class="ot">&lt;-</span> tsibble_daily <span class="sc">%&gt;%</span> </span>
+<span id="cb820-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb820-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> <span class="fu">yearmonth</span>(date))</span>
+<span id="cb820-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb820-3" tabindex="-1"></a>tsibble_monthly</span></code></pre></div>
+<pre><code>## # A tsibble: 180 x 3 [1D]
+##    date       close year_month
+##    &lt;date&gt;     &lt;dbl&gt;      &lt;mth&gt;
+##  1 2007-01-02  50.1   2007 Jan
+##  2 2007-01-03  50.4   2007 Jan
+##  3 2007-01-04  50.3   2007 Jan
+##  4 2007-01-05  50.3   2007 Jan
+##  5 2007-01-06  50.2   2007 Jan
+##  6 2007-01-07  50.0   2007 Jan
+##  7 2007-01-08  50.0   2007 Jan
+##  8 2007-01-09  49.9   2007 Jan
+##  9 2007-01-10  50.0   2007 Jan
+## 10 2007-01-11  50.2   2007 Jan
+## # ℹ 170 more rows</code></pre>
+<ul>
+<li><p><code>tsibble_monthly</code> veri setinde zaman indeksi <code>date</code> değişkenidir.</p></li>
+<li><p>Bu aşamada <code>index_by()</code> fonksiyonunu kullanarak özet istatistikleri hesaplayabiliriz (bu <code>dplyr</code> paketindeki <code>group_by()</code> fonksiyonuna benzemektedir).</p></li>
+</ul>
+<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb822-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb822-1" tabindex="-1"></a>tsibble_monthly2 <span class="ot">&lt;-</span> tsibble_monthly <span class="sc">%&gt;%</span> </span>
+<span id="cb822-2"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb822-2" tabindex="-1"></a>  <span class="fu">index_by</span>(year_month) <span class="sc">%&gt;%</span> </span>
+<span id="cb822-3"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb822-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">close_avr =</span> <span class="fu">mean</span>(close), </span>
+<span id="cb822-4"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb822-4" tabindex="-1"></a>            <span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb822-5"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb822-5" tabindex="-1"></a>tsibble_monthly2</span></code></pre></div>
+<pre><code>## # A tsibble: 6 x 3 [1M]
+##   year_month close_avr count
+##        &lt;mth&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1   2007 Jan      50.2    30
+## 2   2007 Feb      50.8    28
+## 3   2007 Mar      49.5    31
+## 4   2007 Apr      49.6    30
+## 5   2007 May      48.3    31
+## 6   2007 Jun      47.5    30</code></pre>
+<ul>
+<li>Günlük verilerin zaman grafiği</li>
+</ul>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb824-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb824-1" tabindex="-1"></a>tsibble_daily <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(close)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-413-1.png" width="672" /></p>
+<ul>
+<li>Aylık verilerin zaman grafiği</li>
+</ul>
+<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb825-1"><a href="4.2-rda-zaman-serilerinin-temsili.html#cb825-1" tabindex="-1"></a>tsibble_monthly2 <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(close_avr)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-414-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="4.1-zaman-serileri.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="4.3-klasik-zaman-serisi-ayrıştırması.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

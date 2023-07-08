@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.5 {ggplot2} Paketi ile Görselleştirme | R ile Ekonometri</title>
+  <meta name="description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.5 {ggplot2} Paketi ile Görselleştirme | R ile Ekonometri" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.5 {ggplot2} Paketi ile Görselleştirme | R ile Ekonometri" />
+  
+  <meta name="twitter:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+
+
+<meta name="date" content="2023-07-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="2.4-dplyr.html"/>
+<link rel="next" href="2.6-forcats.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R ile Ekonometri</a></li>
+<li><a href="https://github.com/htastan">Prof. Dr. Hüseyin Taştan</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Dersin amacı ve kapsamı</a></li>
+<li class="chapter" data-level="" data-path="dersin-içeriği.html"><a href="dersin-içeriği.html"><i class="fa fa-check"></i>Dersin içeriği</a></li>
+<li class="chapter" data-level="1" data-path="1-temelR.html"><a href="1-temelR.html"><i class="fa fa-check"></i><b>1</b> Temel R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1.1-R-kurulum.html"><a href="1.1-R-kurulum.html"><i class="fa fa-check"></i><b>1.1</b> Kurulum</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-R-console.html"><a href="1.2-R-console.html"><i class="fa fa-check"></i><b>1.2</b> R Komut Satırı (Console)</a></li>
+<li class="chapter" data-level="1.3" data-path="1.3-R-nesne.html"><a href="1.3-R-nesne.html"><i class="fa fa-check"></i><b>1.3</b> <code>R</code>’da Nesneler</a></li>
+<li class="chapter" data-level="1.4" data-path="1.4-R-vektor.html"><a href="1.4-R-vektor.html"><i class="fa fa-check"></i><b>1.4</b> Vektörler</a></li>
+<li class="chapter" data-level="1.5" data-path="1.5-R-log-vek.html"><a href="1.5-R-log-vek.html"><i class="fa fa-check"></i><b>1.5</b> Mantıksal vektörler</a></li>
+<li class="chapter" data-level="1.6" data-path="1.6-R-matris.html"><a href="1.6-R-matris.html"><i class="fa fa-check"></i><b>1.6</b> Matrisler</a></li>
+<li class="chapter" data-level="1.7" data-path="1.7-R-liste.html"><a href="1.7-R-liste.html"><i class="fa fa-check"></i><b>1.7</b> Listeler</a></li>
+<li class="chapter" data-level="1.8" data-path="1.8-R-data-fr.html"><a href="1.8-R-data-fr.html"><i class="fa fa-check"></i><b>1.8</b> Veri Çerçeveleri (Data Frames)</a></li>
+<li class="chapter" data-level="1.9" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html"><i class="fa fa-check"></i><b>1.9</b> Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#plot-fonksiyonu"><i class="fa fa-check"></i><b>1.9.1</b> Plot fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.2" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#eğri-çizimi"><i class="fa fa-check"></i><b>1.9.2</b> Eğri çizimi</a></li>
+<li class="chapter" data-level="1.9.3" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#histogram"><i class="fa fa-check"></i><b>1.9.3</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.4" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kutu-çizimi"><i class="fa fa-check"></i><b>1.9.4</b> Kutu çizimi</a></li>
+<li class="chapter" data-level="1.9.5" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#örneklem-birikimli-yoğunluk-fonksiyonu"><i class="fa fa-check"></i><b>1.9.5</b> Örneklem birikimli yoğunluk fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.6" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#serpilme-çizimi"><i class="fa fa-check"></i><b>1.9.6</b> Serpilme çizimi</a></li>
+<li class="chapter" data-level="1.9.7" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kategorik-değişkenler"><i class="fa fa-check"></i><b>1.9.7</b> Kategorik değişkenler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html"><i class="fa fa-check"></i><b>1.10</b> Temel Programlama</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#mantıksal-işlemler"><i class="fa fa-check"></i><b>1.10.1</b> Mantıksal işlemler</a></li>
+<li class="chapter" data-level="1.10.2" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#koşullu-işlem"><i class="fa fa-check"></i><b>1.10.2</b> Koşullu işlem</a></li>
+<li class="chapter" data-level="1.10.3" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#döngüler"><i class="fa fa-check"></i><b>1.10.3</b> Döngüler</a></li>
+<li class="chapter" data-level="1.10.4" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#fonksiyonel-işlemler"><i class="fa fa-check"></i><b>1.10.4</b> Fonksiyonel İşlemler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="1.11-R-fonksiyon.html"><a href="1.11-R-fonksiyon.html"><i class="fa fa-check"></i><b>1.11</b> R Fonksiyonları</a></li>
+<li class="chapter" data-level="1.12" data-path="1.12-R-paket.html"><a href="1.12-R-paket.html"><i class="fa fa-check"></i><b>1.12</b> R Paketleri</a></li>
+<li class="chapter" data-level="1.13" data-path="1.13-R-dizin.html"><a href="1.13-R-dizin.html"><i class="fa fa-check"></i><b>1.13</b> Çalışma dizini</a></li>
+<li class="chapter" data-level="1.14" data-path="1.14-r-ile-online-veri-indirme.html"><a href="1.14-r-ile-online-veri-indirme.html"><i class="fa fa-check"></i><b>1.14</b> R ile Online Veri İndirme</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-tidyRgiris.html"><a href="2-tidyRgiris.html"><i class="fa fa-check"></i><b>2</b> R Tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2.1-r-tidy-veri-çerçeveleri.html"><a href="2.1-r-tidy-veri-çerçeveleri.html"><i class="fa fa-check"></i><b>2.1</b> R “Tidy” veri çerçeveleri</a></li>
+<li class="chapter" data-level="2.2" data-path="2.2-readr-paketi-ile-verilerin-okutulması.html"><a href="2.2-readr-paketi-ile-verilerin-okutulması.html"><i class="fa fa-check"></i><b>2.2</b> <code>{readr}</code> Paketi ile Verilerin okutulması</a></li>
+<li class="chapter" data-level="2.3" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><i class="fa fa-check"></i><b>2.3</b> <code>{tidyr}</code> Paketi ile Verilerin Düzenlenmesi</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#kayıp-gözlemler"><i class="fa fa-check"></i><b>2.3.1</b> Kayıp gözlemler</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#hücrelerin-ayrılması-veya-birleştirilmesi"><i class="fa fa-check"></i><b>2.3.2</b> Hücrelerin ayrılması veya birleştirilmesi</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html"><i class="fa fa-check"></i><b>2.4</b> <code>{dplyr}</code> Paketi ile Verilerin Manipülasyonu</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#filter-gözlemlerin-filtrelenmesi"><i class="fa fa-check"></i><b>2.4.1</b> <code>filter()</code>: gözlemlerin filtrelenmesi</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#select-değişkenlerin-seçimi"><i class="fa fa-check"></i><b>2.4.2</b> <code>select()</code>: değişkenlerin seçimi</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#mutate-yeni-değişken-oluşturma"><i class="fa fa-check"></i><b>2.4.3</b> <code>mutate()</code>: yeni değişken oluşturma</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#arrange-verilerin-sıralanması"><i class="fa fa-check"></i><b>2.4.4</b> <code>arrange()</code>: verilerin sıralanması</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#group_by-verilerin-gruplanması"><i class="fa fa-check"></i><b>2.4.5</b> <code>group_by()</code>: verilerin gruplanması</a></li>
+<li class="chapter" data-level="2.4.6" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#summarize-verilerin-özetlenmesi"><i class="fa fa-check"></i><b>2.4.6</b> <code>summarize()</code>: verilerin özetlenmesi</a></li>
+<li class="chapter" data-level="2.4.7" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#veri-setlerinin-birleştirilmesi"><i class="fa fa-check"></i><b>2.4.7</b> Veri setlerinin birleştirilmesi</a></li>
+<li class="chapter" data-level="2.4.8" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#diğer-fonksiyonlar"><i class="fa fa-check"></i><b>2.4.8</b> Diğer fonksiyonlar</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html"><i class="fa fa-check"></i><b>2.5</b> <code>{ggplot2}</code> Paketi ile Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bir-grafiğin-katmanları"><i class="fa fa-check"></i><b>2.5.1</b> Bir grafiğin katmanları</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#renk-şekil-ve-büyüklük"><i class="fa fa-check"></i><b>2.5.2</b> Renk, şekil, ve büyüklük</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#fasetler"><i class="fa fa-check"></i><b>2.5.3</b> Fasetler</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#eksenler-başlık-ve-etiketlerin-kontrolü"><i class="fa fa-check"></i><b>2.5.4</b> Eksenler, başlık, ve etiketlerin kontrolü</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#dağılım-grafikleri"><i class="fa fa-check"></i><b>2.5.5</b> Dağılım Grafikleri</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#histogram-geom_histogram"><i class="fa fa-check"></i><b>2.5.6</b> Histogram: <code>geom_histogram()</code></a></li>
+<li class="chapter" data-level="2.5.7" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#yoğunluk-geom_density"><i class="fa fa-check"></i><b>2.5.7</b> Yoğunluk: <code>geom_density()</code></a></li>
+<li class="chapter" data-level="2.5.8" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#kutu-çizimi-geom_boxplot"><i class="fa fa-check"></i><b>2.5.8</b> Kutu Çizimi: <code>geom_boxplot()</code></a></li>
+<li class="chapter" data-level="2.5.9" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#keman-grafiği-geom_violin"><i class="fa fa-check"></i><b>2.5.9</b> Keman grafiği: <code>geom_violin()</code></a></li>
+<li class="chapter" data-level="2.5.10" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#qq-grafiği"><i class="fa fa-check"></i><b>2.5.10</b> QQ Grafiği</a></li>
+<li class="chapter" data-level="2.5.11" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bar-plot"><i class="fa fa-check"></i><b>2.5.11</b> Bar plot</a></li>
+<li class="chapter" data-level="2.5.12" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#çizgi-ve-nokta-grafiği"><i class="fa fa-check"></i><b>2.5.12</b> Çizgi ve Nokta grafiği</a></li>
+<li class="chapter" data-level="2.5.13" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#temalar"><i class="fa fa-check"></i><b>2.5.13</b> Temalar</a></li>
+<li class="chapter" data-level="2.5.14" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#interaktif-grafik"><i class="fa fa-check"></i><b>2.5.14</b> Interaktif grafik</a></li>
+<li class="chapter" data-level="2.5.15" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#harita-çizimi"><i class="fa fa-check"></i><b>2.5.15</b> Harita çizimi</a></li>
+<li class="chapter" data-level="2.5.16" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#ggplot2-uzantıları"><i class="fa fa-check"></i><b>2.5.16</b> <code>ggplot2</code> Uzantıları</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="2.6-forcats.html"><a href="2.6-forcats.html"><i class="fa fa-check"></i><b>2.6</b> <code>{forcats}</code> Paketi ile Kategorik Değişkenlerin İşlenmesi</a></li>
+<li class="chapter" data-level="2.7" data-path="2.7-stringr.html"><a href="2.7-stringr.html"><i class="fa fa-check"></i><b>2.7</b> <code>{stringr}</code> Paketi ile Karakter Değişkenlerinin İşlenmesi</a></li>
+<li class="chapter" data-level="2.8" data-path="2.8-lubridate.html"><a href="2.8-lubridate.html"><i class="fa fa-check"></i><b>2.8</b> <code>{lubridate}</code> Paketi ile Tarih-Zaman İşlemleri</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-Kesit.html"><a href="3-Kesit.html"><i class="fa fa-check"></i><b>3</b> Regresyon Analizi: Kesit Veri</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3.1-ekonometriye-giriş.html"><a href="3.1-ekonometriye-giriş.html"><i class="fa fa-check"></i><b>3.1</b> Ekonometriye Giriş</a></li>
+<li class="chapter" data-level="3.2" data-path="3.2-veri-türleri.html"><a href="3.2-veri-türleri.html"><i class="fa fa-check"></i><b>3.2</b> Veri Türleri</a></li>
+<li class="chapter" data-level="3.3" data-path="3.3-basit-regresyon-modeli.html"><a href="3.3-basit-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.3</b> Basit Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.4" data-path="3.4-popülasyon-regresyon-fonksiyonu.html"><a href="3.4-popülasyon-regresyon-fonksiyonu.html"><i class="fa fa-check"></i><b>3.4</b> Popülasyon Regresyon Fonksiyonu</a></li>
+<li class="chapter" data-level="3.5" data-path="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><a href="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><i class="fa fa-check"></i><b>3.5</b> (Sıradan) En Küçük Kareler (EKK) Yöntemi ile Tahmin</a></li>
+<li class="chapter" data-level="3.6" data-path="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><a href="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><i class="fa fa-check"></i><b>3.6</b> Popülasyon ve Örneklem Regresyon Fonksiyonları</a></li>
+<li class="chapter" data-level="3.7" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html"><i class="fa fa-check"></i><b>3.7</b> Fonksiyon kalıpları</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#regresyon-modelinin-doğrusallığı"><i class="fa fa-check"></i><b>3.7.1</b> Regresyon modelinin doğrusallığı</a></li>
+<li class="chapter" data-level="3.7.2" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#doğrusal-olmama"><i class="fa fa-check"></i><b>3.7.2</b> Doğrusal olmama</a></li>
+<li class="chapter" data-level="3.7.3" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-level"><i class="fa fa-check"></i><b>3.7.3</b> Log-level</a></li>
+<li class="chapter" data-level="3.7.4" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#level-log"><i class="fa fa-check"></i><b>3.7.4</b> Level-log</a></li>
+<li class="chapter" data-level="3.7.5" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-log-sabit-esneklik-modeli"><i class="fa fa-check"></i><b>3.7.5</b> Log-log (Sabit esneklik modeli)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="3.8-çoklu-regresyon-modeli.html"><a href="3.8-çoklu-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.8</b> Çoklu Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.9" data-path="3.9-r-lm-fonksiyonu.html"><a href="3.9-r-lm-fonksiyonu.html"><i class="fa fa-check"></i><b>3.9</b> R <code>lm()</code> Fonksiyonu</a></li>
+<li class="chapter" data-level="3.10" data-path="3.10-kukla-kategorik-değişkenler.html"><a href="3.10-kukla-kategorik-değişkenler.html"><i class="fa fa-check"></i><b>3.10</b> Kukla (kategorik) değişkenler</a></li>
+<li class="chapter" data-level="3.11" data-path="3.11-etkileşim-değişkenleri.html"><a href="3.11-etkileşim-değişkenleri.html"><i class="fa fa-check"></i><b>3.11</b> Etkileşim değişkenleri</a></li>
+<li class="chapter" data-level="3.12" data-path="3.12-karesel-ve-polinom-terimler.html"><a href="3.12-karesel-ve-polinom-terimler.html"><i class="fa fa-check"></i><b>3.12</b> Karesel ve polinom terimler</a></li>
+<li class="chapter" data-level="3.13" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html"><i class="fa fa-check"></i><b>3.13</b> Hipotez testleri</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-karar-kuralı"><i class="fa fa-check"></i><b>3.13.1</b> t-testi karar kuralı</a></li>
+<li class="chapter" data-level="3.13.2" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#p-değeri"><i class="fa fa-check"></i><b>3.13.2</b> p-değeri</a></li>
+<li class="chapter" data-level="3.13.3" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-örnek"><i class="fa fa-check"></i><b>3.13.3</b> t-testi: Örnek</a></li>
+<li class="chapter" data-level="3.13.4" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-çoklu-doğrusal-kısıtların-testi"><i class="fa fa-check"></i><b>3.13.4</b> F Testi: Çoklu Doğrusal Kısıtların Testi</a></li>
+<li class="chapter" data-level="3.13.5" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#dışlama-kısıtları"><i class="fa fa-check"></i><b>3.13.5</b> Dışlama kısıtları</a></li>
+<li class="chapter" data-level="3.13.6" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-için-karar-kuralı"><i class="fa fa-check"></i><b>3.13.6</b> F testi için karar kuralı</a></li>
+<li class="chapter" data-level="3.13.7" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#doğrusal-kısıtlar-örnek"><i class="fa fa-check"></i><b>3.13.7</b> Doğrusal kısıtlar: örnek</a></li>
+<li class="chapter" data-level="3.13.8" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#regresyonun-bütün-olarak-anlamlılığı"><i class="fa fa-check"></i><b>3.13.8</b> Regresyonun Bütün Olarak Anlamlılığı</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="3.14-regresyon-analizinde-potansiyel-problemler.html"><a href="3.14-regresyon-analizinde-potansiyel-problemler.html"><i class="fa fa-check"></i><b>3.14</b> Regresyon Analizinde Potansiyel Problemler</a></li>
+<li class="chapter" data-level="3.15" data-path="3.15-kestirim-prediction.html"><a href="3.15-kestirim-prediction.html"><i class="fa fa-check"></i><b>3.15</b> Kestirim (Prediction)</a></li>
+<li class="chapter" data-level="3.16" data-path="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><a href="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><i class="fa fa-check"></i><b>3.16</b> Makine Öğrenmesi ve Regresyon Analizi</a></li>
+<li class="chapter" data-level="3.17" data-path="3.17-regresyon-ve-gözetimli-öğrenme.html"><a href="3.17-regresyon-ve-gözetimli-öğrenme.html"><i class="fa fa-check"></i><b>3.17</b> Regresyon ve gözetimli öğrenme</a></li>
+<li class="chapter" data-level="3.18" data-path="3.18-test-mse.html"><a href="3.18-test-mse.html"><i class="fa fa-check"></i><b>3.18</b> Test MSE</a></li>
+<li class="chapter" data-level="3.19" data-path="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><a href="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><i class="fa fa-check"></i><b>3.19</b> Aşırı uyum ve makine öğrenmesi</a></li>
+<li class="chapter" data-level="3.20" data-path="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><a href="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><i class="fa fa-check"></i><b>3.20</b> Biri Hariç Çapraz Geçerleme, LOOCV (Leave-one-out Cross Validation)</a></li>
+<li class="chapter" data-level="3.21" data-path="3.21-k-katlı-çapraz-geçerleme.html"><a href="3.21-k-katlı-çapraz-geçerleme.html"><i class="fa fa-check"></i><b>3.21</b> <span class="math inline">\(k\)</span>-Katlı Çapraz Geçerleme</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-Zaman.html"><a href="4-Zaman.html"><i class="fa fa-check"></i><b>4</b> Regresyon Analizi: Zaman Serileri</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4.1-zaman-serileri.html"><a href="4.1-zaman-serileri.html"><i class="fa fa-check"></i><b>4.1</b> Zaman Serileri</a></li>
+<li class="chapter" data-level="4.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html"><i class="fa fa-check"></i><b>4.2</b> R’da Zaman Serilerinin Temsili</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#ts-nesnesi"><i class="fa fa-check"></i><b>4.2.1</b> <code>ts</code> Nesnesi</a></li>
+<li class="chapter" data-level="4.2.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#zoo-nesnesi"><i class="fa fa-check"></i><b>4.2.2</b> <code>zoo</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.3" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#xts-nesnesi"><i class="fa fa-check"></i><b>4.2.3</b> <code>xts</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.4" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#tsibble-nesnesi"><i class="fa fa-check"></i><b>4.2.4</b> <code>tsibble</code> nesnesi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html"><i class="fa fa-check"></i><b>4.3</b> Klasik Zaman Serisi Ayrıştırması</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html#örnek-turist-sayısı"><i class="fa fa-check"></i><b>4.3.1</b> Örnek: Turist sayısı</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html"><i class="fa fa-check"></i><b>4.4</b> Zaman Serilerinde Bağımlılık</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#otokorelasyon-fonksiyonu-acf"><i class="fa fa-check"></i><b>4.4.1</b> Otokorelasyon Fonksiyonu (ACF)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#pür-rassal-süreç-white-noise"><i class="fa fa-check"></i><b>4.4.2</b> Pür rassal süreç (white noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="4.5-durağanlık.html"><a href="4.5-durağanlık.html"><i class="fa fa-check"></i><b>4.5</b> Durağanlık</a></li>
+<li class="chapter" data-level="4.6" data-path="4.6-birim-kök-ve-durağanlık-testleri.html"><a href="4.6-birim-kök-ve-durağanlık-testleri.html"><i class="fa fa-check"></i><b>4.6</b> Birim kök ve durağanlık testleri</a></li>
+<li class="chapter" data-level="4.7" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><i class="fa fa-check"></i><b>4.7</b> Zaman Serileriyle Regresyon Analizi: Statik Modeller</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-statik-phillips-eğrisi"><i class="fa fa-check"></i><b>4.7.1</b> Örnek: Statik Phillips Eğrisi</a></li>
+<li class="chapter" data-level="4.7.2" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-beklentilerle-genişletilmiş-phillips-eğirisi"><i class="fa fa-check"></i><b>4.7.2</b> Örnek: Beklentilerle genişletilmiş Phillips eğirisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><i class="fa fa-check"></i><b>4.8</b> Dinamik Modeller: Dağıtılmış Gecikme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html#örnek-vergi-teşvikleri-ile-doğurganlık-ilişkisi"><i class="fa fa-check"></i><b>4.8.1</b> Örnek: Vergi teşvikleri ile Doğurganlık ilişkisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html"><i class="fa fa-check"></i><b>4.9</b> Vektör Otoregresyon (VAR) modeli</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html#örnek-bist100-ve-döviz-kurları-için-bir-var-modeli"><i class="fa fa-check"></i><b>4.9.1</b> Örnek: BIST100 ve Döviz kurları için bir VAR modeli</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html"><i class="fa fa-check"></i><b>4.10</b> Granger-nedensellik testi</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html#örnek"><i class="fa fa-check"></i><b>4.10.1</b> Örnek</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="4.11-kurmaca-regresyon-problemi.html"><a href="4.11-kurmaca-regresyon-problemi.html"><i class="fa fa-check"></i><b>4.11</b> Kurmaca Regresyon Problemi</a></li>
+<li class="chapter" data-level="4.12" data-path="4.12-eşbütünleşme-cointegration.html"><a href="4.12-eşbütünleşme-cointegration.html"><i class="fa fa-check"></i><b>4.12</b> Eşbütünleşme (cointegration)</a></li>
+<li class="chapter" data-level="4.13" data-path="4.13-engle-granger-eşbütünleşme-testi.html"><a href="4.13-engle-granger-eşbütünleşme-testi.html"><i class="fa fa-check"></i><b>4.13</b> Engle-Granger eşbütünleşme testi</a></li>
+<li class="chapter" data-level="4.14" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html"><i class="fa fa-check"></i><b>4.14</b> Hata Düzeltme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.14.1" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html#örnek-3-aylık-ve-6-aylık-hazine-bonosu-faiz-oranları-eşbütünleşik-mi"><i class="fa fa-check"></i><b>4.14.1</b> Örnek: 3-aylık ve 6-aylık hazine bonosu faiz oranları eşbütünleşik mi?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.15" data-path="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><a href="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><i class="fa fa-check"></i><b>4.15</b> Vektör Hata Düzeltme Modeli (VEC) vs. VAR</a></li>
+<li class="chapter" data-level="4.16" data-path="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><a href="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><i class="fa fa-check"></i><b>4.16</b> Çok değişkenli modellerde eşbütünleşme</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-Rmarkdown.html"><a href="5-Rmarkdown.html"><i class="fa fa-check"></i><b>5</b> RMarkdown ile Raporlama</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5.1-r-markdown-nedir.html"><a href="5.1-r-markdown-nedir.html"><i class="fa fa-check"></i><b>5.1</b> R Markdown Nedir?</a></li>
+<li class="chapter" data-level="5.2" data-path="5.2-başlık-ve-diğer-seçenekler.html"><a href="5.2-başlık-ve-diğer-seçenekler.html"><i class="fa fa-check"></i><b>5.2</b> Başlık ve diğer seçenekler</a></li>
+<li class="chapter" data-level="5.3" data-path="5.3-programların-eklenmesi.html"><a href="5.3-programların-eklenmesi.html"><i class="fa fa-check"></i><b>5.3</b> Programların eklenmesi</a></li>
+<li class="chapter" data-level="5.4" data-path="5.4-program-opsiyonları.html"><a href="5.4-program-opsiyonları.html"><i class="fa fa-check"></i><b>5.4</b> Program opsiyonları</a></li>
+<li class="chapter" data-level="5.5" data-path="5.5-metin.html"><a href="5.5-metin.html"><i class="fa fa-check"></i><b>5.5</b> Metin</a></li>
+<li class="chapter" data-level="5.6" data-path="5.6-grafikler.html"><a href="5.6-grafikler.html"><i class="fa fa-check"></i><b>5.6</b> Grafikler</a></li>
+<li class="chapter" data-level="5.7" data-path="5.7-tablolar.html"><a href="5.7-tablolar.html"><i class="fa fa-check"></i><b>5.7</b> Tablolar</a></li>
+<li class="chapter" data-level="5.8" data-path="5.8-r-markdown-cheatsheets.html"><a href="5.8-r-markdown-cheatsheets.html"><i class="fa fa-check"></i><b>5.8</b> R Markdown Cheatsheets</a></li>
+<li class="chapter" data-level="5.9" data-path="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><a href="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><i class="fa fa-check"></i><b>5.9</b> Örnek: Türkiye’de İllerde Yaşam İndeksi Göstergeleri (2015)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="" target="blank">Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R ile Ekonometri</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ggplot" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> <code>{ggplot2}</code> Paketi ile Görselleştirme<a href="2.5-ggplot.html#ggplot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p><code>{ggplot2}</code> verilerin görselleştirilmesinde <strong>grafiklerin grameri</strong> (grammar of graphics) yaklaşımını benimser.</p></li>
+<li><p>Hadley Wickham tarafından geliştirilmiş bir R kütüphanesi olan <code>{ggplot2}</code> Tidyverse meta-paketinin bir parçasıdır. Dolayısıyla <code>library(tidyverse)</code> komutuyla otomatik olarak aktif hale gelir.</p></li>
+<li><p>Eğer diğer bileşenlerini istemiyorsak <code>{ggplot2}</code> paketini bağımsız olarak da çağırabiliriz:</p></li>
+</ul>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="2.5-ggplot.html#cb506-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<ul>
+<li><p><code>{ggplot2}</code> bir grafiği, veri, geometrik şekiller, renkler, haritalama, istatistik, konum, koordinat sistemi ve fasetlerin katmanlar halinde kullanılmasıyla oluşturur.</p></li>
+<li><p>Tipik bir grafik için şablon aşağıdaki gibi yazılabilir:</p></li>
+</ul>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="2.5-ggplot.html#cb507-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="sc">&lt;</span>DATA<span class="sc">&gt;</span>) <span class="sc">+</span> </span>
+<span id="cb507-2"><a href="2.5-ggplot.html#cb507-2" tabindex="-1"></a>  <span class="er">&lt;</span>GEOM_FUNCTION<span class="sc">&gt;</span>(</span>
+<span id="cb507-3"><a href="2.5-ggplot.html#cb507-3" tabindex="-1"></a>     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="sc">&lt;</span>MAPPINGS<span class="sc">&gt;</span>),</span>
+<span id="cb507-4"><a href="2.5-ggplot.html#cb507-4" tabindex="-1"></a>     <span class="at">stat =</span> <span class="sc">&lt;</span>STAT<span class="sc">&gt;</span>, </span>
+<span id="cb507-5"><a href="2.5-ggplot.html#cb507-5" tabindex="-1"></a>     <span class="at">position =</span> <span class="sc">&lt;</span>POSITION<span class="sc">&gt;</span></span>
+<span id="cb507-6"><a href="2.5-ggplot.html#cb507-6" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb507-7"><a href="2.5-ggplot.html#cb507-7" tabindex="-1"></a>  <span class="er">&lt;</span>COORDINATE_FUNCTION<span class="sc">&gt;</span> <span class="sc">+</span></span>
+<span id="cb507-8"><a href="2.5-ggplot.html#cb507-8" tabindex="-1"></a>  <span class="er">&lt;</span>FACET_FUNCTION<span class="sc">&gt;</span></span></code></pre></div>
+<ul>
+<li><p><code>ggplot2</code> ile ilgili temel kaynaklar:</p>
+<ul>
+<li><p><a href="https://r4ds.had.co.nz/data-visualisation.html">Hadley Wickham ve Garret Grolemund, R for Data Science, Data Visualization with ggplot2</a></p></li>
+<li><p><a href="https://ggplot2-book.org/">Hadley Wickham, ggplot2: Elegant Graphics for Data Analysis</a></p></li>
+<li><p><a href="http://www.cookbook-r.com/Graphs/">Winston Chang, R Graphics Cookbook: Practical Recipes for Visualizing Data</a></p></li>
+</ul></li>
+</ul>
+<div id="bir-grafiğin-katmanları" class="section level3 hasAnchor" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Bir grafiğin katmanları<a href="2.5-ggplot.html#bir-grafiğin-katmanları" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p><code>{ggplot2}</code> bir istatistiksel grafiği katmanlar halinde oluşturur.</p></li>
+<li><p>Paketteki temel fonksiyonu, <code>ggplot()</code>, boş olarak çalıştırdığımızda geometrik nesneler ve renk, şekil ve büyüklük gibi estetik bileşenlerle dolduracağımız bir kanvas elde ederiz:</p></li>
+</ul>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="2.5-ggplot.html#cb508-1" tabindex="-1"></a><span class="fu">ggplot</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-237-1.png" width="672" /></p>
+<ul>
+<li><p>Grafiği oluşturmak için veri setimizi, ne tür grafik istediğimizi ve diğer tüm detayları bildirmemiz gerekir.</p></li>
+<li><p>Örnek olarak <code>gapminder</code> veri setinde yaşam beklentisi ile kişi başına gelir arasındaki ilişkiyi görselleştirelim:</p></li>
+</ul>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="2.5-ggplot.html#cb509-1" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb509-2"><a href="2.5-ggplot.html#cb509-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp))</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-238-1.png" width="672" /></p>
+<ul>
+<li><p>Grafiğin eksenleri belirlendi. Ancak grafiğin türünün ne olduğu belirtilmediği için <code>ggplot()</code> boş bir grafik çizdi.</p></li>
+<li><p><code>{ggplot2}</code> jargonunda <code>geom</code> ismi verilen grafik türlerinin (ya da geometrik şekillerin) eklenmesiyle grafik en yalın haliyle tamamlanır:</p></li>
+</ul>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="2.5-ggplot.html#cb510-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder, </span>
+<span id="cb510-2"><a href="2.5-ggplot.html#cb510-2" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb510-3"><a href="2.5-ggplot.html#cb510-3" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-239-1.png" width="672" /></p>
+<ul>
+<li>Grafiği aşağıdaki komut dizisiyle de çizebilirdik:</li>
+</ul>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="2.5-ggplot.html#cb511-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder) <span class="sc">+</span></span>
+<span id="cb511-2"><a href="2.5-ggplot.html#cb511-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp))</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-240-1.png" width="672" /></p>
+<ul>
+<li>Grafiği bir nesne ismi tanımlayarak daha sonra tekrar kullanabiliriz. Örneğin</li>
+</ul>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="2.5-ggplot.html#cb512-1" tabindex="-1"></a>grafik1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gapminder, <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb512-2"><a href="2.5-ggplot.html#cb512-2" tabindex="-1"></a>                    <span class="fu">geom_point</span>()</span></code></pre></div>
+<ul>
+<li>Grafik çıktı olarak üretilmedi. Bunun için</li>
+</ul>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="2.5-ggplot.html#cb513-1" tabindex="-1"></a>grafik1</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-242-1.png" width="672" /></p>
+<ul>
+<li>Sadece veri ve estetik kısmını tanımlayıp geometrik nesne bilgisi daha sonra da ekleyebiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="2.5-ggplot.html#cb514-1" tabindex="-1"></a>grafik2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gapminder, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) </span></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="2.5-ggplot.html#cb515-1" tabindex="-1"></a>grafik2 <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-244-1.png" width="672" /></p>
+</div>
+<div id="renk-şekil-ve-büyüklük" class="section level3 hasAnchor" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> Renk, şekil, ve büyüklük<a href="2.5-ggplot.html#renk-şekil-ve-büyüklük" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Grafiğimize renkleri, şekilleri, ve büyüklükleri kullanarak başka bir değişkenin bilgisini ekleyebiliriz. Renk ve şekiller kategorik değişkenler (örneğin bir ülkenin bulunduğu kıta), büyüklük ise sürekli değişkenler için daha uygundur (örneğin bir ülkenin nüfusu).</p></li>
+<li><p><code>gapminder</code> veri setinde kişi başına GDP ve yaşam beklentisi arasındaki serpilme çiziminde ülkenin bulunduğu kıta bilgisini renklerle görselleştirelim:</p></li>
+</ul>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="2.5-ggplot.html#cb516-1" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb516-2"><a href="2.5-ggplot.html#cb516-2" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb516-3"><a href="2.5-ggplot.html#cb516-3" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb516-4"><a href="2.5-ggplot.html#cb516-4" tabindex="-1"></a>   <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-245-1.png" width="672" /></p>
+<ul>
+<li>Renk estetiği <code>geom_point()</code> içinde de tanımlanabilir:</li>
+</ul>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="2.5-ggplot.html#cb517-1" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb517-2"><a href="2.5-ggplot.html#cb517-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb517-3"><a href="2.5-ggplot.html#cb517-3" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>continent))</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-246-1.png" width="672" /></p>
+<ul>
+<li>Kategorik bir değişkene ilişkin bilgi renkler yerine şekiller aracılığı ile de gösterilebilir. Bunun için <code>aes()</code> içinde <code>shape =</code> değişkeninin tanımlanması yeterli olur:</li>
+</ul>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="2.5-ggplot.html#cb518-1" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb518-2"><a href="2.5-ggplot.html#cb518-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">shape =</span> continent)) <span class="sc">+</span></span>
+<span id="cb518-3"><a href="2.5-ggplot.html#cb518-3" tabindex="-1"></a>   <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-247-1.png" width="672" /></p>
+<ul>
+<li>Benzer şekilde ülkelerin nüfus bilgisini <code>size</code> estetik bileşenini kullanarak tanımlayabiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="2.5-ggplot.html#cb519-1" tabindex="-1"></a><span class="co"># sadece 2007 yılı </span></span>
+<span id="cb519-2"><a href="2.5-ggplot.html#cb519-2" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2007</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb519-3"><a href="2.5-ggplot.html#cb519-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(gdpPercap, lifeExp, <span class="at">size =</span> pop)) <span class="sc">+</span> </span>
+<span id="cb519-4"><a href="2.5-ggplot.html#cb519-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-248-1.png" width="672" /></p>
+<p>Burada <code>geom_point()</code> içinde yer alan <code>alpha</code> opsiyonu ile estetik bileşenlerin şeffaflığını kontrol edebiliriz. <code>alpha</code> parametresi 0 ile 1 arasında değerler alır, 1 durumunda mat, 0 durumunda ise şekiller görünmez olur (deneyin).</p>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="2.5-ggplot.html#cb520-1" tabindex="-1"></a><span class="co"># Örnek: `diamonds` data, karat ve fiyat serpilme çizimi: </span></span>
+<span id="cb520-2"><a href="2.5-ggplot.html#cb520-2" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat, price)) <span class="sc">+</span></span>
+<span id="cb520-3"><a href="2.5-ggplot.html#cb520-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div>
+<ul>
+<li><code>color</code> ve <code>size</code> birlikte kullanılabilir:</li>
+</ul>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="2.5-ggplot.html#cb521-1" tabindex="-1"></a><span class="co"># tüm yıllar </span></span>
+<span id="cb521-2"><a href="2.5-ggplot.html#cb521-2" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb521-3"><a href="2.5-ggplot.html#cb521-3" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent, <span class="at">size=</span>pop<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb521-4"><a href="2.5-ggplot.html#cb521-4" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
+</div>
+<div id="fasetler" class="section level3 hasAnchor" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Fasetler<a href="2.5-ggplot.html#fasetler" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Veri setimizde kategorik değişkenler için ayrı ayrı grafikler (facet) oluşturabiliriz.</p></li>
+<li><p>Örneğin <code>gapminder</code> veri setinde her kıta için ayrı ayrı serpilme çizimlerini oluşturalım.</p></li>
+</ul>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="2.5-ggplot.html#cb522-1" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb522-2"><a href="2.5-ggplot.html#cb522-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">size=</span>pop<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb522-3"><a href="2.5-ggplot.html#cb522-3" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb522-4"><a href="2.5-ggplot.html#cb522-4" tabindex="-1"></a>  <span class="fu">facet_grid</span>(continent <span class="sc">~</span>. )</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-251-1.png" width="672" /></p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="2.5-ggplot.html#cb523-1" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb523-2"><a href="2.5-ggplot.html#cb523-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">size=</span>pop<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb523-3"><a href="2.5-ggplot.html#cb523-3" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb523-4"><a href="2.5-ggplot.html#cb523-4" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> continent)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-252-1.png" width="672" /></p>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="2.5-ggplot.html#cb524-1" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1952</span>, <span class="dv">2007</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb524-2"><a href="2.5-ggplot.html#cb524-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb524-3"><a href="2.5-ggplot.html#cb524-3" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb524-4"><a href="2.5-ggplot.html#cb524-4" tabindex="-1"></a>  <span class="fu">facet_grid</span>(year <span class="sc">~</span> continent)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-253-1.png" width="672" /></p>
+<ul>
+<li>Alternatif olarak <code>facet_wrap()</code> fonksiyonunu kullanabiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="2.5-ggplot.html#cb525-1" tabindex="-1"></a><span class="fu">ggplot</span>(gapminder, </span>
+<span id="cb525-2"><a href="2.5-ggplot.html#cb525-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb525-3"><a href="2.5-ggplot.html#cb525-3" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb525-4"><a href="2.5-ggplot.html#cb525-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> continent, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-254-1.png" width="672" /></p>
+</div>
+<div id="eksenler-başlık-ve-etiketlerin-kontrolü" class="section level3 hasAnchor" number="2.5.4">
+<h3><span class="header-section-number">2.5.4</span> Eksenler, başlık, ve etiketlerin kontrolü<a href="2.5-ggplot.html#eksenler-başlık-ve-etiketlerin-kontrolü" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Önce grafiğimizi oluşturalım:</li>
+</ul>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="2.5-ggplot.html#cb526-1" tabindex="-1"></a><span class="co"># sadece 2007 yılı </span></span>
+<span id="cb526-2"><a href="2.5-ggplot.html#cb526-2" tabindex="-1"></a>g2007 <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2007</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb526-3"><a href="2.5-ggplot.html#cb526-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(gdpPercap, lifeExp, <span class="at">size =</span> pop, <span class="at">color =</span> continent)) <span class="sc">+</span> </span>
+<span id="cb526-4"><a href="2.5-ggplot.html#cb526-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() </span>
+<span id="cb526-5"><a href="2.5-ggplot.html#cb526-5" tabindex="-1"></a>g2007</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-255-1.png" width="672" /></p>
+<ul>
+<li>Eksen başlıklarını değiştirelim:</li>
+</ul>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="2.5-ggplot.html#cb527-1" tabindex="-1"></a>g2007 <span class="sc">+</span> </span>
+<span id="cb527-2"><a href="2.5-ggplot.html#cb527-2" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Kişi başına Gayri Safi Yurtiçi Hasıla (ABD Doları)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb527-3"><a href="2.5-ggplot.html#cb527-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Yaşam Beklentisi&quot;</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-256-1.png" width="672" /></p>
+<ul>
+<li><p>Aynı işlem <code>labs()</code> fonksiyonu ile de yapılabilir.</p></li>
+<li><p>Başlık, alt başlık, ve dipnot ekleyelim:</p></li>
+</ul>
+<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="2.5-ggplot.html#cb528-1" tabindex="-1"></a>g2007 <span class="sc">+</span> </span>
+<span id="cb528-2"><a href="2.5-ggplot.html#cb528-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Kişi başına Gayri Safi Yurtiçi Hasıla (ABD Doları)&quot;</span>, </span>
+<span id="cb528-3"><a href="2.5-ggplot.html#cb528-3" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Yaşam Beklentisi&quot;</span>, </span>
+<span id="cb528-4"><a href="2.5-ggplot.html#cb528-4" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;2007&quot;</span>, </span>
+<span id="cb528-5"><a href="2.5-ggplot.html#cb528-5" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Tüm ülkeler&quot;</span>, </span>
+<span id="cb528-6"><a href="2.5-ggplot.html#cb528-6" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Kaynak: Gapminder project, https://www.gapminder.org/&quot;</span></span>
+<span id="cb528-7"><a href="2.5-ggplot.html#cb528-7" tabindex="-1"></a>       ) </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-257-1.png" width="672" /></p>
+<ul>
+<li><code>scale_x_*</code> veya <code>scale_y_*</code> fonksiyonlarını kullanarak eksenlerin ölçü birimlerini değiştirmek mümkündür. Örneğin yukarıdaki grafikte kişi başına GDP’yi logaritmik skala ile göstermek istersek <code>scale_x_log10()</code> fonksiyonunu kullanabiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="2.5-ggplot.html#cb529-1" tabindex="-1"></a>g2007 <span class="sc">+</span> </span>
+<span id="cb529-2"><a href="2.5-ggplot.html#cb529-2" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb529-3"><a href="2.5-ggplot.html#cb529-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Kişi başına Gayri Safi Yurtiçi Hasıla (logaritmik skala)&quot;</span>, </span>
+<span id="cb529-4"><a href="2.5-ggplot.html#cb529-4" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Yaşam Beklentisi&quot;</span>, </span>
+<span id="cb529-5"><a href="2.5-ggplot.html#cb529-5" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;2007&quot;</span>, </span>
+<span id="cb529-6"><a href="2.5-ggplot.html#cb529-6" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Tüm ülkeler&quot;</span>, </span>
+<span id="cb529-7"><a href="2.5-ggplot.html#cb529-7" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Kaynak: Gapminder project, https://www.gapminder.org/&quot;</span></span>
+<span id="cb529-8"><a href="2.5-ggplot.html#cb529-8" tabindex="-1"></a>       ) </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-258-1.png" width="672" /></p>
+<ul>
+<li>Etiket başlıklarını değiştirelim:</li>
+</ul>
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="2.5-ggplot.html#cb530-1" tabindex="-1"></a>g2007 <span class="sc">+</span></span>
+<span id="cb530-2"><a href="2.5-ggplot.html#cb530-2" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb530-3"><a href="2.5-ggplot.html#cb530-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Kişi başına Gayri Safi Yurtiçi Hasıla (logaritmik skala)&quot;</span>, </span>
+<span id="cb530-4"><a href="2.5-ggplot.html#cb530-4" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Yaşam Beklentisi&quot;</span>, </span>
+<span id="cb530-5"><a href="2.5-ggplot.html#cb530-5" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Kıta&quot;</span>,</span>
+<span id="cb530-6"><a href="2.5-ggplot.html#cb530-6" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">&quot;Nüfus&quot;</span>,</span>
+<span id="cb530-7"><a href="2.5-ggplot.html#cb530-7" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;2007&quot;</span>, </span>
+<span id="cb530-8"><a href="2.5-ggplot.html#cb530-8" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Tüm ülkeler&quot;</span>, </span>
+<span id="cb530-9"><a href="2.5-ggplot.html#cb530-9" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Kaynak: Gapminder project, https://www.gapminder.org/&quot;</span></span>
+<span id="cb530-10"><a href="2.5-ggplot.html#cb530-10" tabindex="-1"></a>       ) </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-259-1.png" width="672" /></p>
+<ul>
+<li>Grafiği pdf ya da png formatında saklamak için manuel olarak RStudio Plots penceresinden Export seçilebilir. Alternatif olarak
+<code>ggsave()</code> fonksiyonu kullanılabilir.</li>
+</ul>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="2.5-ggplot.html#cb531-1" tabindex="-1"></a><span class="co"># en son grafiği gapplot1 ismiyle sakla</span></span>
+<span id="cb531-2"><a href="2.5-ggplot.html#cb531-2" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;img/gapplot1.pdf&quot;</span>)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="2.5-ggplot.html#cb533-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;img/gapplot1.png&quot;</span>)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+</div>
+<div id="dağılım-grafikleri" class="section level3 hasAnchor" number="2.5.5">
+<h3><span class="header-section-number">2.5.5</span> Dağılım Grafikleri<a href="2.5-ggplot.html#dağılım-grafikleri" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Sürekli bir değişkenin dağılımı betimsel istatistiğin önemli bir parçasıdır. Verilerin
+daha iyi anlaşılmasında histogram, kutu çizimi, birikimli dağılım fonksiyonu gibi görsel
+araçlar çok faydalı olabilir.</li>
+</ul>
+</div>
+<div id="histogram-geom_histogram" class="section level3 hasAnchor" number="2.5.6">
+<h3><span class="header-section-number">2.5.6</span> Histogram: <code>geom_histogram()</code><a href="2.5-ggplot.html#histogram-geom_histogram" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Örnek: Önce yapay bir veri seti oluşturalım. Veriler 3 derse ilişkin notları göstersin.</li>
+</ul>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="2.5-ggplot.html#cb535-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb535-2"><a href="2.5-ggplot.html#cb535-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb535-3"><a href="2.5-ggplot.html#cb535-3" tabindex="-1"></a>notlar1 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>))</span>
+<span id="cb535-4"><a href="2.5-ggplot.html#cb535-4" tabindex="-1"></a>notlar2 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">15</span>))</span>
+<span id="cb535-5"><a href="2.5-ggplot.html#cb535-5" tabindex="-1"></a>notlar3 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">12</span>))</span>
+<span id="cb535-6"><a href="2.5-ggplot.html#cb535-6" tabindex="-1"></a>ders <span class="ot">&lt;-</span>  <span class="fu">factor</span>( <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ekonometri-1&quot;</span>,<span class="st">&quot;Ekonometri-2&quot;</span>,<span class="st">&quot;Makine Öğrenmesi&quot;</span>), <span class="at">each=</span>n) )</span>
+<span id="cb535-7"><a href="2.5-ggplot.html#cb535-7" tabindex="-1"></a>not_verileri <span class="ot">&lt;-</span> <span class="fu">tibble</span>(ders, </span>
+<span id="cb535-8"><a href="2.5-ggplot.html#cb535-8" tabindex="-1"></a>                       <span class="at">not =</span> <span class="fu">c</span>(notlar1, notlar2, notlar3), </span>
+<span id="cb535-9"><a href="2.5-ggplot.html#cb535-9" tabindex="-1"></a>                       <span class="at">cinsiyet =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Kadın&quot;</span>, <span class="st">&quot;Erkek&quot;</span>), <span class="dv">3</span><span class="sc">*</span>n, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb535-10"><a href="2.5-ggplot.html#cb535-10" tabindex="-1"></a>not_verileri <span class="ot">&lt;-</span> <span class="fu">filter</span>(not_verileri, not<span class="sc">&lt;=</span><span class="dv">100</span> <span class="sc">&amp;</span> not<span class="sc">&gt;=</span><span class="dv">0</span>)</span>
+<span id="cb535-11"><a href="2.5-ggplot.html#cb535-11" tabindex="-1"></a><span class="fu">head</span>(not_verileri)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   ders           not cinsiyet
+##   &lt;fct&gt;        &lt;dbl&gt; &lt;chr&gt;   
+## 1 Ekonometri-1    44 Kadın   
+## 2 Ekonometri-1    52 Erkek   
+## 3 Ekonometri-1    42 Kadın   
+## 4 Ekonometri-1    66 Erkek   
+## 5 Ekonometri-1    53 Kadın   
+## 6 Ekonometri-1    42 Erkek</code></pre>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="2.5-ggplot.html#cb537-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-1&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb537-2"><a href="2.5-ggplot.html#cb537-2" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb537-3"><a href="2.5-ggplot.html#cb537-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> not))  </span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-262-1.png" width="672" /></p>
+<ul>
+<li>Histogramın default değerleri pek göze hitap etmiyor, sınıflar birbiriyle kaynaşmış ve sınıf sayısı da optimal değil. Yeniden çizelim:</li>
+</ul>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="2.5-ggplot.html#cb539-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-1&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb539-2"><a href="2.5-ggplot.html#cb539-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> not)) <span class="sc">+</span></span>
+<span id="cb539-3"><a href="2.5-ggplot.html#cb539-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>,       <span class="co"># sütun genişliği </span></span>
+<span id="cb539-4"><a href="2.5-ggplot.html#cb539-4" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>,  <span class="co"># sütun sınırlarının rengi</span></span>
+<span id="cb539-5"><a href="2.5-ggplot.html#cb539-5" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>   <span class="co"># sütun içinin rengi</span></span>
+<span id="cb539-6"><a href="2.5-ggplot.html#cb539-6" tabindex="-1"></a>                 )  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-263-1.png" width="672" /></p>
+<ul>
+<li>Diğer dersler için de histogramları çizelim ve yan yana paneller oluşturalım:</li>
+</ul>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="2.5-ggplot.html#cb540-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> not_verileri) <span class="sc">+</span></span>
+<span id="cb540-2"><a href="2.5-ggplot.html#cb540-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> not), </span>
+<span id="cb540-3"><a href="2.5-ggplot.html#cb540-3" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">10</span>, </span>
+<span id="cb540-4"><a href="2.5-ggplot.html#cb540-4" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>, </span>
+<span id="cb540-5"><a href="2.5-ggplot.html#cb540-5" tabindex="-1"></a>                 <span class="at">fill  =</span> <span class="st">&quot;lightblue&quot;</span></span>
+<span id="cb540-6"><a href="2.5-ggplot.html#cb540-6" tabindex="-1"></a>                 ) <span class="sc">+</span> </span>
+<span id="cb540-7"><a href="2.5-ggplot.html#cb540-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> ders)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-264-1.png" width="672" />
+- Grupların histogramlarını aynı grafikte göster:</p>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="2.5-ggplot.html#cb541-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> not, <span class="at">fill =</span> ders)) <span class="sc">+</span> </span>
+<span id="cb541-2"><a href="2.5-ggplot.html#cb541-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">5</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-265-1.png" width="672" /></p>
+<ul>
+<li>Histogram üzerinde ortalama veya medyan notu bir çizgi ya da nokta ile gösterebiliriz.</li>
+</ul>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="2.5-ggplot.html#cb542-1" tabindex="-1"></a>not_ort <span class="ot">&lt;-</span> not_verileri <span class="sc">|&gt;</span> <span class="fu">group_by</span>(ders) <span class="sc">|&gt;</span> </span>
+<span id="cb542-2"><a href="2.5-ggplot.html#cb542-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), </span>
+<span id="cb542-3"><a href="2.5-ggplot.html#cb542-3" tabindex="-1"></a>            <span class="at">ortalama =</span> <span class="fu">mean</span>(not), </span>
+<span id="cb542-4"><a href="2.5-ggplot.html#cb542-4" tabindex="-1"></a>            <span class="at">medyan =</span> <span class="fu">median</span>(not), </span>
+<span id="cb542-5"><a href="2.5-ggplot.html#cb542-5" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(not), </span>
+<span id="cb542-6"><a href="2.5-ggplot.html#cb542-6" tabindex="-1"></a>            <span class="at">se_ort =</span> ortalama<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb542-7"><a href="2.5-ggplot.html#cb542-7" tabindex="-1"></a>            <span class="at">p25 =</span> <span class="fu">quantile</span>(not, <span class="fl">0.25</span>), </span>
+<span id="cb542-8"><a href="2.5-ggplot.html#cb542-8" tabindex="-1"></a>            <span class="at">p75 =</span> <span class="fu">quantile</span>(not, <span class="fl">0.75</span>)</span>
+<span id="cb542-9"><a href="2.5-ggplot.html#cb542-9" tabindex="-1"></a>            )</span>
+<span id="cb542-10"><a href="2.5-ggplot.html#cb542-10" tabindex="-1"></a>not_ort</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 8
+##   ders                 n ortalama medyan    sd se_ort   p25   p75
+##   &lt;fct&gt;            &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ekonometri-1       200     50.4   49.5  9.30   3.56  44    56  
+## 2 Ekonometri-2       200     60.6   60   15.2    4.28  52.8  71  
+## 3 Makine Öğrenmesi   199     69.3   69   12.4    4.91  61    77.5</code></pre>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="2.5-ggplot.html#cb544-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-1&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb544-2"><a href="2.5-ggplot.html#cb544-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> not)) <span class="sc">+</span></span>
+<span id="cb544-3"><a href="2.5-ggplot.html#cb544-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>,       <span class="co"># sütun genişliği </span></span>
+<span id="cb544-4"><a href="2.5-ggplot.html#cb544-4" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="co"># sütun sınırlarının rengi</span></span>
+<span id="cb544-5"><a href="2.5-ggplot.html#cb544-5" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>  <span class="co"># sütun içinin rengi</span></span>
+<span id="cb544-6"><a href="2.5-ggplot.html#cb544-6" tabindex="-1"></a>                 )  <span class="sc">+</span></span>
+<span id="cb544-7"><a href="2.5-ggplot.html#cb544-7" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(not)), <span class="co"># dikey çizginin yeri=ortalama</span></span>
+<span id="cb544-8"><a href="2.5-ggplot.html#cb544-8" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>,         <span class="co"># çizgi tipi</span></span>
+<span id="cb544-9"><a href="2.5-ggplot.html#cb544-9" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>,               <span class="co"># çizgi rengi</span></span>
+<span id="cb544-10"><a href="2.5-ggplot.html#cb544-10" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">1</span>                     <span class="co"># çizgi büyüklüğü       </span></span>
+<span id="cb544-11"><a href="2.5-ggplot.html#cb544-11" tabindex="-1"></a>             ) <span class="sc">+</span></span>
+<span id="cb544-12"><a href="2.5-ggplot.html#cb544-12" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>,      <span class="co"># geom türü</span></span>
+<span id="cb544-13"><a href="2.5-ggplot.html#cb544-13" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">&quot;Ortalama&quot;</span>, <span class="co"># yazmak istediğimiz etiket/bilgi/yazı</span></span>
+<span id="cb544-14"><a href="2.5-ggplot.html#cb544-14" tabindex="-1"></a>           <span class="at">x =</span> <span class="fl">53.5</span>,           <span class="co"># x koordinatı</span></span>
+<span id="cb544-15"><a href="2.5-ggplot.html#cb544-15" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">43</span>)             <span class="co"># y koordinatı</span></span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-267-1.png" width="672" /></p>
+</div>
+<div id="yoğunluk-geom_density" class="section level3 hasAnchor" number="2.5.7">
+<h3><span class="header-section-number">2.5.7</span> Yoğunluk: <code>geom_density()</code><a href="2.5-ggplot.html#yoğunluk-geom_density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Yoğunluk fonksiyonu düzleştirilmiş histogram gibi düşünülebilir. Örneğin,</li>
+</ul>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="2.5-ggplot.html#cb546-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-1&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb546-2"><a href="2.5-ggplot.html#cb546-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> not)) <span class="sc">+</span></span>
+<span id="cb546-3"><a href="2.5-ggplot.html#cb546-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),  <span class="co"># histogramda y ekseninde yoğunluğu göster </span></span>
+<span id="cb546-4"><a href="2.5-ggplot.html#cb546-4" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">12</span>,</span>
+<span id="cb546-5"><a href="2.5-ggplot.html#cb546-5" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb546-6"><a href="2.5-ggplot.html#cb546-6" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb546-7"><a href="2.5-ggplot.html#cb546-7" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> not))  </span></code></pre></div>
+<pre><code>## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-268-1.png" width="672" /></p>
+<ul>
+<li>Gruplar için yoğunluk fonksiyonunu aynı grafik üzerinde göster:</li>
+</ul>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="2.5-ggplot.html#cb548-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> not, <span class="at">fill =</span> ders)) <span class="sc">+</span> </span>
+<span id="cb548-2"><a href="2.5-ggplot.html#cb548-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-269-1.png" width="672" /></p>
+<ul>
+<li>Yukarıdaki grafiğe örneklem ortalamalarını her grup için ekleyelim. Bunun için yukarıda oluşturduğumuz <code>not_ort</code> tablosunu <code>geom_vline()</code> içinde kullanabiliriz.</li>
+</ul>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="2.5-ggplot.html#cb549-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> not, <span class="at">fill =</span> ders)) <span class="sc">+</span> </span>
+<span id="cb549-2"><a href="2.5-ggplot.html#cb549-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb549-3"><a href="2.5-ggplot.html#cb549-3" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> not_ort,     <span class="co"># özet istatistik tablosu</span></span>
+<span id="cb549-4"><a href="2.5-ggplot.html#cb549-4" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">xintercept =</span> ortalama,  </span>
+<span id="cb549-5"><a href="2.5-ggplot.html#cb549-5" tabindex="-1"></a>                 <span class="at">colour =</span> ders</span>
+<span id="cb549-6"><a href="2.5-ggplot.html#cb549-6" tabindex="-1"></a>                 ),</span>
+<span id="cb549-7"><a href="2.5-ggplot.html#cb549-7" tabindex="-1"></a>             <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb549-8"><a href="2.5-ggplot.html#cb549-8" tabindex="-1"></a>             <span class="at">size=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-270-1.png" width="672" /></p>
+</div>
+<div id="kutu-çizimi-geom_boxplot" class="section level3 hasAnchor" number="2.5.8">
+<h3><span class="header-section-number">2.5.8</span> Kutu Çizimi: <code>geom_boxplot()</code><a href="2.5-ggplot.html#kutu-çizimi-geom_boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="2.5-ggplot.html#cb550-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-2&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb550-2"><a href="2.5-ggplot.html#cb550-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> not)) <span class="sc">+</span></span>
+<span id="cb550-3"><a href="2.5-ggplot.html#cb550-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-271-1.png" width="672" /></p>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="2.5-ggplot.html#cb551-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> <span class="fu">filter</span>(ders <span class="sc">==</span> <span class="st">&quot;Ekonometri-2&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb551-2"><a href="2.5-ggplot.html#cb551-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> not)) <span class="sc">+</span></span>
+<span id="cb551-3"><a href="2.5-ggplot.html#cb551-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-272-1.png" width="672" /></p>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="2.5-ggplot.html#cb552-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span> </span>
+<span id="cb552-2"><a href="2.5-ggplot.html#cb552-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ders, <span class="at">y =</span> not)) <span class="sc">+</span></span>
+<span id="cb552-3"><a href="2.5-ggplot.html#cb552-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-273-1.png" width="672" /></p>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="2.5-ggplot.html#cb553-1" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb553-2"><a href="2.5-ggplot.html#cb553-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(year), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb553-3"><a href="2.5-ggplot.html#cb553-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-274-1.png" width="672" /></p>
+</div>
+<div id="keman-grafiği-geom_violin" class="section level3 hasAnchor" number="2.5.9">
+<h3><span class="header-section-number">2.5.9</span> Keman grafiği: <code>geom_violin()</code><a href="2.5-ggplot.html#keman-grafiği-geom_violin" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="2.5-ggplot.html#cb554-1" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span>  </span>
+<span id="cb554-2"><a href="2.5-ggplot.html#cb554-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ders, <span class="at">y =</span> not)) <span class="sc">+</span></span>
+<span id="cb554-3"><a href="2.5-ggplot.html#cb554-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-275-1.png" width="672" /></p>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="2.5-ggplot.html#cb555-1" tabindex="-1"></a><span class="co"># kartilleri göster</span></span>
+<span id="cb555-2"><a href="2.5-ggplot.html#cb555-2" tabindex="-1"></a>not_verileri <span class="sc">|&gt;</span>  </span>
+<span id="cb555-3"><a href="2.5-ggplot.html#cb555-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ders, <span class="at">y =</span> not)) <span class="sc">+</span></span>
+<span id="cb555-4"><a href="2.5-ggplot.html#cb555-4" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-276-1.png" width="672" /></p>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="2.5-ggplot.html#cb556-1" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb556-2"><a href="2.5-ggplot.html#cb556-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(year), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb556-3"><a href="2.5-ggplot.html#cb556-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.5</span>))  </span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-277-1.png" width="672" /></p>
+</div>
+<div id="qq-grafiği" class="section level3 hasAnchor" number="2.5.10">
+<h3><span class="header-section-number">2.5.10</span> QQ Grafiği<a href="2.5-ggplot.html#qq-grafiği" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Birikimli dağılım fonksiyonunu çizerek normal dağılımla karşılaştırmak isteyebiliriz. Bunun için
+<code>geom_qq()</code> veya <code>stat_qq()</code> fonksiyonlarını kullanabiliriz.</p></li>
+<li><p>Örnek olarak 5 serbestlik dereceli bir t dağılımından rastgele örneklem çekelim ve grafiğini çizelim.</p></li>
+</ul>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="2.5-ggplot.html#cb557-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">54321</span>)</span>
+<span id="cb557-2"><a href="2.5-ggplot.html#cb557-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rt</span>(<span class="dv">400</span>, <span class="at">df =</span> <span class="dv">5</span>))</span>
+<span id="cb557-3"><a href="2.5-ggplot.html#cb557-3" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> x)) <span class="sc">+</span></span>
+<span id="cb557-4"><a href="2.5-ggplot.html#cb557-4" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb557-5"><a href="2.5-ggplot.html#cb557-5" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-278-1.png" width="672" /></p>
+</div>
+<div id="bar-plot" class="section level3 hasAnchor" number="2.5.11">
+<h3><span class="header-section-number">2.5.11</span> Bar plot<a href="2.5-ggplot.html#bar-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Sütun grafiği (bar plot): örnek olarak notları derslere ve cinsiyete göre gruplayıp özet istatistiklerini hesaplayalım. Daha sonra grup ortalamalarını bar plot haline getirelim:</li>
+</ul>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="2.5-ggplot.html#cb558-1" tabindex="-1"></a>not_ort2 <span class="ot">&lt;-</span> not_verileri <span class="sc">|&gt;</span> </span>
+<span id="cb558-2"><a href="2.5-ggplot.html#cb558-2" tabindex="-1"></a>  <span class="fu">group_by</span>(ders, cinsiyet) <span class="sc">|&gt;</span> </span>
+<span id="cb558-3"><a href="2.5-ggplot.html#cb558-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">ortalama =</span> <span class="fu">mean</span>(not), </span>
+<span id="cb558-4"><a href="2.5-ggplot.html#cb558-4" tabindex="-1"></a>            <span class="at">medyan =</span> <span class="fu">median</span>(not), </span>
+<span id="cb558-5"><a href="2.5-ggplot.html#cb558-5" tabindex="-1"></a>            <span class="at">p25 =</span> <span class="fu">quantile</span>(not, <span class="fl">0.25</span>), </span>
+<span id="cb558-6"><a href="2.5-ggplot.html#cb558-6" tabindex="-1"></a>            <span class="at">p75 =</span> <span class="fu">quantile</span>(not, <span class="fl">0.75</span>)</span>
+<span id="cb558-7"><a href="2.5-ggplot.html#cb558-7" tabindex="-1"></a>            )</span>
+<span id="cb558-8"><a href="2.5-ggplot.html#cb558-8" tabindex="-1"></a>not_ort2</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+## # Groups:   ders [3]
+##   ders             cinsiyet ortalama medyan   p25   p75
+##   &lt;fct&gt;            &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ekonometri-1     Erkek        51.1     50    44  58  
+## 2 Ekonometri-1     Kadın        49.6     48    44  55  
+## 3 Ekonometri-2     Erkek        61.1     62    50  71  
+## 4 Ekonometri-2     Kadın        60.2     59    54  71  
+## 5 Makine Öğrenmesi Erkek        69.9     71    62  78  
+## 6 Makine Öğrenmesi Kadın        68.7     68    61  76.2</code></pre>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="2.5-ggplot.html#cb560-1" tabindex="-1"></a>not_ort2 <span class="sc">|&gt;</span> </span>
+<span id="cb560-2"><a href="2.5-ggplot.html#cb560-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ders, <span class="at">y =</span> ortalama, <span class="at">fill =</span> cinsiyet)) <span class="sc">+</span> </span>
+<span id="cb560-3"><a href="2.5-ggplot.html#cb560-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,           <span class="co"># istatistik hesaplama </span></span>
+<span id="cb560-4"><a href="2.5-ggplot.html#cb560-4" tabindex="-1"></a>           <span class="at">position =</span> <span class="fu">position_dodge</span>()  <span class="co"># sütunları yan yana göster</span></span>
+<span id="cb560-5"><a href="2.5-ggplot.html#cb560-5" tabindex="-1"></a>           )</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-280-1.png" width="672" /></p>
+<ul>
+<li>Örnek: <code>gapminder</code> veri setinde her kıtadaki ülke sayısını bar plot olarak göster:</li>
+</ul>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="2.5-ggplot.html#cb561-1" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span> <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span> </span>
+<span id="cb561-2"><a href="2.5-ggplot.html#cb561-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb561-3"><a href="2.5-ggplot.html#cb561-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> continent, <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb561-4"><a href="2.5-ggplot.html#cb561-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, </span>
+<span id="cb561-5"><a href="2.5-ggplot.html#cb561-5" tabindex="-1"></a>           <span class="at">position =</span> <span class="fu">position_dodge</span>())</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
+<ul>
+<li>Her grup için ortalama çevresinde %95 güven aralığını çizmek istersek <code>geom_pointrange()</code> ya da <code>geom_errorbar()</code> fonksiyonlarını kullanabiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="2.5-ggplot.html#cb562-1" tabindex="-1"></a>not_ort <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(ders,     <span class="co"># grup </span></span>
+<span id="cb562-2"><a href="2.5-ggplot.html#cb562-2" tabindex="-1"></a>                       ortalama, <span class="co"># istatistik </span></span>
+<span id="cb562-3"><a href="2.5-ggplot.html#cb562-3" tabindex="-1"></a>                       <span class="at">ymin =</span> ortalama<span class="fl">-1.96</span><span class="sc">*</span>se_ort, <span class="co"># alt sınır</span></span>
+<span id="cb562-4"><a href="2.5-ggplot.html#cb562-4" tabindex="-1"></a>                       <span class="at">ymax =</span> ortalama<span class="fl">+1.96</span><span class="sc">*</span>se_ort  <span class="co"># üst sınır</span></span>
+<span id="cb562-5"><a href="2.5-ggplot.html#cb562-5" tabindex="-1"></a>                       )</span>
+<span id="cb562-6"><a href="2.5-ggplot.html#cb562-6" tabindex="-1"></a>                   ) <span class="sc">+</span> </span>
+<span id="cb562-7"><a href="2.5-ggplot.html#cb562-7" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-282-1.png" width="672" /></p>
+<ul>
+<li><code>stat_summary()</code> fonksiyonu ile medyan, minimum ve maksimum değerlerin gösterilmesi:</li>
+</ul>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="2.5-ggplot.html#cb563-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> not_verileri) <span class="sc">+</span> </span>
+<span id="cb563-2"><a href="2.5-ggplot.html#cb563-2" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb563-3"><a href="2.5-ggplot.html#cb563-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ders, <span class="at">y =</span> not),</span>
+<span id="cb563-4"><a href="2.5-ggplot.html#cb563-4" tabindex="-1"></a>    <span class="at">fun.min =</span> min,</span>
+<span id="cb563-5"><a href="2.5-ggplot.html#cb563-5" tabindex="-1"></a>    <span class="at">fun.max =</span> max,</span>
+<span id="cb563-6"><a href="2.5-ggplot.html#cb563-6" tabindex="-1"></a>    <span class="at">fun =</span> median</span>
+<span id="cb563-7"><a href="2.5-ggplot.html#cb563-7" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-283-1.png" width="672" /></p>
+</div>
+<div id="çizgi-ve-nokta-grafiği" class="section level3 hasAnchor" number="2.5.12">
+<h3><span class="header-section-number">2.5.12</span> Çizgi ve Nokta grafiği<a href="2.5-ggplot.html#çizgi-ve-nokta-grafiği" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Örnek: Türkiye’nin kişi başına GDP değerlerinin zaman serisi grafiğini çiz.</li>
+</ul>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="2.5-ggplot.html#cb564-1" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb564-2"><a href="2.5-ggplot.html#cb564-2" tabindex="-1"></a>turkey <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">&quot;Turkey&quot;</span>)</span>
+<span id="cb564-3"><a href="2.5-ggplot.html#cb564-3" tabindex="-1"></a><span class="fu">ggplot</span>(turkey, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> gdpPercap)) <span class="sc">+</span></span>
+<span id="cb564-4"><a href="2.5-ggplot.html#cb564-4" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb564-5"><a href="2.5-ggplot.html#cb564-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb564-6"><a href="2.5-ggplot.html#cb564-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb564-7"><a href="2.5-ggplot.html#cb564-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;GDP per capita&quot;</span>) <span class="sc">+</span></span>
+<span id="cb564-8"><a href="2.5-ggplot.html#cb564-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Turkey&quot;</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-284-1.png" width="672" /></p>
+<ul>
+<li>Örnek: Düşük gelirli Avrupa ülkelerinde yaşam beklentisinin zaman serisi grafiğini çiz. Düşük gelir durumu: 2007 yılında gdpPercap&lt;10000 ise düşük gelirli ülke; değilse yüksek gelirli ülke.</li>
+</ul>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="2.5-ggplot.html#cb565-1" tabindex="-1"></a><span class="co"># verileri oluştur</span></span>
+<span id="cb565-2"><a href="2.5-ggplot.html#cb565-2" tabindex="-1"></a>europe <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb565-3"><a href="2.5-ggplot.html#cb565-3" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">&quot;Europe&quot;</span>) </span>
+<span id="cb565-4"><a href="2.5-ggplot.html#cb565-4" tabindex="-1"></a>clist <span class="ot">&lt;-</span> <span class="fu">filter</span>(europe, gdpPercap<span class="sc">&lt;</span><span class="dv">10000</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2007</span>)</span>
+<span id="cb565-5"><a href="2.5-ggplot.html#cb565-5" tabindex="-1"></a>lowincome_europe <span class="ot">&lt;-</span> <span class="fu">filter</span>(europe, country <span class="sc">%in%</span> clist<span class="sc">$</span>country)</span>
+<span id="cb565-6"><a href="2.5-ggplot.html#cb565-6" tabindex="-1"></a><span class="co"># grafiği çiz</span></span>
+<span id="cb565-7"><a href="2.5-ggplot.html#cb565-7" tabindex="-1"></a><span class="fu">ggplot</span>(lowincome_europe, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> lifeExp, <span class="at">color =</span> country)) <span class="sc">+</span></span>
+<span id="cb565-8"><a href="2.5-ggplot.html#cb565-8" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-285-1.png" width="672" /></p>
+<ul>
+<li>Örnek: Avrupa’da 2007 yılındaki yaşam beklentisi küçükten büyüğe sıralayıp nokta grafiğini çiz.</li>
+</ul>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="2.5-ggplot.html#cb566-1" tabindex="-1"></a><span class="co"># önce verileri oluştur</span></span>
+<span id="cb566-2"><a href="2.5-ggplot.html#cb566-2" tabindex="-1"></a>europe2007 <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb566-3"><a href="2.5-ggplot.html#cb566-3" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">&quot;Europe&quot;</span>) </span>
+<span id="cb566-4"><a href="2.5-ggplot.html#cb566-4" tabindex="-1"></a><span class="co"># grafiği çiz</span></span>
+<span id="cb566-5"><a href="2.5-ggplot.html#cb566-5" tabindex="-1"></a><span class="fu">ggplot</span>(europe2007, </span>
+<span id="cb566-6"><a href="2.5-ggplot.html#cb566-6" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> lifeExp, </span>
+<span id="cb566-7"><a href="2.5-ggplot.html#cb566-7" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">fct_reorder</span>(country, lifeExp) <span class="co"># ülkeleri lifeEXp&#39;e göre sıraya diz</span></span>
+<span id="cb566-8"><a href="2.5-ggplot.html#cb566-8" tabindex="-1"></a>           )) <span class="sc">+</span></span>
+<span id="cb566-9"><a href="2.5-ggplot.html#cb566-9" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb566-10"><a href="2.5-ggplot.html#cb566-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb566-11"><a href="2.5-ggplot.html#cb566-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;2007 yılında Avrupa ülkelerinde yaşam beklentisi&quot;</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-286-1.png" width="672" /></p>
+<p>Alıştırma: yukarıdaki grafiğe 1952 yılının bilgisini ekleyerek bu dönemde yaşam beklentisinin nasıl değiştiğini görmek istiyorsunuz. Bu bilgiyi grafiğe nasıl eklersiniz?</p>
+<ul>
+<li>Örnek: Aşağıdaki veri setinin nokta+çizgi grafiğini çizelim.</li>
+</ul>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="2.5-ggplot.html#cb567-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">`</span><span class="at">yıl</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2020</span>, <span class="dv">2010</span>, <span class="dv">2020</span>)), </span>
+<span id="cb567-2"><a href="2.5-ggplot.html#cb567-2" tabindex="-1"></a>             <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">160</span>), </span>
+<span id="cb567-3"><a href="2.5-ggplot.html#cb567-3" tabindex="-1"></a>             <span class="at">tip =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>)))</span>
+<span id="cb567-4"><a href="2.5-ggplot.html#cb567-4" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   yıl       x tip  
+##   &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt;
+## 1 2010    100 A    
+## 2 2020    150 A    
+## 3 2010    200 B    
+## 4 2020    160 B</code></pre>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="2.5-ggplot.html#cb569-1" tabindex="-1"></a>df  <span class="sc">|&gt;</span></span>
+<span id="cb569-2"><a href="2.5-ggplot.html#cb569-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="st">`</span><span class="at">yıl</span><span class="st">`</span>,x, <span class="at">color =</span> tip, <span class="at">group=</span>tip)) <span class="sc">+</span> </span>
+<span id="cb569-3"><a href="2.5-ggplot.html#cb569-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb569-4"><a href="2.5-ggplot.html#cb569-4" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-287-1.png" width="672" /></p>
+</div>
+<div id="temalar" class="section level3 hasAnchor" number="2.5.13">
+<h3><span class="header-section-number">2.5.13</span> Temalar<a href="2.5-ggplot.html#temalar" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p><code>ggplot2::theme()</code> fonksiyonu ile grafiğimizin verilerle ilgili olmayan arkaplan, grid çizgileri, çerçeve çizgileri gibi özelliklerini değiştirebiliriz.</p></li>
+<li><p>Önceden tanımlanmış <code>theme_bw()</code>, <code>theme_classic()</code> gibi temaları kullanabiliriz</p></li>
+<li><p>Örnek olarak yukarıda oluşturduğumuz <code>lowincome_europe</code> grafiğini siyah-beyaz baskıya
+uygun hale getirelim:</p></li>
+</ul>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="2.5-ggplot.html#cb570-1" tabindex="-1"></a><span class="fu">ggplot</span>(lowincome_europe, </span>
+<span id="cb570-2"><a href="2.5-ggplot.html#cb570-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, </span>
+<span id="cb570-3"><a href="2.5-ggplot.html#cb570-3" tabindex="-1"></a>           <span class="at">y =</span> lifeExp, </span>
+<span id="cb570-4"><a href="2.5-ggplot.html#cb570-4" tabindex="-1"></a>           <span class="at">linetype =</span> country <span class="co"># çizgi tipini ülkelere göre belirle</span></span>
+<span id="cb570-5"><a href="2.5-ggplot.html#cb570-5" tabindex="-1"></a>           )) <span class="sc">+</span></span>
+<span id="cb570-6"><a href="2.5-ggplot.html#cb570-6" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb570-7"><a href="2.5-ggplot.html#cb570-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>   <span class="co"># siyah-beyaz temayı kullan</span></span>
+<span id="cb570-8"><a href="2.5-ggplot.html#cb570-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1952</span>, <span class="dv">2007</span>, <span class="dv">5</span>)) <span class="sc">+</span> <span class="co"># x etiketlerini belirle</span></span>
+<span id="cb570-9"><a href="2.5-ggplot.html#cb570-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co"># yönünü dikey yap</span></span>
+<span id="cb570-10"><a href="2.5-ggplot.html#cb570-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-288-1.png" width="672" /></p>
+</div>
+<div id="interaktif-grafik" class="section level3 hasAnchor" number="2.5.14">
+<h3><span class="header-section-number">2.5.14</span> Interaktif grafik<a href="2.5-ggplot.html#interaktif-grafik" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>İnteraktif serpilme çizimi için kullanabileceğimiz bir kütüphane <code>{plotly}</code>’dir.
+Detaylar için bkz <a href="https://plotly.com/r/getting-started/">https://plotly.com/r/getting-started/</a>.</p>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="2.5-ggplot.html#cb571-1" tabindex="-1"></a><span class="fu">library</span>(plotly)    <span class="co"># interaktif grafik için gerekli </span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="2.5-ggplot.html#cb576-1" tabindex="-1"></a><span class="fu">library</span>(gapminder)  <span class="co"># veri seti</span></span>
+<span id="cb576-2"><a href="2.5-ggplot.html#cb576-2" tabindex="-1"></a> </span>
+<span id="cb576-3"><a href="2.5-ggplot.html#cb576-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb576-4"><a href="2.5-ggplot.html#cb576-4" tabindex="-1"></a>  <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb576-5"><a href="2.5-ggplot.html#cb576-5" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(gdpPercap, lifeExp, <span class="at">size =</span> pop, <span class="at">color=</span>continent)) <span class="sc">+</span></span>
+<span id="cb576-6"><a href="2.5-ggplot.html#cb576-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb576-7"><a href="2.5-ggplot.html#cb576-7" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb576-8"><a href="2.5-ggplot.html#cb576-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb576-9"><a href="2.5-ggplot.html#cb576-9" tabindex="-1"></a> </span>
+<span id="cb576-10"><a href="2.5-ggplot.html#cb576-10" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-066b5fb4d86b339a84fd" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-066b5fb4d86b339a84fd">{"x":{"data":[{"x":[3.79402544509666,3.68099065562682,3.1587498285201,4.09933015629768,3.08530235219712,2.63353984732021,3.31007599301138,2.848814873635,3.23148583131337,2.99394204506796,2.44334414004637,3.56021253312911,3.18885823537455,3.31858116595608,3.74672610693845,4.08472243900371,2.80710831941093,2.83935583435696,4.12078722664154,2.87665060639063,3.1230701584329,2.9743524119827,2.76285235400399,3.16531831968284,3.19571467604724,2.61753222691212,4.08125724466051,3.01902074595738,2.88044194586588,3.0181100381011,3.25603221652431,4.03969130967891,3.58208328429303,2.91576148434958,3.68224081186337,2.79216530171644,3.30405457229069,3.88480230343241,2.93605531183875,3.20369500466057,3.23362351372365,2.93577962517273,2.96667714274902,3.96706370233863,3.41537321502711,3.65451158423759,3.04433674769752,2.94594592049266,3.85082524675123,3.02382022004224,3.10421784482941,2.67182915731664],"y":[72.301,42.731,56.728,50.728,52.295,49.58,50.43,44.741,50.651,65.152,46.462,55.322,48.328,54.791,71.338,51.579,58.04,52.947,56.735,59.448,60.022,56.007,46.388,54.11,42.592,45.678,73.952,59.443,48.303,54.467,64.164,72.801,71.164,42.082,52.906,56.867,46.859,76.442,46.242,65.528,63.062,42.568,48.159,49.339,58.556,39.613,52.517,58.42,73.923,51.542,42.384,43.487],"text":["gdpPercap:  6223.3675<br />lifeExp: 72.301<br />pop:   33333216<br />continent: Africa","gdpPercap:  4797.2313<br />lifeExp: 42.731<br />pop:   12420476<br />continent: Africa","gdpPercap:  1441.2849<br />lifeExp: 56.728<br />pop:    8078314<br />continent: Africa","gdpPercap: 12569.8518<br />lifeExp: 50.728<br />pop:    1639131<br />continent: Africa","gdpPercap:  1217.0330<br />lifeExp: 52.295<br />pop:   14326203<br />continent: Africa","gdpPercap:   430.0707<br />lifeExp: 49.580<br />pop:    8390505<br />continent: Africa","gdpPercap:  2042.0952<br />lifeExp: 50.430<br />pop:   17696293<br />continent: Africa","gdpPercap:   706.0165<br />lifeExp: 44.741<br />pop:    4369038<br />continent: Africa","gdpPercap:  1704.0637<br />lifeExp: 50.651<br />pop:   10238807<br />continent: Africa","gdpPercap:   986.1479<br />lifeExp: 65.152<br />pop:     710960<br />continent: Africa","gdpPercap:   277.5519<br />lifeExp: 46.462<br />pop:   64606759<br />continent: Africa","gdpPercap:  3632.5578<br />lifeExp: 55.322<br />pop:    3800610<br />continent: Africa","gdpPercap:  1544.7501<br />lifeExp: 48.328<br />pop:   18013409<br />continent: Africa","gdpPercap:  2082.4816<br />lifeExp: 54.791<br />pop:     496374<br />continent: Africa","gdpPercap:  5581.1810<br />lifeExp: 71.338<br />pop:   80264543<br />continent: Africa","gdpPercap: 12154.0897<br />lifeExp: 51.579<br />pop:     551201<br />continent: Africa","gdpPercap:   641.3695<br />lifeExp: 58.040<br />pop:    4906585<br />continent: Africa","gdpPercap:   690.8056<br />lifeExp: 52.947<br />pop:   76511887<br />continent: Africa","gdpPercap: 13206.4845<br />lifeExp: 56.735<br />pop:    1454867<br />continent: Africa","gdpPercap:   752.7497<br />lifeExp: 59.448<br />pop:    1688359<br />continent: Africa","gdpPercap:  1327.6089<br />lifeExp: 60.022<br />pop:   22873338<br />continent: Africa","gdpPercap:   942.6542<br />lifeExp: 56.007<br />pop:    9947814<br />continent: Africa","gdpPercap:   579.2317<br />lifeExp: 46.388<br />pop:    1472041<br />continent: Africa","gdpPercap:  1463.2493<br />lifeExp: 54.110<br />pop:   35610177<br />continent: Africa","gdpPercap:  1569.3314<br />lifeExp: 42.592<br />pop:    2012649<br />continent: Africa","gdpPercap:   414.5073<br />lifeExp: 45.678<br />pop:    3193942<br />continent: Africa","gdpPercap: 12057.4993<br />lifeExp: 73.952<br />pop:    6036914<br />continent: Africa","gdpPercap:  1044.7701<br />lifeExp: 59.443<br />pop:   19167654<br />continent: Africa","gdpPercap:   759.3499<br />lifeExp: 48.303<br />pop:   13327079<br />continent: Africa","gdpPercap:  1042.5816<br />lifeExp: 54.467<br />pop:   12031795<br />continent: Africa","gdpPercap:  1803.1515<br />lifeExp: 64.164<br />pop:    3270065<br />continent: Africa","gdpPercap: 10956.9911<br />lifeExp: 72.801<br />pop:    1250882<br />continent: Africa","gdpPercap:  3820.1752<br />lifeExp: 71.164<br />pop:   33757175<br />continent: Africa","gdpPercap:   823.6856<br />lifeExp: 42.082<br />pop:   19951656<br />continent: Africa","gdpPercap:  4811.0604<br />lifeExp: 52.906<br />pop:    2055080<br />continent: Africa","gdpPercap:   619.6769<br />lifeExp: 56.867<br />pop:   12894865<br />continent: Africa","gdpPercap:  2013.9773<br />lifeExp: 46.859<br />pop:  135031164<br />continent: Africa","gdpPercap:  7670.1226<br />lifeExp: 76.442<br />pop:     798094<br />continent: Africa","gdpPercap:   863.0885<br />lifeExp: 46.242<br />pop:    8860588<br />continent: Africa","gdpPercap:  1598.4351<br />lifeExp: 65.528<br />pop:     199579<br />continent: Africa","gdpPercap:  1712.4721<br />lifeExp: 63.062<br />pop:   12267493<br />continent: Africa","gdpPercap:   862.5408<br />lifeExp: 42.568<br />pop:    6144562<br />continent: Africa","gdpPercap:   926.1411<br />lifeExp: 48.159<br />pop:    9118773<br />continent: Africa","gdpPercap:  9269.6578<br />lifeExp: 49.339<br />pop:   43997828<br />continent: Africa","gdpPercap:  2602.3950<br />lifeExp: 58.556<br />pop:   42292929<br />continent: Africa","gdpPercap:  4513.4806<br />lifeExp: 39.613<br />pop:    1133066<br />continent: Africa","gdpPercap:  1107.4822<br />lifeExp: 52.517<br />pop:   38139640<br />continent: Africa","gdpPercap:   882.9699<br />lifeExp: 58.420<br />pop:    5701579<br />continent: Africa","gdpPercap:  7092.9230<br />lifeExp: 73.923<br />pop:   10276158<br />continent: Africa","gdpPercap:  1056.3801<br />lifeExp: 51.542<br />pop:   29170398<br />continent: Africa","gdpPercap:  1271.2116<br />lifeExp: 42.384<br />pop:   11746035<br />continent: Africa","gdpPercap:   469.7093<br />lifeExp: 43.487<br />pop:   12311143<br />continent: Africa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":[6.77527173254923,5.598900411863,5.24035330707835,4.40395768399738,5.7356199392208,5.26901439581437,5.9564773609874,4.8422259478741,5.42852631166044,4.15169850163956,7.9562662998771,4.76713328307226,5.97611663817011,4.06305719383881,8.43636871732964,4.08813627550005,4.90865391372741,8.32592567062337,4.36262596871136,4.41454467512776,6.25770233060098,5.40445197132612,4.3666011970112,6.87649613589243,4.480300710223,4.68010775450673,5.03693920169262,6.0461636385333,5.66517797748393,5.5697344023561,4.69148323166173,4.31315004312066,6.79437672410524,6.09253246174489,4.48845333089755,5.6338762963756,9.82271393327331,4.18215900239245,5.3111594952501,3.77952755905512,5.58747695964146,5.04848038390226,5.33382085391144,7.22380829377829,7.1561065468969,4.282361176813,6.98520027409899,5.00028803920838,5.43159101796171,6.580769078434,5.54798462578679,5.59074371141117],"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[4.10650977201769,3.58230625931688,3.95740617340857,4.56013669242519,4.11963981438709,3.84550611104731,3.98430499758718,3.95173097080165,3.77998406330737,3.83716291957619,3.75802981175127,3.71483669984604,3.0797733480287,3.55002410662006,3.86456330372846,4.07836889751077,3.43922544380543,3.99163295350919,3.6204315729333,3.86975405900188,4.28620284789525,4.25547776303394,4.632979883279,4.02577526370184,4.05750656798335],"y":[75.32,65.554,72.39,80.653,78.553,72.889,78.782,78.273,72.235,74.994,71.878,70.259,60.916,70.198,72.567,76.195,72.899,75.537,71.752,71.421,78.746,69.819,78.242,76.384,73.747],"text":["gdpPercap: 12779.3796<br />lifeExp: 75.320<br />pop:   40301927<br />continent: Americas","gdpPercap:  3822.1371<br />lifeExp: 65.554<br />pop:    9119152<br />continent: Americas","gdpPercap:  9065.8008<br />lifeExp: 72.390<br />pop:  190010647<br />continent: Americas","gdpPercap: 36319.2350<br />lifeExp: 80.653<br />pop:   33390141<br />continent: Americas","gdpPercap: 13171.6388<br />lifeExp: 78.553<br />pop:   16284741<br />continent: Americas","gdpPercap:  7006.5804<br />lifeExp: 72.889<br />pop:   44227550<br />continent: Americas","gdpPercap:  9645.0614<br />lifeExp: 78.782<br />pop:    4133884<br />continent: Americas","gdpPercap:  8948.1029<br />lifeExp: 78.273<br />pop:   11416987<br />continent: Americas","gdpPercap:  6025.3748<br />lifeExp: 72.235<br />pop:    9319622<br />continent: Americas","gdpPercap:  6873.2623<br />lifeExp: 74.994<br />pop:   13755680<br />continent: Americas","gdpPercap:  5728.3535<br />lifeExp: 71.878<br />pop:    6939688<br />continent: Americas","gdpPercap:  5186.0500<br />lifeExp: 70.259<br />pop:   12572928<br />continent: Americas","gdpPercap:  1201.6372<br />lifeExp: 60.916<br />pop:    8502814<br />continent: Americas","gdpPercap:  3548.3308<br />lifeExp: 70.198<br />pop:    7483763<br />continent: Americas","gdpPercap:  7320.8803<br />lifeExp: 72.567<br />pop:    2780132<br />continent: Americas","gdpPercap: 11977.5750<br />lifeExp: 76.195<br />pop:  108700891<br />continent: Americas","gdpPercap:  2749.3210<br />lifeExp: 72.899<br />pop:    5675356<br />continent: Americas","gdpPercap:  9809.1856<br />lifeExp: 75.537<br />pop:    3242173<br />continent: Americas","gdpPercap:  4172.8385<br />lifeExp: 71.752<br />pop:    6667147<br />continent: Americas","gdpPercap:  7408.9056<br />lifeExp: 71.421<br />pop:   28674757<br />continent: Americas","gdpPercap: 19328.7090<br />lifeExp: 78.746<br />pop:    3942491<br />continent: Americas","gdpPercap: 18008.5092<br />lifeExp: 69.819<br />pop:    1056608<br />continent: Americas","gdpPercap: 42951.6531<br />lifeExp: 78.242<br />pop:  301139947<br />continent: Americas","gdpPercap: 10611.4630<br />lifeExp: 76.384<br />pop:    3447496<br />continent: Americas","gdpPercap: 11415.8057<br />lifeExp: 73.747<br />pop:   26084662<br />continent: Americas"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":1,"size":[7.07528369289545,5.33385387656466,10.9497220287062,6.77784403625228,5.86681801798997,7.23282911414924,4.81182340745332,5.52260397354913,5.35122378867242,5.69571313317988,5.1306777542305,5.61021330347734,5.27919109958551,5.18415329737334,4.6155666029278,9.20063061292984,4.99737544049698,4.68733172329479,5.10307852744492,6.55670348636785,4.78640121163658,4.26132881438327,12.807919245623,4.71746231550028,6.42738713411734],"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(163,165,0,1)"}},"hoveron":"points","name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2.98881764549129,4.47415867018597,3.143406361057,3.23395473727517,3.6954041667466,4.59906367268864,3.38955773121288,3.54908318988216,4.06467188236304,3.65041068311967,4.40693643553008,4.50045697098462,3.65508665949928,3.20223362703668,4.3682522837381,4.67492531406996,4.01957563822304,4.09522710701315,3.49076900592376,2.97497199429807,3.03796794384465,4.34862010618943,3.41596567540354,3.50385616482709,4.33555481758265,4.67341887079622,3.59880094359832,3.62164856315343,4.45815837772449,3.87264545733796,3.38767031916547,3.4807755960326,3.35808147396803],"y":[43.828,75.635,64.062,59.723,72.961,82.208,64.698,70.65,70.964,59.545,80.745,82.603,72.535,67.297,78.623,77.588,71.993,74.241,66.803,62.069,63.785,75.64,65.483,71.688,72.777,79.972,72.396,74.143,78.4,70.616,74.249,73.422,62.698],"text":["gdpPercap:   974.5803<br />lifeExp: 43.828<br />pop:   31889923<br />continent: Asia","gdpPercap: 29796.0483<br />lifeExp: 75.635<br />pop:     708573<br />continent: Asia","gdpPercap:  1391.2538<br />lifeExp: 64.062<br />pop:  150448339<br />continent: Asia","gdpPercap:  1713.7787<br />lifeExp: 59.723<br />pop:   14131858<br />continent: Asia","gdpPercap:  4959.1149<br />lifeExp: 72.961<br />pop: 1318683096<br />continent: Asia","gdpPercap: 39724.9787<br />lifeExp: 82.208<br />pop:    6980412<br />continent: Asia","gdpPercap:  2452.2104<br />lifeExp: 64.698<br />pop: 1110396331<br />continent: Asia","gdpPercap:  3540.6516<br />lifeExp: 70.650<br />pop:  223547000<br />continent: Asia","gdpPercap: 11605.7145<br />lifeExp: 70.964<br />pop:   69453570<br />continent: Asia","gdpPercap:  4471.0619<br />lifeExp: 59.545<br />pop:   27499638<br />continent: Asia","gdpPercap: 25523.2771<br />lifeExp: 80.745<br />pop:    6426679<br />continent: Asia","gdpPercap: 31656.0681<br />lifeExp: 82.603<br />pop:  127467972<br />continent: Asia","gdpPercap:  4519.4612<br />lifeExp: 72.535<br />pop:    6053193<br />continent: Asia","gdpPercap:  1593.0655<br />lifeExp: 67.297<br />pop:   23301725<br />continent: Asia","gdpPercap: 23348.1397<br />lifeExp: 78.623<br />pop:   49044790<br />continent: Asia","gdpPercap: 47306.9898<br />lifeExp: 77.588<br />pop:    2505559<br />continent: Asia","gdpPercap: 10461.0587<br />lifeExp: 71.993<br />pop:    3921278<br />continent: Asia","gdpPercap: 12451.6558<br />lifeExp: 74.241<br />pop:   24821286<br />continent: Asia","gdpPercap:  3095.7723<br />lifeExp: 66.803<br />pop:    2874127<br />continent: Asia","gdpPercap:   944.0000<br />lifeExp: 62.069<br />pop:   47761980<br />continent: Asia","gdpPercap:  1091.3598<br />lifeExp: 63.785<br />pop:   28901790<br />continent: Asia","gdpPercap: 22316.1929<br />lifeExp: 75.640<br />pop:    3204897<br />continent: Asia","gdpPercap:  2605.9476<br />lifeExp: 65.483<br />pop:  169270617<br />continent: Asia","gdpPercap:  3190.4810<br />lifeExp: 71.688<br />pop:   91077287<br />continent: Asia","gdpPercap: 21654.8319<br />lifeExp: 72.777<br />pop:   27601038<br />continent: Asia","gdpPercap: 47143.1796<br />lifeExp: 79.972<br />pop:    4553009<br />continent: Asia","gdpPercap:  3970.0954<br />lifeExp: 72.396<br />pop:   20378239<br />continent: Asia","gdpPercap:  4184.5481<br />lifeExp: 74.143<br />pop:   19314747<br />continent: Asia","gdpPercap: 28718.2768<br />lifeExp: 78.400<br />pop:   23174294<br />continent: Asia","gdpPercap:  7458.3963<br />lifeExp: 70.616<br />pop:   65068149<br />continent: Asia","gdpPercap:  2441.5764<br />lifeExp: 74.249<br />pop:   85262356<br />continent: Asia","gdpPercap:  3025.3498<br />lifeExp: 73.422<br />pop:    4018332<br />continent: Asia","gdpPercap:  2280.7699<br />lifeExp: 62.698<br />pop:   22211743<br />continent: Asia"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":1,"size":[6.70929835135528,4.1508288847182,10.1588656081799,5.72211801075065,22.6771653543307,5.13475345805415,21.1203680953071,11.5573968303758,8.11057131553749,6.49879524068774,5.07824026167466,9.65077587363648,5.03869129857133,6.28100350114513,7.4168446506104,4.56983839481089,4.78354392302204,6.36196165910748,4.63065651672448,7.36876387589759,6.56775273775666,4.68175365529605,10.5466615830696,8.74086596862592,6.50384061768477,4.86541785279541,6.11737587407916,6.05493528307165,6.27409491409121,7.97119993399054,8.57951329437571,4.79655097614072,6.22127948111281],"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,125,1)"}},"hoveron":"points","name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[3.77356920876217,4.55782580062218,4.52753459151331,3.87194045947979,4.02860349094832,4.16492428251317,4.35856884462783,4.54750911081685,4.52123074598147,4.48387269225076,4.50745611553652,4.43993889119905,4.25548825822109,4.55847803563392,4.60933819969144,4.45590597950278,3.96632461957789,4.56582342810493,4.69335042800253,4.18723649435127,4.31195820191596,4.03376444688129,3.990628940935,4.27133768016358,4.41108505321789,4.4597100052953,4.52968372605252,4.57410560181062,3.92728187211911,4.52118074293136],"y":[76.423,79.829,79.441,74.852,73.005,75.748,76.486,78.332,79.313,80.657,79.406,79.483,73.338,81.757,78.885,80.546,74.543,79.762,80.196,75.563,78.098,72.476,74.002,74.663,77.926,80.941,80.884,81.701,71.777,79.425],"text":["gdpPercap:  5937.0295<br />lifeExp: 76.423<br />pop:    3600523<br />continent: Europe","gdpPercap: 36126.4927<br />lifeExp: 79.829<br />pop:    8199783<br />continent: Europe","gdpPercap: 33692.6051<br />lifeExp: 79.441<br />pop:   10392226<br />continent: Europe","gdpPercap:  7446.2988<br />lifeExp: 74.852<br />pop:    4552198<br />continent: Europe","gdpPercap: 10680.7928<br />lifeExp: 73.005<br />pop:    7322858<br />continent: Europe","gdpPercap: 14619.2227<br />lifeExp: 75.748<br />pop:    4493312<br />continent: Europe","gdpPercap: 22833.3085<br />lifeExp: 76.486<br />pop:   10228744<br />continent: Europe","gdpPercap: 35278.4187<br />lifeExp: 78.332<br />pop:    5468120<br />continent: Europe","gdpPercap: 33207.0844<br />lifeExp: 79.313<br />pop:    5238460<br />continent: Europe","gdpPercap: 30470.0167<br />lifeExp: 80.657<br />pop:   61083916<br />continent: Europe","gdpPercap: 32170.3744<br />lifeExp: 79.406<br />pop:   82400996<br />continent: Europe","gdpPercap: 27538.4119<br />lifeExp: 79.483<br />pop:   10706290<br />continent: Europe","gdpPercap: 18008.9444<br />lifeExp: 73.338<br />pop:    9956108<br />continent: Europe","gdpPercap: 36180.7892<br />lifeExp: 81.757<br />pop:     301931<br />continent: Europe","gdpPercap: 40675.9964<br />lifeExp: 78.885<br />pop:    4109086<br />continent: Europe","gdpPercap: 28569.7197<br />lifeExp: 80.546<br />pop:   58147733<br />continent: Europe","gdpPercap:  9253.8961<br />lifeExp: 74.543<br />pop:     684736<br />continent: Europe","gdpPercap: 36797.9333<br />lifeExp: 79.762<br />pop:   16570613<br />continent: Europe","gdpPercap: 49357.1902<br />lifeExp: 80.196<br />pop:    4627926<br />continent: Europe","gdpPercap: 15389.9247<br />lifeExp: 75.563<br />pop:   38518241<br />continent: Europe","gdpPercap: 20509.6478<br />lifeExp: 78.098<br />pop:   10642836<br />continent: Europe","gdpPercap: 10808.4756<br />lifeExp: 72.476<br />pop:   22276056<br />continent: Europe","gdpPercap:  9786.5347<br />lifeExp: 74.002<br />pop:   10150265<br />continent: Europe","gdpPercap: 18678.3144<br />lifeExp: 74.663<br />pop:    5447502<br />continent: Europe","gdpPercap: 25768.2576<br />lifeExp: 77.926<br />pop:    2009245<br />continent: Europe","gdpPercap: 28821.0637<br />lifeExp: 80.941<br />pop:   40448191<br />continent: Europe","gdpPercap: 33859.7484<br />lifeExp: 80.884<br />pop:    9031088<br />continent: Europe","gdpPercap: 37506.4191<br />lifeExp: 81.701<br />pop:    7554661<br />continent: Europe","gdpPercap:  8458.2764<br />lifeExp: 71.777<br />pop:   71158647<br />continent: Europe","gdpPercap: 33203.2613<br />lifeExp: 79.425<br />pop:   60776238<br />continent: Europe"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":1,"size":[4.73930360976545,5.2515712457991,5.44107849786917,4.86531670289218,5.16855282584858,4.85794694387522,5.42769965273683,4.97410786436283,4.94778140481952,7.84043376621969,8.49809123744673,5.46648280699294,5.40514308400654,3.9460291298415,4.8085649745634,7.74130405516196,4.14203032052794,5.88528441607637,4.87472139425141,7.00115515259145,5.46138101214586,6.22484391610449,5.42123845033248,4.97176812735327,4.47964255788798,7.0812884751231,5.32616181946541,5.19097245574501,8.16356363915206,7.83015990857845],"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,176,246,1)"}},"hoveron":"points","name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[4.53700472145269,4.40114211228811],"y":[81.235,80.204],"text":["gdpPercap: 34435.3674<br />lifeExp: 81.235<br />pop:   20434176<br />continent: Oceania","gdpPercap: 25185.0091<br />lifeExp: 80.204<br />pop:    4115771<br />continent: Oceania"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":1,"size":[6.12061399094626,4.80944439195868],"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(231,107,243,1)"}},"hoveron":"points","name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":37.2602739726027},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2.33084382564856,4.80585074240034],"tickmode":"array","ticktext":["300","1000","3000","10000","30000"],"tickvals":[2.47712125471966,3,3.47712125471966,4,4.47712125471966],"categoryorder":"array","categoryarray":["300","1000","3000","10000","30000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"gdpPercap","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[37.4635,84.7525],"tickmode":"array","ticktext":["40","50","60","70","80"],"tickvals":[40,50,60,70,80],"categoryorder":"array","categoryarray":["40","50","60","70","80"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"lifeExp","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"pop<br />continent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3d58752a3fa5":{"x":{},"y":{},"size":{},"colour":{},"type":"scatter"}},"cur_data":"3d58752a3fa5","visdat":{"3d58752a3fa5":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>İnteraktif kutu çizimleri:</p>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="2.5-ggplot.html#cb577-1" tabindex="-1"></a>kutu_cizimi <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(gapminder, <span class="at">x =</span> <span class="sc">~</span>lifeExp, <span class="at">color =</span> <span class="sc">~</span>continent, <span class="at">type =</span> <span class="st">&quot;box&quot;</span>)</span>
+<span id="cb577-2"><a href="2.5-ggplot.html#cb577-2" tabindex="-1"></a>kutu_cizimi</span></code></pre></div>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c72b6499298901164ae8" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-c72b6499298901164ae8">{"x":{"visdat":{"3d58372465aa":["function () ","plotlyVisDat"]},"cur_data":"3d58372465aa","attrs":{"3d58372465aa":{"x":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"lifeExp"},"yaxis":{"domain":[0,1],"automargin":true},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":[43.077,45.685,48.303,51.407,54.518,58.014,61.368,65.799,67.744,69.152,70.994,72.301,30.015,31.999,34,35.985,37.928,39.483,39.942,39.906,40.647,40.963,41.003,42.731,38.223,40.358,42.618,44.885,47.014,49.19,50.904,52.337,53.919,54.777,54.406,56.728,47.622,49.618,51.52,53.298,56.024,59.319,61.484,63.622,62.745,52.556,46.634,50.728,31.975,34.906,37.814,40.697,43.591,46.137,48.122,49.557,50.26,50.324,50.65,52.295,39.031,40.533,42.045,43.548,44.057,45.91,47.471,48.211,44.736,45.326,47.36,49.58,38.523,40.428,42.643,44.799,47.049,49.355,52.961,54.985,54.314,52.199,49.856,50.43,35.463,37.464,39.475,41.478,43.457,46.775,48.295,50.485,49.396,46.066,43.308,44.741,38.092,39.881,41.716,43.601,45.569,47.383,49.517,51.051,51.724,51.573,50.525,50.651,40.715,42.46,44.467,46.472,48.944,50.939,52.933,54.926,57.939,60.66,62.974,65.152,39.143,40.652,42.122,44.056,45.989,47.804,47.784,47.412,45.548,42.587,44.966,46.462,42.111,45.053,48.435,52.04,54.907,55.625,56.695,57.47,56.433,52.962,52.97,55.322,40.477,42.469,44.93,47.35,49.801,52.374,53.983,54.655,52.044,47.991,46.832,48.328,34.812,37.328,39.693,42.074,44.366,46.519,48.812,50.04,51.604,53.157,53.373,54.791,41.893,44.444,46.992,49.293,51.137,53.319,56.006,59.797,63.674,67.217,69.806,71.338,34.482,35.983,37.485,38.987,40.516,42.024,43.662,45.664,47.545,48.245,49.348,51.579,35.928,38.047,40.158,42.189,44.142,44.535,43.89,46.453,49.991,53.378,55.24,58.04,34.078,36.667,40.059,42.115,43.515,44.51,44.916,46.684,48.091,49.402,50.725,52.947,37.003,38.999,40.489,44.598,48.69,52.79,56.564,60.19,61.366,60.461,56.761,56.735,30,32.065,33.896,35.857,38.308,41.842,45.58,49.265,52.644,55.861,58.041,59.448,43.149,44.779,46.452,48.072,49.875,51.756,53.744,55.729,57.501,58.556,58.453,60.022,33.609,34.558,35.753,37.197,38.842,40.762,42.891,45.552,48.576,51.455,53.676,56.007,32.5,33.489,34.488,35.492,36.486,37.465,39.327,41.245,43.266,44.873,45.504,46.388,42.27,44.686,47.949,50.654,53.559,56.155,58.766,59.339,59.285,54.407,50.992,54.11,42.138,45.047,47.747,48.492,49.767,52.208,55.078,57.18,59.685,55.558,44.593,42.592,38.48,39.486,40.502,41.536,42.614,43.764,44.852,46.027,40.802,42.221,43.753,45.678,42.723,45.289,47.808,50.227,52.773,57.442,62.155,66.234,68.755,71.555,72.737,73.952,36.681,38.865,40.848,42.881,44.851,46.881,48.969,49.35,52.214,54.978,57.286,59.443,36.256,37.207,38.41,39.487,41.766,43.767,45.642,47.457,49.42,47.495,45.009,48.303,33.685,35.307,36.936,38.487,39.977,41.714,43.916,46.364,48.388,49.903,51.818,54.467,40.543,42.338,44.248,46.289,48.437,50.852,53.599,56.145,58.333,60.43,62.247,64.164,50.986,58.089,60.246,61.557,62.944,64.93,66.711,68.74,69.745,70.736,71.954,72.801,42.873,45.423,47.924,50.335,52.862,55.73,59.65,62.677,65.393,67.66,69.615,71.164,31.286,33.779,36.161,38.113,40.328,42.495,42.795,42.861,44.284,46.344,44.026,42.082,41.725,45.226,48.386,51.159,53.867,56.437,58.968,60.835,61.999,58.909,51.479,52.906,37.444,38.598,39.487,40.118,40.546,41.291,42.598,44.555,47.391,51.313,54.496,56.867,36.324,37.802,39.36,41.04,42.821,44.514,45.826,46.886,47.472,47.464,46.608,46.859,52.724,55.09,57.666,60.542,64.274,67.064,69.885,71.913,73.615,74.772,75.744,76.442,40,41.5,43,44.1,44.6,45,46.218,44.02,23.599,36.087,43.413,46.242,46.471,48.945,51.893,54.425,56.48,58.55,60.351,61.728,62.742,63.306,64.337,65.528,37.278,39.329,41.454,43.563,45.815,48.879,52.379,55.769,58.196,60.187,61.6,63.062,30.331,31.57,32.767,34.113,35.4,36.788,38.445,40.006,38.333,39.897,41.012,42.568,32.978,34.977,36.981,38.977,40.973,41.974,42.955,44.501,39.658,43.795,45.936,48.159,45.009,47.985,49.951,51.927,53.696,55.527,58.161,60.834,61.888,60.236,53.365,49.339,38.635,39.624,40.87,42.858,45.083,47.8,50.338,51.744,53.556,55.373,56.369,58.556,41.407,43.424,44.992,46.633,49.552,52.537,55.561,57.678,58.474,54.289,43.869,39.613,41.215,42.974,44.246,45.757,47.62,49.919,50.608,51.535,50.44,48.466,49.651,52.517,38.596,41.208,43.922,46.769,49.759,52.887,55.471,56.941,58.061,58.39,57.561,58.42,44.6,47.1,49.579,52.053,55.602,59.837,64.048,66.894,70.001,71.973,73.042,73.923,39.978,42.571,45.344,48.051,51.016,50.35,49.849,51.509,48.825,44.578,47.813,51.542,42.038,44.077,46.023,47.768,50.107,51.386,51.821,50.821,46.1,40.238,39.193,42.384,48.451,50.469,52.358,53.995,55.635,57.674,60.363,62.351,60.377,46.809,39.989,43.487],"type":"box","orientation":"h","name":"Africa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":[62.485,64.399,65.142,65.634,67.065,68.481,69.942,70.774,71.868,73.275,74.34,75.32,40.414,41.89,43.428,45.032,46.714,50.023,53.859,57.251,59.957,62.05,63.883,65.554,50.917,53.285,55.665,57.632,59.504,61.489,63.336,65.205,67.057,69.388,71.006,72.39,68.75,69.96,71.3,72.13,72.88,74.21,75.76,76.86,77.95,78.61,79.77,80.653,54.745,56.074,57.924,60.523,63.441,67.052,70.565,72.492,74.126,75.816,77.86,78.553,50.643,55.118,57.863,59.963,61.623,63.837,66.653,67.768,68.421,70.313,71.682,72.889,57.206,60.026,62.842,65.424,67.849,70.75,73.45,74.752,75.713,77.26,78.123,78.782,59.421,62.325,65.246,68.29,70.723,72.649,73.717,74.174,74.414,76.151,77.158,78.273,45.928,49.828,53.459,56.751,59.631,61.788,63.727,66.046,68.457,69.957,70.847,72.235,48.357,51.356,54.64,56.678,58.796,61.31,64.342,67.231,69.613,72.312,74.173,74.994,45.262,48.57,52.307,55.855,58.207,56.696,56.604,63.154,66.798,69.535,70.734,71.878,42.023,44.142,46.954,50.016,53.738,56.029,58.137,60.782,63.373,66.322,68.978,70.259,37.579,40.696,43.59,46.243,48.042,49.923,51.461,53.636,55.089,56.671,58.137,60.916,41.912,44.665,48.041,50.924,53.884,57.402,60.909,64.492,66.399,67.659,68.565,70.198,58.53,62.61,65.61,67.51,69,70.11,71.21,71.77,71.766,72.262,72.047,72.567,50.789,55.19,58.299,60.11,62.361,65.032,67.405,69.498,71.455,73.67,74.902,76.195,42.314,45.432,48.632,51.884,55.151,57.47,59.298,62.008,65.843,68.426,70.836,72.899,55.191,59.201,61.817,64.071,66.216,68.681,70.472,71.523,72.462,73.738,74.712,75.537,62.649,63.196,64.361,64.951,65.815,66.353,66.874,67.378,68.225,69.4,70.755,71.752,43.902,46.263,49.096,51.445,55.448,58.447,61.406,64.134,66.458,68.386,69.906,71.421,64.28,68.54,69.62,71.1,72.16,73.44,73.75,74.63,73.911,74.917,77.778,78.746,59.1,61.8,64.9,65.4,65.9,68.3,68.832,69.582,69.862,69.465,68.976,69.819,68.44,69.49,70.21,70.76,71.34,73.38,74.65,75.02,76.09,76.81,77.31,78.242,66.071,67.044,68.253,68.468,68.673,69.481,70.805,71.918,72.752,74.223,75.307,76.384,55.088,57.907,60.77,63.479,65.712,67.456,68.557,70.19,71.15,72.146,72.766,73.747],"type":"box","orientation":"h","name":"Americas","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":[28.801,30.332,31.997,34.02,36.088,38.438,39.854,40.822,41.674,41.763,42.129,43.828,50.939,53.832,56.923,59.923,63.3,65.593,69.052,70.75,72.601,73.925,74.795,75.635,37.484,39.348,41.216,43.453,45.252,46.923,50.009,52.819,56.018,59.412,62.013,64.062,39.417,41.366,43.415,45.415,40.317,31.22,50.957,53.914,55.803,56.534,56.752,59.723,44,50.54896,44.50136,58.38112,63.11888,63.96736,65.525,67.274,68.69,70.426,72.028,72.961,60.96,64.75,67.65,70,72,73.6,75.45,76.2,77.601,80,81.495,82.208,37.373,40.249,43.605,47.193,50.651,54.208,56.596,58.553,60.223,61.765,62.879,64.698,37.468,39.918,42.518,45.964,49.203,52.702,56.159,60.137,62.681,66.041,68.588,70.65,44.869,47.181,49.325,52.469,55.234,57.702,59.62,63.04,65.742,68.042,69.451,70.964,45.32,48.437,51.457,54.459,56.95,60.413,62.038,65.044,59.461,58.811,57.046,59.545,65.39,67.84,69.39,70.75,71.63,73.06,74.45,75.6,76.93,78.269,79.696,80.745,63.03,65.5,68.73,71.43,73.42,75.38,77.11,78.67,79.36,80.69,82,82.603,43.158,45.669,48.126,51.629,56.528,61.134,63.739,65.869,68.015,69.772,71.263,72.535,50.056,54.081,56.656,59.942,63.983,67.159,69.1,70.647,69.978,67.727,66.662,67.297,47.453,52.681,55.292,57.716,62.612,64.766,67.123,69.81,72.244,74.647,77.045,78.623,55.565,58.033,60.47,64.624,67.712,69.343,71.309,74.174,75.19,76.156,76.904,77.588,55.928,59.489,62.094,63.87,65.421,66.099,66.983,67.926,69.292,70.265,71.028,71.993,48.463,52.102,55.737,59.371,63.01,65.256,68,69.5,70.693,71.938,73.044,74.241,42.244,45.248,48.251,51.253,53.754,55.491,57.489,60.222,61.271,63.625,65.033,66.803,36.319,41.905,45.108,49.379,53.07,56.059,58.056,58.339,59.32,60.328,59.908,62.069,36.157,37.686,39.393,41.472,43.971,46.748,49.594,52.537,55.727,59.426,61.34,63.785,37.578,40.08,43.165,46.988,52.143,57.367,62.728,67.734,71.197,72.499,74.193,75.64,43.436,45.557,47.67,49.8,51.929,54.043,56.158,58.245,60.838,61.818,63.61,65.483,47.752,51.334,54.757,56.393,58.065,60.06,62.082,64.151,66.458,68.564,70.303,71.688,39.875,42.868,45.914,49.901,53.886,58.69,63.012,66.295,68.768,70.533,71.626,72.777,60.396,63.179,65.798,67.946,69.521,70.795,71.76,73.56,75.788,77.158,78.77,79.972,57.593,61.456,62.192,64.266,65.042,65.949,68.757,69.011,70.379,70.457,70.815,72.396,45.883,48.284,50.305,53.655,57.296,61.195,64.59,66.974,69.249,71.527,73.053,74.143,58.5,62.4,65.2,67.5,69.39,70.59,72.16,73.4,74.26,75.25,76.99,78.4,50.848,53.63,56.061,58.285,60.405,62.494,64.597,66.084,67.298,67.521,68.564,70.616,40.412,42.887,45.363,47.838,50.254,55.764,58.816,62.82,67.662,70.672,73.017,74.249,43.16,45.671,48.127,51.631,56.532,60.765,64.406,67.046,69.718,71.096,72.37,73.422,32.548,33.97,35.18,36.984,39.848,44.175,49.113,52.922,55.599,58.02,60.308,62.698],"type":"box","orientation":"h","name":"Asia","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(231,138,195,0.5)","x":[55.23,59.28,64.82,66.22,67.69,68.93,70.42,72,71.581,72.95,75.651,76.423,66.8,67.48,69.54,70.14,70.63,72.17,73.18,74.94,76.04,77.51,78.98,79.829,68,69.24,70.25,70.94,71.44,72.8,73.93,75.35,76.46,77.53,78.32,79.441,53.82,58.45,61.93,64.79,67.45,69.86,70.69,71.14,72.178,73.244,74.09,74.852,59.6,66.61,69.51,70.42,70.9,70.81,71.08,71.34,71.19,70.32,72.14,73.005,61.21,64.77,67.13,68.5,69.61,70.64,70.46,71.52,72.527,73.68,74.876,75.748,66.87,69.03,69.9,70.38,70.29,70.71,70.96,71.58,72.4,74.01,75.51,76.486,70.78,71.81,72.35,72.96,73.47,74.69,74.63,74.8,75.33,76.11,77.18,78.332,66.55,67.49,68.75,69.83,70.87,72.52,74.55,74.83,75.7,77.13,78.37,79.313,67.41,68.93,70.51,71.55,72.38,73.83,74.89,76.34,77.46,78.64,79.59,80.657,67.5,69.1,70.3,70.8,71,72.5,73.8,74.847,76.07,77.34,78.67,79.406,65.86,67.86,69.51,71,72.34,73.68,75.24,76.67,77.03,77.869,78.256,79.483,64.03,66.41,67.96,69.5,69.76,69.95,69.39,69.58,69.17,71.04,72.59,73.338,72.49,73.47,73.68,73.73,74.46,76.11,76.99,77.23,78.77,78.95,80.5,81.757,66.91,68.9,70.29,71.08,71.28,72.03,73.1,74.36,75.467,76.122,77.783,78.885,65.94,67.81,69.24,71.06,72.19,73.48,74.98,76.42,77.44,78.82,80.24,80.546,59.164,61.448,63.728,67.178,70.636,73.066,74.101,74.865,75.435,75.445,73.981,74.543,72.13,72.99,73.23,73.82,73.75,75.24,76.05,76.83,77.42,78.03,78.53,79.762,72.67,73.44,73.47,74.08,74.34,75.37,75.97,75.89,77.32,78.32,79.05,80.196,61.31,65.77,67.64,69.61,70.85,70.67,71.32,70.98,70.99,72.75,74.67,75.563,59.82,61.51,64.39,66.6,69.26,70.41,72.77,74.06,74.86,75.97,77.29,78.098,61.05,64.1,66.8,66.8,69.21,69.46,69.66,69.53,69.36,69.72,71.322,72.476,57.996,61.685,64.531,66.914,68.7,70.3,70.162,71.218,71.659,72.232,73.213,74.002,64.36,67.45,70.33,70.98,70.35,70.45,70.8,71.08,71.38,72.71,73.8,74.663,65.57,67.85,69.15,69.18,69.82,70.97,71.063,72.25,73.64,75.13,76.66,77.926,64.94,66.66,69.69,71.44,73.06,74.39,76.3,76.9,77.57,78.77,79.78,80.941,71.86,72.49,73.37,74.16,74.72,75.44,76.42,77.19,78.16,79.39,80.04,80.884,69.62,70.56,71.32,72.77,73.78,75.39,76.21,77.41,78.03,79.37,80.62,81.701,43.585,48.079,52.098,54.336,57.005,59.507,61.036,63.108,66.146,68.835,70.845,71.777,69.18,70.42,70.76,71.36,72.01,72.76,74.04,75.007,76.42,77.218,78.471,79.425],"type":"box","orientation":"h","name":"Europe","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(166,216,84,0.5)","x":[69.12,70.33,70.93,71.1,71.93,73.49,74.74,76.32,77.56,78.83,80.37,81.235,69.39,70.26,71.24,71.52,71.89,72.22,73.84,74.32,76.33,77.55,79.11,80.204],"type":"box","orientation":"h","name":"Oceania","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>R ile hemen hemen tüm grafikleri interaktif yapmak mümkündür. Detaylar için
+bkz <a href="https://www.r-graph-gallery.com/interactive-charts">https://www.r-graph-gallery.com/interactive-charts</a>.</p>
+</div>
+<div id="harita-çizimi" class="section level3 hasAnchor" number="2.5.15">
+<h3><span class="header-section-number">2.5.15</span> Harita çizimi<a href="2.5-ggplot.html#harita-çizimi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p><code>R</code> ile jeokonumsal verilerin görselleştirilmesinde çeşitli araçlar mevcuttur.</p></li>
+<li><p><code>{sf}</code> (simple features) paketi: <a href="https://github.com/r-spatial/sf">https://github.com/r-spatial/sf</a>. <code>ggplot2</code> fonksiyonları <code>geom_sf()</code> ve <code>coord_sf()</code> bu paket ile uyumlu çalışır.</p></li>
+<li><p>Örnek olarak Türkiye’nin il düzeyinde bir haritasını çizmek istediğimizi düşünelim.</p></li>
+</ul>
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="2.5-ggplot.html#cb578-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb578-2"><a href="2.5-ggplot.html#cb578-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;veriler/tr_harita_veri.RData&quot;</span>)</span></code></pre></div>
+<ul>
+<li><code>tr_harita_veri</code> illerin sınırlarına ilişkin koordinat bilgisini içermektedir (<code>geometry</code> sütununda). İllerin isimlerinin yanı sıra <code>geometry</code> sütunu altında il sınır bilgileri yer almaktadır. Bu noktada il düzeyinde boş haritayı çizebiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="2.5-ggplot.html#cb579-1" tabindex="-1"></a><span class="co"># boş il haritası</span></span>
+<span id="cb579-2"><a href="2.5-ggplot.html#cb579-2" tabindex="-1"></a><span class="fu">ggplot</span>(tr_harita_veri) <span class="sc">+</span> </span>
+<span id="cb579-3"><a href="2.5-ggplot.html#cb579-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span> </span>
+<span id="cb579-4"><a href="2.5-ggplot.html#cb579-4" tabindex="-1"></a>  <span class="fu">coord_sf</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-292-1.png" width="672" /></p>
+<ul>
+<li><p><code>geom_sf()</code> fonksiyonu veri setinde yer alan <code>geometry</code> bilgisini kullanarak il sınırlarını koordinat sistemi üzerinde yerleştirdi.</p></li>
+<li><p>İstenirse harita üzerinde başka geometrik şekiller ile katmanlar eklenebilir. Örneğin, bazı şehir merkezlerini nokta ile işaretleyelim. Bunun için önce şehirlerin eylem-boylam bilgisini içeren bir tablo oluşturalım:</p></li>
+</ul>
+<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="2.5-ggplot.html#cb580-1" tabindex="-1"></a>tr_sehirler <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb580-2"><a href="2.5-ggplot.html#cb580-2" tabindex="-1"></a>  <span class="sc">~</span>city,       <span class="sc">~</span>lat, <span class="sc">~</span>lon,</span>
+<span id="cb580-3"><a href="2.5-ggplot.html#cb580-3" tabindex="-1"></a>  <span class="st">&quot;Istanbul&quot;</span>,  <span class="fl">41.0</span>,  <span class="fl">29.0</span>, </span>
+<span id="cb580-4"><a href="2.5-ggplot.html#cb580-4" tabindex="-1"></a>  <span class="st">&quot;Ankara&quot;</span>,    <span class="fl">39.9</span>,  <span class="fl">32.8</span>, </span>
+<span id="cb580-5"><a href="2.5-ggplot.html#cb580-5" tabindex="-1"></a>  <span class="st">&quot;İzmir&quot;</span>,     <span class="fl">38.4</span>,  <span class="fl">27.1</span>, </span>
+<span id="cb580-6"><a href="2.5-ggplot.html#cb580-6" tabindex="-1"></a>  <span class="st">&quot;Bursa&quot;</span>,     <span class="fl">40.2</span>,  <span class="fl">29.1</span>, </span>
+<span id="cb580-7"><a href="2.5-ggplot.html#cb580-7" tabindex="-1"></a>  <span class="st">&quot;Antalya&quot;</span>,   <span class="fl">36.9</span>,  <span class="fl">30.7</span>, </span>
+<span id="cb580-8"><a href="2.5-ggplot.html#cb580-8" tabindex="-1"></a>  <span class="st">&quot;Konya&quot;</span>,     <span class="fl">37.9</span>,  <span class="fl">32.5</span></span>
+<span id="cb580-9"><a href="2.5-ggplot.html#cb580-9" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="2.5-ggplot.html#cb581-1" tabindex="-1"></a><span class="co"># tr_sehirler içindeki şehirleri kırmızı nokta ile göster</span></span>
+<span id="cb581-2"><a href="2.5-ggplot.html#cb581-2" tabindex="-1"></a><span class="fu">ggplot</span>(tr_harita_veri) <span class="sc">+</span> </span>
+<span id="cb581-3"><a href="2.5-ggplot.html#cb581-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb581-4"><a href="2.5-ggplot.html#cb581-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> tr_sehirler, </span>
+<span id="cb581-5"><a href="2.5-ggplot.html#cb581-5" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> lon, <span class="at">y =</span> lat), </span>
+<span id="cb581-6"><a href="2.5-ggplot.html#cb581-6" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb581-7"><a href="2.5-ggplot.html#cb581-7" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> tr_sehirler, </span>
+<span id="cb581-8"><a href="2.5-ggplot.html#cb581-8" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> lon, <span class="at">y =</span> lat, <span class="at">label =</span> city), </span>
+<span id="cb581-9"><a href="2.5-ggplot.html#cb581-9" tabindex="-1"></a>            <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.15</span>) <span class="sc">+</span> <span class="co"># y koordinatında şehir isimlerini aşağıya kaydır</span></span>
+<span id="cb581-10"><a href="2.5-ggplot.html#cb581-10" tabindex="-1"></a>  <span class="fu">coord_sf</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-294-1.png" width="672" /></p>
+<p>Başka bir versiyon:</p>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="2.5-ggplot.html#cb582-1" tabindex="-1"></a><span class="co"># sadece başkenti göster</span></span>
+<span id="cb582-2"><a href="2.5-ggplot.html#cb582-2" tabindex="-1"></a><span class="fu">ggplot</span>(tr_harita_veri) <span class="sc">+</span> </span>
+<span id="cb582-3"><a href="2.5-ggplot.html#cb582-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb582-4"><a href="2.5-ggplot.html#cb582-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="fl">32.8</span>, <span class="fl">39.9</span>), <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb582-5"><a href="2.5-ggplot.html#cb582-5" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="fl">32.8</span>, <span class="fl">40.2</span>), <span class="at">label =</span> <span class="st">&quot;Ankara&quot;</span>) <span class="sc">+</span></span>
+<span id="cb582-6"><a href="2.5-ggplot.html#cb582-6" tabindex="-1"></a>  <span class="fu">coord_sf</span>() <span class="sc">+</span> </span>
+<span id="cb582-7"><a href="2.5-ggplot.html#cb582-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Boylam&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Enlem&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb582-8"><a href="2.5-ggplot.html#cb582-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Türkiye&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb582-9"><a href="2.5-ggplot.html#cb582-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="R-ile-Ekonometri_files/figure-html/unnamed-chunk-295-1.png" width="672" /></p>
+<ul>
+<li><p>Harita üzerinde bölgelerin belirli bazı istatistiklerini renkler ve şekiller yardımıyla göstermek istersek bu bilgilerin bulunduğu veri setiyle geometri bilgisinin bulunduğu veri setini birleştirmemiz gerekir.</p></li>
+<li><p>Örnek olarak bkz <code>tr_harita.R</code> (R script klasöründe). Bu uygulamada <code>tr_bolgesel_veri</code> dosyasında bulunan bazı değişkenler harita üzerinde gösterilmektedir.</p></li>
+</ul>
+</div>
+<div id="ggplot2-uzantıları" class="section level3 hasAnchor" number="2.5.16">
+<h3><span class="header-section-number">2.5.16</span> <code>ggplot2</code> Uzantıları<a href="2.5-ggplot.html#ggplot2-uzantıları" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>{patchwork}</code>, <code>{gganimate}</code>, <code>{ggthemes}</code> vb çok sayıda eklenti geliştirilmiştir.</li>
+<li>Bu eklentileri incelemek için bkz.</li>
+</ul>
+<p><a href="https://exts.ggplot2.tidyverse.org/gallery/">https://exts.ggplot2.tidyverse.org/gallery/</a></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2.4-dplyr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2.6-forcats.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.12 Karesel ve polinom terimler | R ile Ekonometri</title>
+  <meta name="description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.12 Karesel ve polinom terimler | R ile Ekonometri" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.12 Karesel ve polinom terimler | R ile Ekonometri" />
+  
+  <meta name="twitter:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+
+
+<meta name="date" content="2023-07-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="3.11-etkileşim-değişkenleri.html"/>
+<link rel="next" href="3.13-hipotez-testleri.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R ile Ekonometri</a></li>
+<li><a href="https://github.com/htastan">Prof. Dr. Hüseyin Taştan</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Dersin amacı ve kapsamı</a></li>
+<li class="chapter" data-level="" data-path="dersin-içeriği.html"><a href="dersin-içeriği.html"><i class="fa fa-check"></i>Dersin içeriği</a></li>
+<li class="chapter" data-level="1" data-path="1-temelR.html"><a href="1-temelR.html"><i class="fa fa-check"></i><b>1</b> Temel R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1.1-R-kurulum.html"><a href="1.1-R-kurulum.html"><i class="fa fa-check"></i><b>1.1</b> Kurulum</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-R-console.html"><a href="1.2-R-console.html"><i class="fa fa-check"></i><b>1.2</b> R Komut Satırı (Console)</a></li>
+<li class="chapter" data-level="1.3" data-path="1.3-R-nesne.html"><a href="1.3-R-nesne.html"><i class="fa fa-check"></i><b>1.3</b> <code>R</code>’da Nesneler</a></li>
+<li class="chapter" data-level="1.4" data-path="1.4-R-vektor.html"><a href="1.4-R-vektor.html"><i class="fa fa-check"></i><b>1.4</b> Vektörler</a></li>
+<li class="chapter" data-level="1.5" data-path="1.5-R-log-vek.html"><a href="1.5-R-log-vek.html"><i class="fa fa-check"></i><b>1.5</b> Mantıksal vektörler</a></li>
+<li class="chapter" data-level="1.6" data-path="1.6-R-matris.html"><a href="1.6-R-matris.html"><i class="fa fa-check"></i><b>1.6</b> Matrisler</a></li>
+<li class="chapter" data-level="1.7" data-path="1.7-R-liste.html"><a href="1.7-R-liste.html"><i class="fa fa-check"></i><b>1.7</b> Listeler</a></li>
+<li class="chapter" data-level="1.8" data-path="1.8-R-data-fr.html"><a href="1.8-R-data-fr.html"><i class="fa fa-check"></i><b>1.8</b> Veri Çerçeveleri (Data Frames)</a></li>
+<li class="chapter" data-level="1.9" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html"><i class="fa fa-check"></i><b>1.9</b> Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#plot-fonksiyonu"><i class="fa fa-check"></i><b>1.9.1</b> Plot fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.2" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#eğri-çizimi"><i class="fa fa-check"></i><b>1.9.2</b> Eğri çizimi</a></li>
+<li class="chapter" data-level="1.9.3" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#histogram"><i class="fa fa-check"></i><b>1.9.3</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.4" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kutu-çizimi"><i class="fa fa-check"></i><b>1.9.4</b> Kutu çizimi</a></li>
+<li class="chapter" data-level="1.9.5" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#örneklem-birikimli-yoğunluk-fonksiyonu"><i class="fa fa-check"></i><b>1.9.5</b> Örneklem birikimli yoğunluk fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.6" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#serpilme-çizimi"><i class="fa fa-check"></i><b>1.9.6</b> Serpilme çizimi</a></li>
+<li class="chapter" data-level="1.9.7" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kategorik-değişkenler"><i class="fa fa-check"></i><b>1.9.7</b> Kategorik değişkenler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html"><i class="fa fa-check"></i><b>1.10</b> Temel Programlama</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#mantıksal-işlemler"><i class="fa fa-check"></i><b>1.10.1</b> Mantıksal işlemler</a></li>
+<li class="chapter" data-level="1.10.2" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#koşullu-işlem"><i class="fa fa-check"></i><b>1.10.2</b> Koşullu işlem</a></li>
+<li class="chapter" data-level="1.10.3" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#döngüler"><i class="fa fa-check"></i><b>1.10.3</b> Döngüler</a></li>
+<li class="chapter" data-level="1.10.4" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#fonksiyonel-işlemler"><i class="fa fa-check"></i><b>1.10.4</b> Fonksiyonel İşlemler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="1.11-R-fonksiyon.html"><a href="1.11-R-fonksiyon.html"><i class="fa fa-check"></i><b>1.11</b> R Fonksiyonları</a></li>
+<li class="chapter" data-level="1.12" data-path="1.12-R-paket.html"><a href="1.12-R-paket.html"><i class="fa fa-check"></i><b>1.12</b> R Paketleri</a></li>
+<li class="chapter" data-level="1.13" data-path="1.13-R-dizin.html"><a href="1.13-R-dizin.html"><i class="fa fa-check"></i><b>1.13</b> Çalışma dizini</a></li>
+<li class="chapter" data-level="1.14" data-path="1.14-r-ile-online-veri-indirme.html"><a href="1.14-r-ile-online-veri-indirme.html"><i class="fa fa-check"></i><b>1.14</b> R ile Online Veri İndirme</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-tidyRgiris.html"><a href="2-tidyRgiris.html"><i class="fa fa-check"></i><b>2</b> R Tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2.1-r-tidy-veri-çerçeveleri.html"><a href="2.1-r-tidy-veri-çerçeveleri.html"><i class="fa fa-check"></i><b>2.1</b> R “Tidy” veri çerçeveleri</a></li>
+<li class="chapter" data-level="2.2" data-path="2.2-readr-paketi-ile-verilerin-okutulması.html"><a href="2.2-readr-paketi-ile-verilerin-okutulması.html"><i class="fa fa-check"></i><b>2.2</b> <code>{readr}</code> Paketi ile Verilerin okutulması</a></li>
+<li class="chapter" data-level="2.3" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><i class="fa fa-check"></i><b>2.3</b> <code>{tidyr}</code> Paketi ile Verilerin Düzenlenmesi</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#kayıp-gözlemler"><i class="fa fa-check"></i><b>2.3.1</b> Kayıp gözlemler</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#hücrelerin-ayrılması-veya-birleştirilmesi"><i class="fa fa-check"></i><b>2.3.2</b> Hücrelerin ayrılması veya birleştirilmesi</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html"><i class="fa fa-check"></i><b>2.4</b> <code>{dplyr}</code> Paketi ile Verilerin Manipülasyonu</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#filter-gözlemlerin-filtrelenmesi"><i class="fa fa-check"></i><b>2.4.1</b> <code>filter()</code>: gözlemlerin filtrelenmesi</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#select-değişkenlerin-seçimi"><i class="fa fa-check"></i><b>2.4.2</b> <code>select()</code>: değişkenlerin seçimi</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#mutate-yeni-değişken-oluşturma"><i class="fa fa-check"></i><b>2.4.3</b> <code>mutate()</code>: yeni değişken oluşturma</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#arrange-verilerin-sıralanması"><i class="fa fa-check"></i><b>2.4.4</b> <code>arrange()</code>: verilerin sıralanması</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#group_by-verilerin-gruplanması"><i class="fa fa-check"></i><b>2.4.5</b> <code>group_by()</code>: verilerin gruplanması</a></li>
+<li class="chapter" data-level="2.4.6" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#summarize-verilerin-özetlenmesi"><i class="fa fa-check"></i><b>2.4.6</b> <code>summarize()</code>: verilerin özetlenmesi</a></li>
+<li class="chapter" data-level="2.4.7" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#veri-setlerinin-birleştirilmesi"><i class="fa fa-check"></i><b>2.4.7</b> Veri setlerinin birleştirilmesi</a></li>
+<li class="chapter" data-level="2.4.8" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#diğer-fonksiyonlar"><i class="fa fa-check"></i><b>2.4.8</b> Diğer fonksiyonlar</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html"><i class="fa fa-check"></i><b>2.5</b> <code>{ggplot2}</code> Paketi ile Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bir-grafiğin-katmanları"><i class="fa fa-check"></i><b>2.5.1</b> Bir grafiğin katmanları</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#renk-şekil-ve-büyüklük"><i class="fa fa-check"></i><b>2.5.2</b> Renk, şekil, ve büyüklük</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#fasetler"><i class="fa fa-check"></i><b>2.5.3</b> Fasetler</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#eksenler-başlık-ve-etiketlerin-kontrolü"><i class="fa fa-check"></i><b>2.5.4</b> Eksenler, başlık, ve etiketlerin kontrolü</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#dağılım-grafikleri"><i class="fa fa-check"></i><b>2.5.5</b> Dağılım Grafikleri</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#histogram-geom_histogram"><i class="fa fa-check"></i><b>2.5.6</b> Histogram: <code>geom_histogram()</code></a></li>
+<li class="chapter" data-level="2.5.7" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#yoğunluk-geom_density"><i class="fa fa-check"></i><b>2.5.7</b> Yoğunluk: <code>geom_density()</code></a></li>
+<li class="chapter" data-level="2.5.8" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#kutu-çizimi-geom_boxplot"><i class="fa fa-check"></i><b>2.5.8</b> Kutu Çizimi: <code>geom_boxplot()</code></a></li>
+<li class="chapter" data-level="2.5.9" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#keman-grafiği-geom_violin"><i class="fa fa-check"></i><b>2.5.9</b> Keman grafiği: <code>geom_violin()</code></a></li>
+<li class="chapter" data-level="2.5.10" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#qq-grafiği"><i class="fa fa-check"></i><b>2.5.10</b> QQ Grafiği</a></li>
+<li class="chapter" data-level="2.5.11" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bar-plot"><i class="fa fa-check"></i><b>2.5.11</b> Bar plot</a></li>
+<li class="chapter" data-level="2.5.12" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#çizgi-ve-nokta-grafiği"><i class="fa fa-check"></i><b>2.5.12</b> Çizgi ve Nokta grafiği</a></li>
+<li class="chapter" data-level="2.5.13" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#temalar"><i class="fa fa-check"></i><b>2.5.13</b> Temalar</a></li>
+<li class="chapter" data-level="2.5.14" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#interaktif-grafik"><i class="fa fa-check"></i><b>2.5.14</b> Interaktif grafik</a></li>
+<li class="chapter" data-level="2.5.15" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#harita-çizimi"><i class="fa fa-check"></i><b>2.5.15</b> Harita çizimi</a></li>
+<li class="chapter" data-level="2.5.16" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#ggplot2-uzantıları"><i class="fa fa-check"></i><b>2.5.16</b> <code>ggplot2</code> Uzantıları</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="2.6-forcats.html"><a href="2.6-forcats.html"><i class="fa fa-check"></i><b>2.6</b> <code>{forcats}</code> Paketi ile Kategorik Değişkenlerin İşlenmesi</a></li>
+<li class="chapter" data-level="2.7" data-path="2.7-stringr.html"><a href="2.7-stringr.html"><i class="fa fa-check"></i><b>2.7</b> <code>{stringr}</code> Paketi ile Karakter Değişkenlerinin İşlenmesi</a></li>
+<li class="chapter" data-level="2.8" data-path="2.8-lubridate.html"><a href="2.8-lubridate.html"><i class="fa fa-check"></i><b>2.8</b> <code>{lubridate}</code> Paketi ile Tarih-Zaman İşlemleri</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-Kesit.html"><a href="3-Kesit.html"><i class="fa fa-check"></i><b>3</b> Regresyon Analizi: Kesit Veri</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3.1-ekonometriye-giriş.html"><a href="3.1-ekonometriye-giriş.html"><i class="fa fa-check"></i><b>3.1</b> Ekonometriye Giriş</a></li>
+<li class="chapter" data-level="3.2" data-path="3.2-veri-türleri.html"><a href="3.2-veri-türleri.html"><i class="fa fa-check"></i><b>3.2</b> Veri Türleri</a></li>
+<li class="chapter" data-level="3.3" data-path="3.3-basit-regresyon-modeli.html"><a href="3.3-basit-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.3</b> Basit Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.4" data-path="3.4-popülasyon-regresyon-fonksiyonu.html"><a href="3.4-popülasyon-regresyon-fonksiyonu.html"><i class="fa fa-check"></i><b>3.4</b> Popülasyon Regresyon Fonksiyonu</a></li>
+<li class="chapter" data-level="3.5" data-path="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><a href="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><i class="fa fa-check"></i><b>3.5</b> (Sıradan) En Küçük Kareler (EKK) Yöntemi ile Tahmin</a></li>
+<li class="chapter" data-level="3.6" data-path="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><a href="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><i class="fa fa-check"></i><b>3.6</b> Popülasyon ve Örneklem Regresyon Fonksiyonları</a></li>
+<li class="chapter" data-level="3.7" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html"><i class="fa fa-check"></i><b>3.7</b> Fonksiyon kalıpları</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#regresyon-modelinin-doğrusallığı"><i class="fa fa-check"></i><b>3.7.1</b> Regresyon modelinin doğrusallığı</a></li>
+<li class="chapter" data-level="3.7.2" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#doğrusal-olmama"><i class="fa fa-check"></i><b>3.7.2</b> Doğrusal olmama</a></li>
+<li class="chapter" data-level="3.7.3" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-level"><i class="fa fa-check"></i><b>3.7.3</b> Log-level</a></li>
+<li class="chapter" data-level="3.7.4" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#level-log"><i class="fa fa-check"></i><b>3.7.4</b> Level-log</a></li>
+<li class="chapter" data-level="3.7.5" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-log-sabit-esneklik-modeli"><i class="fa fa-check"></i><b>3.7.5</b> Log-log (Sabit esneklik modeli)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="3.8-çoklu-regresyon-modeli.html"><a href="3.8-çoklu-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.8</b> Çoklu Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.9" data-path="3.9-r-lm-fonksiyonu.html"><a href="3.9-r-lm-fonksiyonu.html"><i class="fa fa-check"></i><b>3.9</b> R <code>lm()</code> Fonksiyonu</a></li>
+<li class="chapter" data-level="3.10" data-path="3.10-kukla-kategorik-değişkenler.html"><a href="3.10-kukla-kategorik-değişkenler.html"><i class="fa fa-check"></i><b>3.10</b> Kukla (kategorik) değişkenler</a></li>
+<li class="chapter" data-level="3.11" data-path="3.11-etkileşim-değişkenleri.html"><a href="3.11-etkileşim-değişkenleri.html"><i class="fa fa-check"></i><b>3.11</b> Etkileşim değişkenleri</a></li>
+<li class="chapter" data-level="3.12" data-path="3.12-karesel-ve-polinom-terimler.html"><a href="3.12-karesel-ve-polinom-terimler.html"><i class="fa fa-check"></i><b>3.12</b> Karesel ve polinom terimler</a></li>
+<li class="chapter" data-level="3.13" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html"><i class="fa fa-check"></i><b>3.13</b> Hipotez testleri</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-karar-kuralı"><i class="fa fa-check"></i><b>3.13.1</b> t-testi karar kuralı</a></li>
+<li class="chapter" data-level="3.13.2" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#p-değeri"><i class="fa fa-check"></i><b>3.13.2</b> p-değeri</a></li>
+<li class="chapter" data-level="3.13.3" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-örnek"><i class="fa fa-check"></i><b>3.13.3</b> t-testi: Örnek</a></li>
+<li class="chapter" data-level="3.13.4" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-çoklu-doğrusal-kısıtların-testi"><i class="fa fa-check"></i><b>3.13.4</b> F Testi: Çoklu Doğrusal Kısıtların Testi</a></li>
+<li class="chapter" data-level="3.13.5" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#dışlama-kısıtları"><i class="fa fa-check"></i><b>3.13.5</b> Dışlama kısıtları</a></li>
+<li class="chapter" data-level="3.13.6" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-için-karar-kuralı"><i class="fa fa-check"></i><b>3.13.6</b> F testi için karar kuralı</a></li>
+<li class="chapter" data-level="3.13.7" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#doğrusal-kısıtlar-örnek"><i class="fa fa-check"></i><b>3.13.7</b> Doğrusal kısıtlar: örnek</a></li>
+<li class="chapter" data-level="3.13.8" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#regresyonun-bütün-olarak-anlamlılığı"><i class="fa fa-check"></i><b>3.13.8</b> Regresyonun Bütün Olarak Anlamlılığı</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="3.14-regresyon-analizinde-potansiyel-problemler.html"><a href="3.14-regresyon-analizinde-potansiyel-problemler.html"><i class="fa fa-check"></i><b>3.14</b> Regresyon Analizinde Potansiyel Problemler</a></li>
+<li class="chapter" data-level="3.15" data-path="3.15-kestirim-prediction.html"><a href="3.15-kestirim-prediction.html"><i class="fa fa-check"></i><b>3.15</b> Kestirim (Prediction)</a></li>
+<li class="chapter" data-level="3.16" data-path="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><a href="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><i class="fa fa-check"></i><b>3.16</b> Makine Öğrenmesi ve Regresyon Analizi</a></li>
+<li class="chapter" data-level="3.17" data-path="3.17-regresyon-ve-gözetimli-öğrenme.html"><a href="3.17-regresyon-ve-gözetimli-öğrenme.html"><i class="fa fa-check"></i><b>3.17</b> Regresyon ve gözetimli öğrenme</a></li>
+<li class="chapter" data-level="3.18" data-path="3.18-test-mse.html"><a href="3.18-test-mse.html"><i class="fa fa-check"></i><b>3.18</b> Test MSE</a></li>
+<li class="chapter" data-level="3.19" data-path="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><a href="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><i class="fa fa-check"></i><b>3.19</b> Aşırı uyum ve makine öğrenmesi</a></li>
+<li class="chapter" data-level="3.20" data-path="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><a href="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><i class="fa fa-check"></i><b>3.20</b> Biri Hariç Çapraz Geçerleme, LOOCV (Leave-one-out Cross Validation)</a></li>
+<li class="chapter" data-level="3.21" data-path="3.21-k-katlı-çapraz-geçerleme.html"><a href="3.21-k-katlı-çapraz-geçerleme.html"><i class="fa fa-check"></i><b>3.21</b> <span class="math inline">\(k\)</span>-Katlı Çapraz Geçerleme</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-Zaman.html"><a href="4-Zaman.html"><i class="fa fa-check"></i><b>4</b> Regresyon Analizi: Zaman Serileri</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4.1-zaman-serileri.html"><a href="4.1-zaman-serileri.html"><i class="fa fa-check"></i><b>4.1</b> Zaman Serileri</a></li>
+<li class="chapter" data-level="4.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html"><i class="fa fa-check"></i><b>4.2</b> R’da Zaman Serilerinin Temsili</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#ts-nesnesi"><i class="fa fa-check"></i><b>4.2.1</b> <code>ts</code> Nesnesi</a></li>
+<li class="chapter" data-level="4.2.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#zoo-nesnesi"><i class="fa fa-check"></i><b>4.2.2</b> <code>zoo</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.3" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#xts-nesnesi"><i class="fa fa-check"></i><b>4.2.3</b> <code>xts</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.4" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#tsibble-nesnesi"><i class="fa fa-check"></i><b>4.2.4</b> <code>tsibble</code> nesnesi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html"><i class="fa fa-check"></i><b>4.3</b> Klasik Zaman Serisi Ayrıştırması</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html#örnek-turist-sayısı"><i class="fa fa-check"></i><b>4.3.1</b> Örnek: Turist sayısı</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html"><i class="fa fa-check"></i><b>4.4</b> Zaman Serilerinde Bağımlılık</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#otokorelasyon-fonksiyonu-acf"><i class="fa fa-check"></i><b>4.4.1</b> Otokorelasyon Fonksiyonu (ACF)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#pür-rassal-süreç-white-noise"><i class="fa fa-check"></i><b>4.4.2</b> Pür rassal süreç (white noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="4.5-durağanlık.html"><a href="4.5-durağanlık.html"><i class="fa fa-check"></i><b>4.5</b> Durağanlık</a></li>
+<li class="chapter" data-level="4.6" data-path="4.6-birim-kök-ve-durağanlık-testleri.html"><a href="4.6-birim-kök-ve-durağanlık-testleri.html"><i class="fa fa-check"></i><b>4.6</b> Birim kök ve durağanlık testleri</a></li>
+<li class="chapter" data-level="4.7" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><i class="fa fa-check"></i><b>4.7</b> Zaman Serileriyle Regresyon Analizi: Statik Modeller</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-statik-phillips-eğrisi"><i class="fa fa-check"></i><b>4.7.1</b> Örnek: Statik Phillips Eğrisi</a></li>
+<li class="chapter" data-level="4.7.2" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-beklentilerle-genişletilmiş-phillips-eğirisi"><i class="fa fa-check"></i><b>4.7.2</b> Örnek: Beklentilerle genişletilmiş Phillips eğirisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><i class="fa fa-check"></i><b>4.8</b> Dinamik Modeller: Dağıtılmış Gecikme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html#örnek-vergi-teşvikleri-ile-doğurganlık-ilişkisi"><i class="fa fa-check"></i><b>4.8.1</b> Örnek: Vergi teşvikleri ile Doğurganlık ilişkisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html"><i class="fa fa-check"></i><b>4.9</b> Vektör Otoregresyon (VAR) modeli</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html#örnek-bist100-ve-döviz-kurları-için-bir-var-modeli"><i class="fa fa-check"></i><b>4.9.1</b> Örnek: BIST100 ve Döviz kurları için bir VAR modeli</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html"><i class="fa fa-check"></i><b>4.10</b> Granger-nedensellik testi</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html#örnek"><i class="fa fa-check"></i><b>4.10.1</b> Örnek</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="4.11-kurmaca-regresyon-problemi.html"><a href="4.11-kurmaca-regresyon-problemi.html"><i class="fa fa-check"></i><b>4.11</b> Kurmaca Regresyon Problemi</a></li>
+<li class="chapter" data-level="4.12" data-path="4.12-eşbütünleşme-cointegration.html"><a href="4.12-eşbütünleşme-cointegration.html"><i class="fa fa-check"></i><b>4.12</b> Eşbütünleşme (cointegration)</a></li>
+<li class="chapter" data-level="4.13" data-path="4.13-engle-granger-eşbütünleşme-testi.html"><a href="4.13-engle-granger-eşbütünleşme-testi.html"><i class="fa fa-check"></i><b>4.13</b> Engle-Granger eşbütünleşme testi</a></li>
+<li class="chapter" data-level="4.14" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html"><i class="fa fa-check"></i><b>4.14</b> Hata Düzeltme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.14.1" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html#örnek-3-aylık-ve-6-aylık-hazine-bonosu-faiz-oranları-eşbütünleşik-mi"><i class="fa fa-check"></i><b>4.14.1</b> Örnek: 3-aylık ve 6-aylık hazine bonosu faiz oranları eşbütünleşik mi?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.15" data-path="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><a href="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><i class="fa fa-check"></i><b>4.15</b> Vektör Hata Düzeltme Modeli (VEC) vs. VAR</a></li>
+<li class="chapter" data-level="4.16" data-path="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><a href="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><i class="fa fa-check"></i><b>4.16</b> Çok değişkenli modellerde eşbütünleşme</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-Rmarkdown.html"><a href="5-Rmarkdown.html"><i class="fa fa-check"></i><b>5</b> RMarkdown ile Raporlama</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5.1-r-markdown-nedir.html"><a href="5.1-r-markdown-nedir.html"><i class="fa fa-check"></i><b>5.1</b> R Markdown Nedir?</a></li>
+<li class="chapter" data-level="5.2" data-path="5.2-başlık-ve-diğer-seçenekler.html"><a href="5.2-başlık-ve-diğer-seçenekler.html"><i class="fa fa-check"></i><b>5.2</b> Başlık ve diğer seçenekler</a></li>
+<li class="chapter" data-level="5.3" data-path="5.3-programların-eklenmesi.html"><a href="5.3-programların-eklenmesi.html"><i class="fa fa-check"></i><b>5.3</b> Programların eklenmesi</a></li>
+<li class="chapter" data-level="5.4" data-path="5.4-program-opsiyonları.html"><a href="5.4-program-opsiyonları.html"><i class="fa fa-check"></i><b>5.4</b> Program opsiyonları</a></li>
+<li class="chapter" data-level="5.5" data-path="5.5-metin.html"><a href="5.5-metin.html"><i class="fa fa-check"></i><b>5.5</b> Metin</a></li>
+<li class="chapter" data-level="5.6" data-path="5.6-grafikler.html"><a href="5.6-grafikler.html"><i class="fa fa-check"></i><b>5.6</b> Grafikler</a></li>
+<li class="chapter" data-level="5.7" data-path="5.7-tablolar.html"><a href="5.7-tablolar.html"><i class="fa fa-check"></i><b>5.7</b> Tablolar</a></li>
+<li class="chapter" data-level="5.8" data-path="5.8-r-markdown-cheatsheets.html"><a href="5.8-r-markdown-cheatsheets.html"><i class="fa fa-check"></i><b>5.8</b> R Markdown Cheatsheets</a></li>
+<li class="chapter" data-level="5.9" data-path="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><a href="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><i class="fa fa-check"></i><b>5.9</b> Örnek: Türkiye’de İllerde Yaşam İndeksi Göstergeleri (2015)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="" target="blank">Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R ile Ekonometri</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="karesel-ve-polinom-terimler" class="section level2 hasAnchor" number="3.12">
+<h2><span class="header-section-number">3.12</span> Karesel ve polinom terimler<a href="3.12-karesel-ve-polinom-terimler.html#karesel-ve-polinom-terimler" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>Modelin parametrelerde doğrusal olan yapısını bozmadan <span class="math inline">\(y\)</span> ve <span class="math inline">\(x\)</span> değişkenlerinin uygun dönüştürmelerini kullanarak doğrusal olmayan ilişkileri yakalayabiliriz.</p></li>
+<li><p>Pratikte en çok kullanılan dönüştürmeler (doğal) logaritma ve üstel dönüştürmelerdir. Bu modellerin özelliklerini daha önce incelemiştik.</p></li>
+<li><p>Polinom regresyonu: <span class="math inline">\(X\)</span> değişkeninin <span class="math inline">\(X^2\)</span> ve <span class="math inline">\(X^3\)</span> gibi dönüştürmelerini modele ekleyebiliriz. Örneğin karesel model:
+<span class="math display">\[Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \epsilon\]</span>
+Bu model aslında <span class="math inline">\(X\)</span> değişkeninin kendisiyle etkileşim içinde olduğu anlamına gelir. <span class="math inline">\(X\)</span>’in <span class="math inline">\(Y\)</span> üzerindeki etkisi <span class="math inline">\(X\)</span>’in değerine bağlıdır.</p></li>
+<li><p>Örnek: ücret denkleminde tecrübe ve tenure karesini ekleme:</p></li>
+</ul>
+<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="3.12-karesel-ve-polinom-terimler.html#cb720-1" tabindex="-1"></a>res5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ <span class="sc">+</span> exper <span class="sc">+</span> tenure <span class="sc">+</span> female <span class="sc">+</span> </span>
+<span id="cb720-2"><a href="3.12-karesel-ve-polinom-terimler.html#cb720-2" tabindex="-1"></a>             <span class="fu">I</span>(female<span class="sc">*</span>educ) <span class="sc">+</span> <span class="fu">I</span>(exper<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(tenure<span class="sc">^</span><span class="dv">2</span>), </span>
+<span id="cb720-3"><a href="3.12-karesel-ve-polinom-terimler.html#cb720-3" tabindex="-1"></a>           <span class="at">data =</span> wage1)</span>
+<span id="cb720-4"><a href="3.12-karesel-ve-polinom-terimler.html#cb720-4" tabindex="-1"></a><span class="fu">summary</span>(res5)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log(wage) ~ educ + exper + tenure + female + I(female * 
+##     educ) + I(exper^2) + I(tenure^2), data = wage1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.83265 -0.25261 -0.02374  0.25396  1.13584 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       0.3888060  0.1186871   3.276  0.00112 ** 
+## educ              0.0823692  0.0084699   9.725  &lt; 2e-16 ***
+## exper             0.0293366  0.0049842   5.886 7.11e-09 ***
+## tenure            0.0318967  0.0068640   4.647 4.28e-06 ***
+## female           -0.2267886  0.1675394  -1.354  0.17644    
+## I(female * educ) -0.0055645  0.0130618  -0.426  0.67028    
+## I(exper^2)       -0.0005804  0.0001075  -5.398 1.03e-07 ***
+## I(tenure^2)      -0.0005900  0.0002352  -2.509  0.01242 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4001 on 518 degrees of freedom
+## Multiple R-squared:  0.441,  Adjusted R-squared:  0.4334 
+## F-statistic: 58.37 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
+<ul>
+<li>veri setinde ortalama eğitim düzeyi 12.5 yıldır. Etkileşim terimlerini eğitimin ortalamadan farkı ile de kurabiliriz:</li>
+</ul>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="3.12-karesel-ve-polinom-terimler.html#cb722-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> female <span class="sc">+</span> <span class="fu">I</span>(educ<span class="fl">-12.5</span>) <span class="sc">+</span> <span class="fu">I</span>(female<span class="sc">*</span>(educ<span class="fl">-12.5</span>)) <span class="sc">+</span></span>
+<span id="cb722-2"><a href="3.12-karesel-ve-polinom-terimler.html#cb722-2" tabindex="-1"></a>             exper<span class="sc">+</span><span class="fu">I</span>(exper<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> tenure<span class="sc">+</span><span class="fu">I</span>(tenure<span class="sc">^</span><span class="dv">2</span>), <span class="at">data=</span>wage1))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log(wage) ~ female + I(educ - 12.5) + I(female * 
+##     (educ - 12.5)) + exper + I(exper^2) + tenure + I(tenure^2), 
+##     data = wage1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.83265 -0.25261 -0.02374  0.25396  1.13584 
+## 
+## Coefficients:
+##                             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                1.4184208  0.0440456  32.203  &lt; 2e-16 ***
+## female                    -0.2963450  0.0358358  -8.270 1.14e-15 ***
+## I(educ - 12.5)             0.0823692  0.0084699   9.725  &lt; 2e-16 ***
+## I(female * (educ - 12.5)) -0.0055645  0.0130618  -0.426   0.6703    
+## exper                      0.0293366  0.0049842   5.886 7.11e-09 ***
+## I(exper^2)                -0.0005804  0.0001075  -5.398 1.03e-07 ***
+## tenure                     0.0318967  0.0068640   4.647 4.28e-06 ***
+## I(tenure^2)               -0.0005900  0.0002352  -2.509   0.0124 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4001 on 518 degrees of freedom
+## Multiple R-squared:  0.441,  Adjusted R-squared:  0.4334 
+## F-statistic: 58.37 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="3.11-etkileşim-değişkenleri.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="3.13-hipotez-testleri.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

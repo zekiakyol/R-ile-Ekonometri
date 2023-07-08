@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.3 {tidyr} Paketi ile Verilerin Düzenlenmesi | R ile Ekonometri</title>
+  <meta name="description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.3 {tidyr} Paketi ile Verilerin Düzenlenmesi | R ile Ekonometri" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.3 {tidyr} Paketi ile Verilerin Düzenlenmesi | R ile Ekonometri" />
+  
+  <meta name="twitter:description" content="Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ - Ders notları" />
+  
+
+
+
+<meta name="date" content="2023-07-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="2.2-readr-paketi-ile-verilerin-okutulması.html"/>
+<link rel="next" href="2.4-dplyr.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R ile Ekonometri</a></li>
+<li><a href="https://github.com/htastan">Prof. Dr. Hüseyin Taştan</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Dersin amacı ve kapsamı</a></li>
+<li class="chapter" data-level="" data-path="dersin-içeriği.html"><a href="dersin-içeriği.html"><i class="fa fa-check"></i>Dersin içeriği</a></li>
+<li class="chapter" data-level="1" data-path="1-temelR.html"><a href="1-temelR.html"><i class="fa fa-check"></i><b>1</b> Temel R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1.1-R-kurulum.html"><a href="1.1-R-kurulum.html"><i class="fa fa-check"></i><b>1.1</b> Kurulum</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-R-console.html"><a href="1.2-R-console.html"><i class="fa fa-check"></i><b>1.2</b> R Komut Satırı (Console)</a></li>
+<li class="chapter" data-level="1.3" data-path="1.3-R-nesne.html"><a href="1.3-R-nesne.html"><i class="fa fa-check"></i><b>1.3</b> <code>R</code>’da Nesneler</a></li>
+<li class="chapter" data-level="1.4" data-path="1.4-R-vektor.html"><a href="1.4-R-vektor.html"><i class="fa fa-check"></i><b>1.4</b> Vektörler</a></li>
+<li class="chapter" data-level="1.5" data-path="1.5-R-log-vek.html"><a href="1.5-R-log-vek.html"><i class="fa fa-check"></i><b>1.5</b> Mantıksal vektörler</a></li>
+<li class="chapter" data-level="1.6" data-path="1.6-R-matris.html"><a href="1.6-R-matris.html"><i class="fa fa-check"></i><b>1.6</b> Matrisler</a></li>
+<li class="chapter" data-level="1.7" data-path="1.7-R-liste.html"><a href="1.7-R-liste.html"><i class="fa fa-check"></i><b>1.7</b> Listeler</a></li>
+<li class="chapter" data-level="1.8" data-path="1.8-R-data-fr.html"><a href="1.8-R-data-fr.html"><i class="fa fa-check"></i><b>1.8</b> Veri Çerçeveleri (Data Frames)</a></li>
+<li class="chapter" data-level="1.9" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html"><i class="fa fa-check"></i><b>1.9</b> Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#plot-fonksiyonu"><i class="fa fa-check"></i><b>1.9.1</b> Plot fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.2" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#eğri-çizimi"><i class="fa fa-check"></i><b>1.9.2</b> Eğri çizimi</a></li>
+<li class="chapter" data-level="1.9.3" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#histogram"><i class="fa fa-check"></i><b>1.9.3</b> Histogram</a></li>
+<li class="chapter" data-level="1.9.4" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kutu-çizimi"><i class="fa fa-check"></i><b>1.9.4</b> Kutu çizimi</a></li>
+<li class="chapter" data-level="1.9.5" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#örneklem-birikimli-yoğunluk-fonksiyonu"><i class="fa fa-check"></i><b>1.9.5</b> Örneklem birikimli yoğunluk fonksiyonu</a></li>
+<li class="chapter" data-level="1.9.6" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#serpilme-çizimi"><i class="fa fa-check"></i><b>1.9.6</b> Serpilme çizimi</a></li>
+<li class="chapter" data-level="1.9.7" data-path="1.9-R-gorsel.html"><a href="1.9-R-gorsel.html#kategorik-değişkenler"><i class="fa fa-check"></i><b>1.9.7</b> Kategorik değişkenler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html"><i class="fa fa-check"></i><b>1.10</b> Temel Programlama</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#mantıksal-işlemler"><i class="fa fa-check"></i><b>1.10.1</b> Mantıksal işlemler</a></li>
+<li class="chapter" data-level="1.10.2" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#koşullu-işlem"><i class="fa fa-check"></i><b>1.10.2</b> Koşullu işlem</a></li>
+<li class="chapter" data-level="1.10.3" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#döngüler"><i class="fa fa-check"></i><b>1.10.3</b> Döngüler</a></li>
+<li class="chapter" data-level="1.10.4" data-path="1.10-R-prog.html"><a href="1.10-R-prog.html#fonksiyonel-işlemler"><i class="fa fa-check"></i><b>1.10.4</b> Fonksiyonel İşlemler</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="1.11-R-fonksiyon.html"><a href="1.11-R-fonksiyon.html"><i class="fa fa-check"></i><b>1.11</b> R Fonksiyonları</a></li>
+<li class="chapter" data-level="1.12" data-path="1.12-R-paket.html"><a href="1.12-R-paket.html"><i class="fa fa-check"></i><b>1.12</b> R Paketleri</a></li>
+<li class="chapter" data-level="1.13" data-path="1.13-R-dizin.html"><a href="1.13-R-dizin.html"><i class="fa fa-check"></i><b>1.13</b> Çalışma dizini</a></li>
+<li class="chapter" data-level="1.14" data-path="1.14-r-ile-online-veri-indirme.html"><a href="1.14-r-ile-online-veri-indirme.html"><i class="fa fa-check"></i><b>1.14</b> R ile Online Veri İndirme</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-tidyRgiris.html"><a href="2-tidyRgiris.html"><i class="fa fa-check"></i><b>2</b> R Tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2.1-r-tidy-veri-çerçeveleri.html"><a href="2.1-r-tidy-veri-çerçeveleri.html"><i class="fa fa-check"></i><b>2.1</b> R “Tidy” veri çerçeveleri</a></li>
+<li class="chapter" data-level="2.2" data-path="2.2-readr-paketi-ile-verilerin-okutulması.html"><a href="2.2-readr-paketi-ile-verilerin-okutulması.html"><i class="fa fa-check"></i><b>2.2</b> <code>{readr}</code> Paketi ile Verilerin okutulması</a></li>
+<li class="chapter" data-level="2.3" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><i class="fa fa-check"></i><b>2.3</b> <code>{tidyr}</code> Paketi ile Verilerin Düzenlenmesi</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#kayıp-gözlemler"><i class="fa fa-check"></i><b>2.3.1</b> Kayıp gözlemler</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#hücrelerin-ayrılması-veya-birleştirilmesi"><i class="fa fa-check"></i><b>2.3.2</b> Hücrelerin ayrılması veya birleştirilmesi</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html"><i class="fa fa-check"></i><b>2.4</b> <code>{dplyr}</code> Paketi ile Verilerin Manipülasyonu</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#filter-gözlemlerin-filtrelenmesi"><i class="fa fa-check"></i><b>2.4.1</b> <code>filter()</code>: gözlemlerin filtrelenmesi</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#select-değişkenlerin-seçimi"><i class="fa fa-check"></i><b>2.4.2</b> <code>select()</code>: değişkenlerin seçimi</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#mutate-yeni-değişken-oluşturma"><i class="fa fa-check"></i><b>2.4.3</b> <code>mutate()</code>: yeni değişken oluşturma</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#arrange-verilerin-sıralanması"><i class="fa fa-check"></i><b>2.4.4</b> <code>arrange()</code>: verilerin sıralanması</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#group_by-verilerin-gruplanması"><i class="fa fa-check"></i><b>2.4.5</b> <code>group_by()</code>: verilerin gruplanması</a></li>
+<li class="chapter" data-level="2.4.6" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#summarize-verilerin-özetlenmesi"><i class="fa fa-check"></i><b>2.4.6</b> <code>summarize()</code>: verilerin özetlenmesi</a></li>
+<li class="chapter" data-level="2.4.7" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#veri-setlerinin-birleştirilmesi"><i class="fa fa-check"></i><b>2.4.7</b> Veri setlerinin birleştirilmesi</a></li>
+<li class="chapter" data-level="2.4.8" data-path="2.4-dplyr.html"><a href="2.4-dplyr.html#diğer-fonksiyonlar"><i class="fa fa-check"></i><b>2.4.8</b> Diğer fonksiyonlar</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html"><i class="fa fa-check"></i><b>2.5</b> <code>{ggplot2}</code> Paketi ile Görselleştirme</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bir-grafiğin-katmanları"><i class="fa fa-check"></i><b>2.5.1</b> Bir grafiğin katmanları</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#renk-şekil-ve-büyüklük"><i class="fa fa-check"></i><b>2.5.2</b> Renk, şekil, ve büyüklük</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#fasetler"><i class="fa fa-check"></i><b>2.5.3</b> Fasetler</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#eksenler-başlık-ve-etiketlerin-kontrolü"><i class="fa fa-check"></i><b>2.5.4</b> Eksenler, başlık, ve etiketlerin kontrolü</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#dağılım-grafikleri"><i class="fa fa-check"></i><b>2.5.5</b> Dağılım Grafikleri</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#histogram-geom_histogram"><i class="fa fa-check"></i><b>2.5.6</b> Histogram: <code>geom_histogram()</code></a></li>
+<li class="chapter" data-level="2.5.7" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#yoğunluk-geom_density"><i class="fa fa-check"></i><b>2.5.7</b> Yoğunluk: <code>geom_density()</code></a></li>
+<li class="chapter" data-level="2.5.8" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#kutu-çizimi-geom_boxplot"><i class="fa fa-check"></i><b>2.5.8</b> Kutu Çizimi: <code>geom_boxplot()</code></a></li>
+<li class="chapter" data-level="2.5.9" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#keman-grafiği-geom_violin"><i class="fa fa-check"></i><b>2.5.9</b> Keman grafiği: <code>geom_violin()</code></a></li>
+<li class="chapter" data-level="2.5.10" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#qq-grafiği"><i class="fa fa-check"></i><b>2.5.10</b> QQ Grafiği</a></li>
+<li class="chapter" data-level="2.5.11" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#bar-plot"><i class="fa fa-check"></i><b>2.5.11</b> Bar plot</a></li>
+<li class="chapter" data-level="2.5.12" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#çizgi-ve-nokta-grafiği"><i class="fa fa-check"></i><b>2.5.12</b> Çizgi ve Nokta grafiği</a></li>
+<li class="chapter" data-level="2.5.13" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#temalar"><i class="fa fa-check"></i><b>2.5.13</b> Temalar</a></li>
+<li class="chapter" data-level="2.5.14" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#interaktif-grafik"><i class="fa fa-check"></i><b>2.5.14</b> Interaktif grafik</a></li>
+<li class="chapter" data-level="2.5.15" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#harita-çizimi"><i class="fa fa-check"></i><b>2.5.15</b> Harita çizimi</a></li>
+<li class="chapter" data-level="2.5.16" data-path="2.5-ggplot.html"><a href="2.5-ggplot.html#ggplot2-uzantıları"><i class="fa fa-check"></i><b>2.5.16</b> <code>ggplot2</code> Uzantıları</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="2.6-forcats.html"><a href="2.6-forcats.html"><i class="fa fa-check"></i><b>2.6</b> <code>{forcats}</code> Paketi ile Kategorik Değişkenlerin İşlenmesi</a></li>
+<li class="chapter" data-level="2.7" data-path="2.7-stringr.html"><a href="2.7-stringr.html"><i class="fa fa-check"></i><b>2.7</b> <code>{stringr}</code> Paketi ile Karakter Değişkenlerinin İşlenmesi</a></li>
+<li class="chapter" data-level="2.8" data-path="2.8-lubridate.html"><a href="2.8-lubridate.html"><i class="fa fa-check"></i><b>2.8</b> <code>{lubridate}</code> Paketi ile Tarih-Zaman İşlemleri</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-Kesit.html"><a href="3-Kesit.html"><i class="fa fa-check"></i><b>3</b> Regresyon Analizi: Kesit Veri</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3.1-ekonometriye-giriş.html"><a href="3.1-ekonometriye-giriş.html"><i class="fa fa-check"></i><b>3.1</b> Ekonometriye Giriş</a></li>
+<li class="chapter" data-level="3.2" data-path="3.2-veri-türleri.html"><a href="3.2-veri-türleri.html"><i class="fa fa-check"></i><b>3.2</b> Veri Türleri</a></li>
+<li class="chapter" data-level="3.3" data-path="3.3-basit-regresyon-modeli.html"><a href="3.3-basit-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.3</b> Basit Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.4" data-path="3.4-popülasyon-regresyon-fonksiyonu.html"><a href="3.4-popülasyon-regresyon-fonksiyonu.html"><i class="fa fa-check"></i><b>3.4</b> Popülasyon Regresyon Fonksiyonu</a></li>
+<li class="chapter" data-level="3.5" data-path="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><a href="3.5-sıradan-en-küçük-kareler-ekk-yöntemi-ile-tahmin.html"><i class="fa fa-check"></i><b>3.5</b> (Sıradan) En Küçük Kareler (EKK) Yöntemi ile Tahmin</a></li>
+<li class="chapter" data-level="3.6" data-path="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><a href="3.6-popülasyon-ve-örneklem-regresyon-fonksiyonları.html"><i class="fa fa-check"></i><b>3.6</b> Popülasyon ve Örneklem Regresyon Fonksiyonları</a></li>
+<li class="chapter" data-level="3.7" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html"><i class="fa fa-check"></i><b>3.7</b> Fonksiyon kalıpları</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#regresyon-modelinin-doğrusallığı"><i class="fa fa-check"></i><b>3.7.1</b> Regresyon modelinin doğrusallığı</a></li>
+<li class="chapter" data-level="3.7.2" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#doğrusal-olmama"><i class="fa fa-check"></i><b>3.7.2</b> Doğrusal olmama</a></li>
+<li class="chapter" data-level="3.7.3" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-level"><i class="fa fa-check"></i><b>3.7.3</b> Log-level</a></li>
+<li class="chapter" data-level="3.7.4" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#level-log"><i class="fa fa-check"></i><b>3.7.4</b> Level-log</a></li>
+<li class="chapter" data-level="3.7.5" data-path="3.7-fonksiyon-kalıpları.html"><a href="3.7-fonksiyon-kalıpları.html#log-log-sabit-esneklik-modeli"><i class="fa fa-check"></i><b>3.7.5</b> Log-log (Sabit esneklik modeli)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="3.8-çoklu-regresyon-modeli.html"><a href="3.8-çoklu-regresyon-modeli.html"><i class="fa fa-check"></i><b>3.8</b> Çoklu Regresyon Modeli</a></li>
+<li class="chapter" data-level="3.9" data-path="3.9-r-lm-fonksiyonu.html"><a href="3.9-r-lm-fonksiyonu.html"><i class="fa fa-check"></i><b>3.9</b> R <code>lm()</code> Fonksiyonu</a></li>
+<li class="chapter" data-level="3.10" data-path="3.10-kukla-kategorik-değişkenler.html"><a href="3.10-kukla-kategorik-değişkenler.html"><i class="fa fa-check"></i><b>3.10</b> Kukla (kategorik) değişkenler</a></li>
+<li class="chapter" data-level="3.11" data-path="3.11-etkileşim-değişkenleri.html"><a href="3.11-etkileşim-değişkenleri.html"><i class="fa fa-check"></i><b>3.11</b> Etkileşim değişkenleri</a></li>
+<li class="chapter" data-level="3.12" data-path="3.12-karesel-ve-polinom-terimler.html"><a href="3.12-karesel-ve-polinom-terimler.html"><i class="fa fa-check"></i><b>3.12</b> Karesel ve polinom terimler</a></li>
+<li class="chapter" data-level="3.13" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html"><i class="fa fa-check"></i><b>3.13</b> Hipotez testleri</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-karar-kuralı"><i class="fa fa-check"></i><b>3.13.1</b> t-testi karar kuralı</a></li>
+<li class="chapter" data-level="3.13.2" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#p-değeri"><i class="fa fa-check"></i><b>3.13.2</b> p-değeri</a></li>
+<li class="chapter" data-level="3.13.3" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#t-testi-örnek"><i class="fa fa-check"></i><b>3.13.3</b> t-testi: Örnek</a></li>
+<li class="chapter" data-level="3.13.4" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-çoklu-doğrusal-kısıtların-testi"><i class="fa fa-check"></i><b>3.13.4</b> F Testi: Çoklu Doğrusal Kısıtların Testi</a></li>
+<li class="chapter" data-level="3.13.5" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#dışlama-kısıtları"><i class="fa fa-check"></i><b>3.13.5</b> Dışlama kısıtları</a></li>
+<li class="chapter" data-level="3.13.6" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#f-testi-için-karar-kuralı"><i class="fa fa-check"></i><b>3.13.6</b> F testi için karar kuralı</a></li>
+<li class="chapter" data-level="3.13.7" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#doğrusal-kısıtlar-örnek"><i class="fa fa-check"></i><b>3.13.7</b> Doğrusal kısıtlar: örnek</a></li>
+<li class="chapter" data-level="3.13.8" data-path="3.13-hipotez-testleri.html"><a href="3.13-hipotez-testleri.html#regresyonun-bütün-olarak-anlamlılığı"><i class="fa fa-check"></i><b>3.13.8</b> Regresyonun Bütün Olarak Anlamlılığı</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="3.14-regresyon-analizinde-potansiyel-problemler.html"><a href="3.14-regresyon-analizinde-potansiyel-problemler.html"><i class="fa fa-check"></i><b>3.14</b> Regresyon Analizinde Potansiyel Problemler</a></li>
+<li class="chapter" data-level="3.15" data-path="3.15-kestirim-prediction.html"><a href="3.15-kestirim-prediction.html"><i class="fa fa-check"></i><b>3.15</b> Kestirim (Prediction)</a></li>
+<li class="chapter" data-level="3.16" data-path="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><a href="3.16-makine-öğrenmesi-ve-regresyon-analizi.html"><i class="fa fa-check"></i><b>3.16</b> Makine Öğrenmesi ve Regresyon Analizi</a></li>
+<li class="chapter" data-level="3.17" data-path="3.17-regresyon-ve-gözetimli-öğrenme.html"><a href="3.17-regresyon-ve-gözetimli-öğrenme.html"><i class="fa fa-check"></i><b>3.17</b> Regresyon ve gözetimli öğrenme</a></li>
+<li class="chapter" data-level="3.18" data-path="3.18-test-mse.html"><a href="3.18-test-mse.html"><i class="fa fa-check"></i><b>3.18</b> Test MSE</a></li>
+<li class="chapter" data-level="3.19" data-path="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><a href="3.19-aşırı-uyum-ve-makine-öğrenmesi.html"><i class="fa fa-check"></i><b>3.19</b> Aşırı uyum ve makine öğrenmesi</a></li>
+<li class="chapter" data-level="3.20" data-path="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><a href="3.20-biri-hariç-çapraz-geçerleme-loocv-leave-one-out-cross-validation.html"><i class="fa fa-check"></i><b>3.20</b> Biri Hariç Çapraz Geçerleme, LOOCV (Leave-one-out Cross Validation)</a></li>
+<li class="chapter" data-level="3.21" data-path="3.21-k-katlı-çapraz-geçerleme.html"><a href="3.21-k-katlı-çapraz-geçerleme.html"><i class="fa fa-check"></i><b>3.21</b> <span class="math inline">\(k\)</span>-Katlı Çapraz Geçerleme</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-Zaman.html"><a href="4-Zaman.html"><i class="fa fa-check"></i><b>4</b> Regresyon Analizi: Zaman Serileri</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4.1-zaman-serileri.html"><a href="4.1-zaman-serileri.html"><i class="fa fa-check"></i><b>4.1</b> Zaman Serileri</a></li>
+<li class="chapter" data-level="4.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html"><i class="fa fa-check"></i><b>4.2</b> R’da Zaman Serilerinin Temsili</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#ts-nesnesi"><i class="fa fa-check"></i><b>4.2.1</b> <code>ts</code> Nesnesi</a></li>
+<li class="chapter" data-level="4.2.2" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#zoo-nesnesi"><i class="fa fa-check"></i><b>4.2.2</b> <code>zoo</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.3" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#xts-nesnesi"><i class="fa fa-check"></i><b>4.2.3</b> <code>xts</code> nesnesi</a></li>
+<li class="chapter" data-level="4.2.4" data-path="4.2-rda-zaman-serilerinin-temsili.html"><a href="4.2-rda-zaman-serilerinin-temsili.html#tsibble-nesnesi"><i class="fa fa-check"></i><b>4.2.4</b> <code>tsibble</code> nesnesi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html"><i class="fa fa-check"></i><b>4.3</b> Klasik Zaman Serisi Ayrıştırması</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="4.3-klasik-zaman-serisi-ayrıştırması.html"><a href="4.3-klasik-zaman-serisi-ayrıştırması.html#örnek-turist-sayısı"><i class="fa fa-check"></i><b>4.3.1</b> Örnek: Turist sayısı</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html"><i class="fa fa-check"></i><b>4.4</b> Zaman Serilerinde Bağımlılık</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#otokorelasyon-fonksiyonu-acf"><i class="fa fa-check"></i><b>4.4.1</b> Otokorelasyon Fonksiyonu (ACF)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="4.4-zaman-serilerinde-bağımlılık.html"><a href="4.4-zaman-serilerinde-bağımlılık.html#pür-rassal-süreç-white-noise"><i class="fa fa-check"></i><b>4.4.2</b> Pür rassal süreç (white noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="4.5-durağanlık.html"><a href="4.5-durağanlık.html"><i class="fa fa-check"></i><b>4.5</b> Durağanlık</a></li>
+<li class="chapter" data-level="4.6" data-path="4.6-birim-kök-ve-durağanlık-testleri.html"><a href="4.6-birim-kök-ve-durağanlık-testleri.html"><i class="fa fa-check"></i><b>4.6</b> Birim kök ve durağanlık testleri</a></li>
+<li class="chapter" data-level="4.7" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><i class="fa fa-check"></i><b>4.7</b> Zaman Serileriyle Regresyon Analizi: Statik Modeller</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-statik-phillips-eğrisi"><i class="fa fa-check"></i><b>4.7.1</b> Örnek: Statik Phillips Eğrisi</a></li>
+<li class="chapter" data-level="4.7.2" data-path="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html"><a href="4.7-zaman-serileriyle-regresyon-analizi-statik-modeller.html#örnek-beklentilerle-genişletilmiş-phillips-eğirisi"><i class="fa fa-check"></i><b>4.7.2</b> Örnek: Beklentilerle genişletilmiş Phillips eğirisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><i class="fa fa-check"></i><b>4.8</b> Dinamik Modeller: Dağıtılmış Gecikme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html"><a href="4.8-dinamik-modeller-dağıtılmış-gecikme-modeli.html#örnek-vergi-teşvikleri-ile-doğurganlık-ilişkisi"><i class="fa fa-check"></i><b>4.8.1</b> Örnek: Vergi teşvikleri ile Doğurganlık ilişkisi</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html"><i class="fa fa-check"></i><b>4.9</b> Vektör Otoregresyon (VAR) modeli</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="4.9-vektör-otoregresyon-var-modeli.html"><a href="4.9-vektör-otoregresyon-var-modeli.html#örnek-bist100-ve-döviz-kurları-için-bir-var-modeli"><i class="fa fa-check"></i><b>4.9.1</b> Örnek: BIST100 ve Döviz kurları için bir VAR modeli</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html"><i class="fa fa-check"></i><b>4.10</b> Granger-nedensellik testi</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="4.10-granger-nedensellik-testi.html"><a href="4.10-granger-nedensellik-testi.html#örnek"><i class="fa fa-check"></i><b>4.10.1</b> Örnek</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="4.11-kurmaca-regresyon-problemi.html"><a href="4.11-kurmaca-regresyon-problemi.html"><i class="fa fa-check"></i><b>4.11</b> Kurmaca Regresyon Problemi</a></li>
+<li class="chapter" data-level="4.12" data-path="4.12-eşbütünleşme-cointegration.html"><a href="4.12-eşbütünleşme-cointegration.html"><i class="fa fa-check"></i><b>4.12</b> Eşbütünleşme (cointegration)</a></li>
+<li class="chapter" data-level="4.13" data-path="4.13-engle-granger-eşbütünleşme-testi.html"><a href="4.13-engle-granger-eşbütünleşme-testi.html"><i class="fa fa-check"></i><b>4.13</b> Engle-Granger eşbütünleşme testi</a></li>
+<li class="chapter" data-level="4.14" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html"><i class="fa fa-check"></i><b>4.14</b> Hata Düzeltme Modeli</a>
+<ul>
+<li class="chapter" data-level="4.14.1" data-path="4.14-hata-düzeltme-modeli.html"><a href="4.14-hata-düzeltme-modeli.html#örnek-3-aylık-ve-6-aylık-hazine-bonosu-faiz-oranları-eşbütünleşik-mi"><i class="fa fa-check"></i><b>4.14.1</b> Örnek: 3-aylık ve 6-aylık hazine bonosu faiz oranları eşbütünleşik mi?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.15" data-path="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><a href="4.15-vektör-hata-düzeltme-modeli-vec-vs.-var.html"><i class="fa fa-check"></i><b>4.15</b> Vektör Hata Düzeltme Modeli (VEC) vs. VAR</a></li>
+<li class="chapter" data-level="4.16" data-path="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><a href="4.16-çok-değişkenli-modellerde-eşbütünleşme.html"><i class="fa fa-check"></i><b>4.16</b> Çok değişkenli modellerde eşbütünleşme</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-Rmarkdown.html"><a href="5-Rmarkdown.html"><i class="fa fa-check"></i><b>5</b> RMarkdown ile Raporlama</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5.1-r-markdown-nedir.html"><a href="5.1-r-markdown-nedir.html"><i class="fa fa-check"></i><b>5.1</b> R Markdown Nedir?</a></li>
+<li class="chapter" data-level="5.2" data-path="5.2-başlık-ve-diğer-seçenekler.html"><a href="5.2-başlık-ve-diğer-seçenekler.html"><i class="fa fa-check"></i><b>5.2</b> Başlık ve diğer seçenekler</a></li>
+<li class="chapter" data-level="5.3" data-path="5.3-programların-eklenmesi.html"><a href="5.3-programların-eklenmesi.html"><i class="fa fa-check"></i><b>5.3</b> Programların eklenmesi</a></li>
+<li class="chapter" data-level="5.4" data-path="5.4-program-opsiyonları.html"><a href="5.4-program-opsiyonları.html"><i class="fa fa-check"></i><b>5.4</b> Program opsiyonları</a></li>
+<li class="chapter" data-level="5.5" data-path="5.5-metin.html"><a href="5.5-metin.html"><i class="fa fa-check"></i><b>5.5</b> Metin</a></li>
+<li class="chapter" data-level="5.6" data-path="5.6-grafikler.html"><a href="5.6-grafikler.html"><i class="fa fa-check"></i><b>5.6</b> Grafikler</a></li>
+<li class="chapter" data-level="5.7" data-path="5.7-tablolar.html"><a href="5.7-tablolar.html"><i class="fa fa-check"></i><b>5.7</b> Tablolar</a></li>
+<li class="chapter" data-level="5.8" data-path="5.8-r-markdown-cheatsheets.html"><a href="5.8-r-markdown-cheatsheets.html"><i class="fa fa-check"></i><b>5.8</b> R Markdown Cheatsheets</a></li>
+<li class="chapter" data-level="5.9" data-path="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><a href="5.9-örnek-türkiyede-illerde-yaşam-indeksi-göstergeleri-2015.html"><i class="fa fa-check"></i><b>5.9</b> Örnek: Türkiye’de İllerde Yaşam İndeksi Göstergeleri (2015)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="" target="blank">Araştırma Seminerleri, 10-12 Temmuz 2023, İTÜ </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R ile Ekonometri</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tidyr-paketi-ile-verilerin-düzenlenmesi" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> <code>{tidyr}</code> Paketi ile Verilerin Düzenlenmesi<a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#tidyr-paketi-ile-verilerin-düzenlenmesi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>veriler çok çeşitli biçimlerde karşımıza çıkabilir. Bir örneğini yukarıda görmüştük.</p></li>
+<li><p>Veri düzenlemesine ilişkin çeşitli örnekler:</p></li>
+</ul>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb329-1" tabindex="-1"></a><span class="co"># düzenli bir veri seti</span></span>
+<span id="cb329-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb329-2" tabindex="-1"></a>table1</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb331-1" tabindex="-1"></a><span class="co"># satırlarda değişkenler var, yıl aynı ülke için tekrar ediyor</span></span>
+<span id="cb331-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb331-2" tabindex="-1"></a>table2</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 4
+##    country      year type            count
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+##  1 Afghanistan  1999 cases             745
+##  2 Afghanistan  1999 population   19987071
+##  3 Afghanistan  2000 cases            2666
+##  4 Afghanistan  2000 population   20595360
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583</code></pre>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb333-1" tabindex="-1"></a><span class="co"># değişken (rate) karakter vektörü olarak tanımlı</span></span>
+<span id="cb333-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb333-2" tabindex="-1"></a><span class="co"># ayrıca iki rakamın oranı açıkça yazılmış</span></span>
+<span id="cb333-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb333-3" tabindex="-1"></a>table3</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country      year rate             
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb335-1" tabindex="-1"></a><span class="co"># sütunlarda değişkenin (cases) yıl ölçümleri var</span></span>
+<span id="cb335-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb335-2" tabindex="-1"></a>table4a</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   country     `1999` `2000`
+##   &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Afghanistan    745   2666
+## 2 Brazil       37737  80488
+## 3 China       212258 213766</code></pre>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb337-1" tabindex="-1"></a><span class="co"># sütunlarda değişkenin (population) yıl ölçümleri var</span></span>
+<span id="cb337-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb337-2" tabindex="-1"></a>table4b</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   country         `1999`     `2000`
+##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan   19987071   20595360
+## 2 Brazil       172006362  174504898
+## 3 China       1272915272 1280428583</code></pre>
+<ul>
+<li>Bu veri setlerini nasıl tidy formata dönüştürebiliriz? Tidy formatta aşağıdaki kurallara uyulması gerekmektedir:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Her değişken kendi sütununda olmalıdır.<br />
+</li>
+<li>Her gözlem kendi satırında olmalıdır.</li>
+<li>Her değer kendi hücresinde olmalıdır.</li>
+</ol>
+<ul>
+<li><p>Verilerin yeniden organize edilmesinde <a href="https://tidyr.tidyverse.org/"><code>{tidyr}</code></a> paketinde yer alan iki fonksiyon çok faydalı olabilir.</p>
+<ul>
+<li><p><code>pivot_longer()</code>: verileri yeniden düzenleyerek uzun forma dönüştürür</p></li>
+<li><p><code>pivot_wider()</code>: verileri yeniden düzenleyerek geniş forma dönüştürür.</p></li>
+</ul></li>
+<li><p>Örnek: <code>table4a</code> ve <code>table4b</code> verilerini uzun forma dönüştürelim:</p></li>
+</ul>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb339-1" tabindex="-1"></a><span class="fu">pivot_longer</span>(table4a, <span class="at">cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;cases&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766</code></pre>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb341-1" tabindex="-1"></a><span class="fu">pivot_longer</span>(table4b, <span class="at">cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;population&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country     year  population
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;
+## 1 Afghanistan 1999    19987071
+## 2 Afghanistan 2000    20595360
+## 3 Brazil      1999   172006362
+## 4 Brazil      2000   174504898
+## 5 China       1999  1272915272
+## 6 China       2000  1280428583</code></pre>
+<ul>
+<li>Örnek: <code>table2</code> verilerini geniş forma dönüştürelim:</li>
+</ul>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb343-1" tabindex="-1"></a><span class="fu">pivot_wider</span>(table2, <span class="at">names_from =</span> <span class="st">&quot;type&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;count&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<ul>
+<li>Örnek: <code>tr_veri</code> verisini düzenli hale getirelim:</li>
+</ul>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb345-1" tabindex="-1"></a>tr_veri</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 6
+##    il       plaka degisken       y2005     y2010     y2015
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Istanbul    34 GDPpc         16749     26253     49773 
+##  2 Istanbul    34 RGDPpc        13986     14384     18602.
+##  3 Istanbul    34 GDPpc_USD     12428     17480     18343 
+##  4 Istanbul    34 population 12000000  13100000  14500000 
+##  5 Izmir       35 GDPpc         12011     18308     34261 
+##  6 Izmir       35 RGDPpc         9922.    10211.    12927.
+##  7 Izmir       35 GDPpc_USD      8912     12190     12626 
+##  8 Izmir       35 population  3626321   3908672   4140726 
+##  9 Ankara       6 GDPpc         15392     23997     40679 
+## 10 Ankara       6 RGDPpc        12910.    13019.    15029.
+## 11 Ankara       6 GDPpc_USD     11420     15978     14992 
+## 12 Ankara       6 population  4252588   4711187   5210297</code></pre>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb347-1" tabindex="-1"></a><span class="fu">pivot_longer</span>(tr_veri, </span>
+<span id="cb347-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb347-2" tabindex="-1"></a>             <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">y2005</span><span class="st">`</span>, <span class="st">`</span><span class="at">y2010</span><span class="st">`</span>, <span class="st">`</span><span class="at">y2015</span><span class="st">`</span>), </span>
+<span id="cb347-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb347-3" tabindex="-1"></a>             <span class="at">names_to =</span> <span class="st">&quot;yil&quot;</span>, </span>
+<span id="cb347-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb347-4" tabindex="-1"></a>             <span class="at">values_to =</span> <span class="st">&quot;olcum&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 36 × 5
+##    il       plaka degisken   yil       olcum
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+##  1 Istanbul    34 GDPpc      y2005    16749 
+##  2 Istanbul    34 GDPpc      y2010    26253 
+##  3 Istanbul    34 GDPpc      y2015    49773 
+##  4 Istanbul    34 RGDPpc     y2005    13986 
+##  5 Istanbul    34 RGDPpc     y2010    14384 
+##  6 Istanbul    34 RGDPpc     y2015    18602.
+##  7 Istanbul    34 GDPpc_USD  y2005    12428 
+##  8 Istanbul    34 GDPpc_USD  y2010    17480 
+##  9 Istanbul    34 GDPpc_USD  y2015    18343 
+## 10 Istanbul    34 population y2005 12000000 
+## # ℹ 26 more rows</code></pre>
+<p>Bu veri setinde satırlarda değişkenler var. Ayrıca <code>yil</code> değişkeninin önünde “y” karakteri var. Bunu aşağıdaki gibi düzeltebiliriz:</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-1" tabindex="-1"></a>tr_veri_uzun <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(tr_veri, </span>
+<span id="cb349-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-2" tabindex="-1"></a>                             <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">y2005</span><span class="st">`</span>, <span class="st">`</span><span class="at">y2010</span><span class="st">`</span>, <span class="st">`</span><span class="at">y2015</span><span class="st">`</span>), </span>
+<span id="cb349-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-3" tabindex="-1"></a>                             <span class="at">names_to =</span> <span class="st">&quot;yil&quot;</span>, </span>
+<span id="cb349-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-4" tabindex="-1"></a>                             <span class="at">values_to =</span> <span class="st">&quot;olcum&quot;</span>,</span>
+<span id="cb349-5"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-5" tabindex="-1"></a>                             <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span></span>
+<span id="cb349-6"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-6" tabindex="-1"></a>                             )</span>
+<span id="cb349-7"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb349-7" tabindex="-1"></a>tr_veri_uzun</span></code></pre></div>
+<pre><code>## # A tibble: 36 × 5
+##    il       plaka degisken   yil       olcum
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+##  1 Istanbul    34 GDPpc      2005     16749 
+##  2 Istanbul    34 GDPpc      2010     26253 
+##  3 Istanbul    34 GDPpc      2015     49773 
+##  4 Istanbul    34 RGDPpc     2005     13986 
+##  5 Istanbul    34 RGDPpc     2010     14384 
+##  6 Istanbul    34 RGDPpc     2015     18602.
+##  7 Istanbul    34 GDPpc_USD  2005     12428 
+##  8 Istanbul    34 GDPpc_USD  2010     17480 
+##  9 Istanbul    34 GDPpc_USD  2015     18343 
+## 10 Istanbul    34 population 2005  12000000 
+## # ℹ 26 more rows</code></pre>
+<p>Şimdi <code>pivot_wider()</code> ile değişkenleri sütunlara alalım:</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb351-1" tabindex="-1"></a><span class="fu">pivot_wider</span>(tr_veri_uzun, <span class="at">names_from =</span> <span class="st">&quot;degisken&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;olcum&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 9 × 7
+##   il       plaka yil   GDPpc RGDPpc GDPpc_USD population
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Istanbul    34 2005  16749 13986      12428   12000000
+## 2 Istanbul    34 2010  26253 14384      17480   13100000
+## 3 Istanbul    34 2015  49773 18602.     18343   14500000
+## 4 Izmir       35 2005  12011  9922.      8912    3626321
+## 5 Izmir       35 2010  18308 10211.     12190    3908672
+## 6 Izmir       35 2015  34261 12927.     12626    4140726
+## 7 Ankara       6 2005  15392 12910.     11420    4252588
+## 8 Ankara       6 2010  23997 13019.     15978    4711187
+## 9 Ankara       6 2015  40679 15029.     14992    5210297</code></pre>
+<p>Birleştirilmiş bu düzenli veri setinde <code>il</code> ve <code>yil</code> çifti bir gözlemi oluşturur. İstanbul ilinde 2005 yılında sadece bir satır bulunabilir.</p>
+<div id="kayıp-gözlemler" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Kayıp gözlemler<a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#kayıp-gözlemler" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>drop_na()</code>: kayıp gözlemleri sil</li>
+</ul>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb353-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>), </span>
+<span id="cb353-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb353-2" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;b&quot;</span>))</span>
+<span id="cb353-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb353-3" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x y    
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 &lt;NA&gt; 
+## 3    NA b</code></pre>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb355-1" tabindex="-1"></a><span class="co"># tüm NA gözlemleri sil</span></span>
+<span id="cb355-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb355-2" tabindex="-1"></a><span class="fu">drop_na</span>(df)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##       x y    
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 a</code></pre>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb357-1" tabindex="-1"></a><span class="co"># x sütunundaki NA gözlemleri sil</span></span>
+<span id="cb357-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb357-2" tabindex="-1"></a><span class="fu">drop_na</span>(df, x)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##       x y    
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 &lt;NA&gt;</code></pre>
+<ul>
+<li><code>fill()</code>: kayıp gözlemleri bir önceki ya da bir sonraki doldur. Örnek (help dosyasından):</li>
+</ul>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-1" tabindex="-1"></a>sales <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb359-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-2" tabindex="-1"></a>  <span class="sc">~</span>quarter, <span class="sc">~</span>year, <span class="sc">~</span>sales,</span>
+<span id="cb359-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-3" tabindex="-1"></a>  <span class="st">&quot;Q1&quot;</span>,    <span class="dv">2000</span>,    <span class="dv">66013</span>,</span>
+<span id="cb359-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-4" tabindex="-1"></a>  <span class="st">&quot;Q2&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">69182</span>,</span>
+<span id="cb359-5"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-5" tabindex="-1"></a>  <span class="st">&quot;Q3&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">53175</span>,</span>
+<span id="cb359-6"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-6" tabindex="-1"></a>  <span class="st">&quot;Q4&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">21001</span>,</span>
+<span id="cb359-7"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-7" tabindex="-1"></a>  <span class="st">&quot;Q1&quot;</span>,    <span class="dv">2001</span>,    <span class="dv">46036</span>,</span>
+<span id="cb359-8"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-8" tabindex="-1"></a>  <span class="st">&quot;Q2&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">58842</span>,</span>
+<span id="cb359-9"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-9" tabindex="-1"></a>  <span class="st">&quot;Q3&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">44568</span>,</span>
+<span id="cb359-10"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-10" tabindex="-1"></a>  <span class="st">&quot;Q4&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">50197</span>,</span>
+<span id="cb359-11"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-11" tabindex="-1"></a>  <span class="st">&quot;Q1&quot;</span>,    <span class="dv">2002</span>,    <span class="dv">39113</span>,</span>
+<span id="cb359-12"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-12" tabindex="-1"></a>  <span class="st">&quot;Q2&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">41668</span>,</span>
+<span id="cb359-13"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-13" tabindex="-1"></a>  <span class="st">&quot;Q3&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">30144</span>,</span>
+<span id="cb359-14"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-14" tabindex="-1"></a>  <span class="st">&quot;Q4&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">52897</span>,</span>
+<span id="cb359-15"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-15" tabindex="-1"></a>  <span class="st">&quot;Q1&quot;</span>,    <span class="dv">2004</span>,    <span class="dv">32129</span>,</span>
+<span id="cb359-16"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-16" tabindex="-1"></a>  <span class="st">&quot;Q2&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">67686</span>,</span>
+<span id="cb359-17"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-17" tabindex="-1"></a>  <span class="st">&quot;Q3&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">31768</span>,</span>
+<span id="cb359-18"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-18" tabindex="-1"></a>  <span class="st">&quot;Q4&quot;</span>,      <span class="cn">NA</span>,    <span class="dv">49094</span></span>
+<span id="cb359-19"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-19" tabindex="-1"></a>)</span>
+<span id="cb359-20"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb359-20" tabindex="-1"></a>sales</span></code></pre></div>
+<pre><code>## # A tibble: 16 × 3
+##    quarter  year sales
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Q1       2000 66013
+##  2 Q2         NA 69182
+##  3 Q3         NA 53175
+##  4 Q4         NA 21001
+##  5 Q1       2001 46036
+##  6 Q2         NA 58842
+##  7 Q3         NA 44568
+##  8 Q4         NA 50197
+##  9 Q1       2002 39113
+## 10 Q2         NA 41668
+## 11 Q3         NA 30144
+## 12 Q4         NA 52897
+## 13 Q1       2004 32129
+## 14 Q2         NA 67686
+## 15 Q3         NA 31768
+## 16 Q4         NA 49094</code></pre>
+<p><code>sales</code> veri setinde yıl değerleri sadece değiştiğinde açıkça yazılmış. Aslında NA değil Q1 dönemindeki yıl değerine eşit.</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb361-1" tabindex="-1"></a><span class="co"># year değerlerini yukarıdan aşağıya doğru doldur</span></span>
+<span id="cb361-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb361-2" tabindex="-1"></a><span class="fu">fill</span>(sales, year)</span></code></pre></div>
+<pre><code>## # A tibble: 16 × 3
+##    quarter  year sales
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Q1       2000 66013
+##  2 Q2       2000 69182
+##  3 Q3       2000 53175
+##  4 Q4       2000 21001
+##  5 Q1       2001 46036
+##  6 Q2       2001 58842
+##  7 Q3       2001 44568
+##  8 Q4       2001 50197
+##  9 Q1       2002 39113
+## 10 Q2       2002 41668
+## 11 Q3       2002 30144
+## 12 Q4       2002 52897
+## 13 Q1       2004 32129
+## 14 Q2       2004 67686
+## 15 Q3       2004 31768
+## 16 Q4       2004 49094</code></pre>
+<ul>
+<li><code>replace_na()</code>: NA yerine belirtilmiş (bilinen) değerleri yaz.</li>
+</ul>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb363-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>), </span>
+<span id="cb363-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb363-2" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;b&quot;</span>))</span>
+<span id="cb363-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb363-3" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x y    
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 &lt;NA&gt; 
+## 3    NA b</code></pre>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb365-1" tabindex="-1"></a><span class="co"># x değişkeninde NA değerleri yerine 0 </span></span>
+<span id="cb365-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb365-2" tabindex="-1"></a><span class="co"># y değişkeninde NA değerleri yerine &quot;bilinmiyor&quot; yaz</span></span>
+<span id="cb365-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb365-3" tabindex="-1"></a><span class="fu">replace_na</span>(df, <span class="fu">list</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="st">&quot;bilinmiyor&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x y         
+##   &lt;dbl&gt; &lt;chr&gt;     
+## 1     1 a         
+## 2     2 bilinmiyor
+## 3     0 b</code></pre>
+<ul>
+<li><code>complete()</code>: Gizli kayıp gözlemleri açık hale getir.</li>
+</ul>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb367-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">il =</span> <span class="fu">c</span>(<span class="st">&quot;İstanbul&quot;</span>, <span class="st">&quot;İstanbul&quot;</span>, <span class="st">&quot;Ankara&quot;</span>), </span>
+<span id="cb367-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb367-2" tabindex="-1"></a>             <span class="at">yil =</span> <span class="fu">c</span>(<span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2019</span>), </span>
+<span id="cb367-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb367-3" tabindex="-1"></a>             <span class="at">kfe =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">220</span>))</span>
+<span id="cb367-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb367-4" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   il         yil   kfe
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 İstanbul  2019   250
+## 2 İstanbul  2020   300
+## 3 Ankara    2019   220</code></pre>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb369-1" tabindex="-1"></a><span class="fu">complete</span>(df, il, yil)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   il         yil   kfe
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 Ankara    2019   220
+## 2 Ankara    2020    NA
+## 3 İstanbul  2019   250
+## 4 İstanbul  2020   300</code></pre>
+</div>
+<div id="hücrelerin-ayrılması-veya-birleştirilmesi" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Hücrelerin ayrılması veya birleştirilmesi<a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#hücrelerin-ayrılması-veya-birleştirilmesi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>table3</code> veri setinde <code>rate</code> değişkeni oran karakteri ile tanımlanmıştı:</li>
+</ul>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb371-1" tabindex="-1"></a>table3</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country      year rate             
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583</code></pre>
+<p>Bu haliyle analizde kullanılması mümkün değildir.</p>
+<ul>
+<li>Bir sütunun hücrelerini ayırmak için <code>separate()</code> fonksiyonu kullanılabilir:</li>
+</ul>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb373-1" tabindex="-1"></a><span class="fu">separate</span>(table3, <span class="at">col =</span> rate, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;cases&quot;</span>, <span class="st">&quot;population&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country      year cases  population
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<ul>
+<li>Hücreler ayrılıp satır haline de getirilebilir:</li>
+</ul>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb375-1" tabindex="-1"></a><span class="fu">separate_rows</span>(table3, rate, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 3
+##    country      year rate      
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     
+##  1 Afghanistan  1999 745       
+##  2 Afghanistan  1999 19987071  
+##  3 Afghanistan  2000 2666      
+##  4 Afghanistan  2000 20595360  
+##  5 Brazil       1999 37737     
+##  6 Brazil       1999 172006362 
+##  7 Brazil       2000 80488     
+##  8 Brazil       2000 174504898 
+##  9 China        1999 212258    
+## 10 China        1999 1272915272
+## 11 China        2000 213766    
+## 12 China        2000 1280428583</code></pre>
+<ul>
+<li>Alıştırma: Yukarıdaki veri seti “düzenli” formda mıdır? Değilse nasıl düzenli hale getirilebilir?
+Cevap:</li>
+</ul>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb377-1" tabindex="-1"></a>table3_a <span class="ot">&lt;-</span> <span class="fu">separate_rows</span>(table3, rate, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>)</span>
+<span id="cb377-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb377-2" tabindex="-1"></a>table3_a <span class="ot">&lt;-</span> table3_a <span class="sc">|&gt;</span> <span class="fu">group_by</span>(country, year) <span class="sc">|&gt;</span> </span>
+<span id="cb377-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb377-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rowno =</span> <span class="fu">row_number</span>())</span>
+<span id="cb377-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb377-4" tabindex="-1"></a>table3_a</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 4
+## # Groups:   country, year [6]
+##    country      year rate       rowno
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;int&gt;
+##  1 Afghanistan  1999 745            1
+##  2 Afghanistan  1999 19987071       2
+##  3 Afghanistan  2000 2666           1
+##  4 Afghanistan  2000 20595360       2
+##  5 Brazil       1999 37737          1
+##  6 Brazil       1999 172006362      2
+##  7 Brazil       2000 80488          1
+##  8 Brazil       2000 174504898      2
+##  9 China        1999 212258         1
+## 10 China        1999 1272915272     2
+## 11 China        2000 213766         1
+## 12 China        2000 1280428583     2</code></pre>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb379-1" tabindex="-1"></a>table3_b <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(table3_a, <span class="at">names_from =</span> <span class="st">&quot;rowno&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;rate&quot;</span>)</span>
+<span id="cb379-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb379-2" tabindex="-1"></a>table3_b </span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+## # Groups:   country, year [6]
+##   country      year `1`    `2`       
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb381-1" tabindex="-1"></a>table3_b <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">cases =</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>, <span class="at">population =</span> <span class="st">`</span><span class="at">2</span><span class="st">`</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+## # Groups:   country, year [6]
+##   country      year cases  population
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb383-1" tabindex="-1"></a><span class="co"># sütun isimlerinin önüne bir kelime eklenebilir: </span></span>
+<span id="cb383-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb383-2" tabindex="-1"></a><span class="fu">pivot_wider</span>(table3_a, </span>
+<span id="cb383-3"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb383-3" tabindex="-1"></a>            <span class="at">names_from =</span> <span class="st">&quot;rowno&quot;</span>, </span>
+<span id="cb383-4"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb383-4" tabindex="-1"></a>            <span class="at">values_from =</span> <span class="st">&quot;rate&quot;</span>, </span>
+<span id="cb383-5"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb383-5" tabindex="-1"></a>            <span class="at">names_prefix =</span> <span class="st">&quot;variable&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+## # Groups:   country, year [6]
+##   country      year variable1 variable2 
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+## 1 Afghanistan  1999 745       19987071  
+## 2 Afghanistan  2000 2666      20595360  
+## 3 Brazil       1999 37737     172006362 
+## 4 Brazil       2000 80488     174504898 
+## 5 China        1999 212258    1272915272
+## 6 China        2000 213766    1280428583</code></pre>
+<ul>
+<li>Bazı durumlarda hücrelerin birleştirilmesi gerekebilir. Örneğin,</li>
+</ul>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb385-1" tabindex="-1"></a><span class="co"># century ve year değişkenlerinin hücrelerini birleştirmek isteyebiliriz</span></span>
+<span id="cb385-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb385-2" tabindex="-1"></a>table5</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country     century year  rate             
+##   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 19      99    745/19987071     
+## 2 Afghanistan 20      00    2666/20595360    
+## 3 Brazil      19      99    37737/172006362  
+## 4 Brazil      20      00    80488/174504898  
+## 5 China       19      99    212258/1272915272
+## 6 China       20      00    213766/1280428583</code></pre>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb387-1" tabindex="-1"></a>table5a <span class="ot">&lt;-</span> <span class="fu">unite</span>(table5, century, year, <span class="at">col =</span> <span class="st">&quot;year&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb387-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb387-2" tabindex="-1"></a>table5a</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country     year  rate             
+##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 1999  745/19987071     
+## 2 Afghanistan 2000  2666/20595360    
+## 3 Brazil      1999  37737/172006362  
+## 4 Brazil      2000  80488/174504898  
+## 5 China       1999  212258/1272915272
+## 6 China       2000  213766/1280428583</code></pre>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb389-1" tabindex="-1"></a><span class="co"># rate sütununu ayır</span></span>
+<span id="cb389-2"><a href="2.3-tidyr-paketi-ile-verilerin-düzenlenmesi.html#cb389-2" tabindex="-1"></a><span class="fu">separate</span>(table5a, <span class="at">col =</span> rate, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;cases&quot;</span>, <span class="st">&quot;population&quot;</span>), <span class="at">convert =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country     year   cases population
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan 1999     745   19987071
+## 2 Afghanistan 2000    2666   20595360
+## 3 Brazil      1999   37737  172006362
+## 4 Brazil      2000   80488  174504898
+## 5 China       1999  212258 1272915272
+## 6 China       2000  213766 1280428583</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2.2-readr-paketi-ile-verilerin-okutulması.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2.4-dplyr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
