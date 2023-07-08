@@ -1,0 +1,26 @@
+book_filename: "R-ile-Ekonometri"
+delete_merged_file: true
+repo: https://github.com/htastan
+output_dir: docs
+rmd_files: ["index.Rmd", "01-Temel-R.Rmd", "02-R-Tidyverse.Rmd",
+"03-Regresyon-Kesit-Veri.Rmd", "04-Regresyon-Zaman-Serileri.Rmd",
+"05-Raporlama.Rmd"]
+language:
+  label:
+    fig: 'Şekil '
+    tab: 'Tablo '
+    eq: 'Denklem '
+    thm: 'Teorem '
+    lem: 'Lemma '
+    cor: 'Corollary '
+    prp: 'Önerme '
+    cnj: 'Conjecture '
+    def: 'Tanım '
+    exm: 'Örnek '
+    exr: 'Alıştırma '
+    hyp: 'Hipotez '
+    proof: 'Kanıt. '
+    remark: 'Remark. '
+    solution: 'Çözüm. '
+  ui:
+    chapter_name: " "

@@ -1,0 +1,1109 @@
+# Regresyon Analizi: Zaman Serileri {#Zaman}
+
+- Kesit veri ile regresyon analizinde, verilerin ilgili anakütleden rassal örnekleme yoluyla elde edildiği varsayımı yapılabilir (bağımsız ve türdeş dağılım, iid). Bu varsayım altında hata terimleri birbiriyle ilişkisiz olur. 
+
+- Ancak zaman serilerinde bu varsayım genellikle gerçekçi olmaz. Tipik olarak zaman serilerinde dizisel bağımlılık görülür. 
+
+- Bu nedenle zaman serileriyle regresyon analizinde bazı yeni varsayımların yapılması gerekebilir. 
+
+- En Küçük Kareler Yöntemi belirli varsayımlar altında sapmasız ve/veya tutarlı, ve etkin olabilir. 
+
+- Bu bölümde zaman serileriyle regresyon analizinin temel özellikleri incelenecektir. 
+
+
+
+## Zaman Serileri
+
+- $t$ (zaman) ile indekslenmiş $\{Y_t: ~t\in \mathbb{T}\}$  ile gösterilen tek değişkenli rassal değişkenler kümesine **zaman serisi** adı verilir (stokastik süreç).
+
+- İndeks kümesi sonlu ya da sonsuz, sürekli ya da kesikli olabilir. 
+
+- Ekonometri ve istatistik alanlarında zaman serisi denildiği zaman genellikle **kesikli zaman indeksi** anlaşılır.
+
+- Zaman indeksi kümesinin birbirine eşit uzaklıkta değerlerden oluştuğu düşünülür,  ancak bu şart değildir. Biz burada aksi belirtilmedikçe $t_i$ değerlerinin eşit uzaklıklı olduğunu varsayacağız.
+
+- Zamanın reel sayı olduğu sürekli zaman ile indekslenmiş rassal değişkenleri kümesi genellikle $\{X(t),~t\in \mathbb{T} \}$ ile gösterilir.
+
+- Kesikli zaman için indeks kümesi $\mathbb{T}=\{0,\pm 1,\pm 2,\ldots\}$ ve sürekli zaman için $\mathbb{T}=\{-\infty<t<\infty \}$ olarak tanımlanabilir. 
+
+- Stokastik sürecin belirli bir gerçekleşmesini (realizasyonunu) $\{y_t: t=1,2,\ldots,T\}$ ya da $\{y_t\}_{t=1}^T$ ile gösterebiliriz. 
+
+- $t$ zamanında gözlemlenen değerler skalar (univariate) ya da vektör değerli (multivariate) olabilir.
+
+
+## R'da Zaman Serilerinin Temsili 
+
+- Zaman serileriyle veri analizinde kullandığımız yazılım ne olursa olsun veri tipine ilişkin özelleştirilmiş fonksiyon ve algoritmaların kullanılması bir zorunluluktur.
+
+- `R` programında da, tıpkı diğerlerinde olduğu gibi, veri setinin bir zaman serisi olduğunun tanıtılması gerekir. 
+
+- `R`'da zaman serilerini temsil etmenin birden fazla yolu vardır. 
+
+- Yaygın olarak kullanılan nesne sınıfları aşağıda tanıtılmıştır. Daha fazla bilgi için bkz. [CRAN Task View: Time Series Analysis](https://cran.r-project.org/web/views/TimeSeries.html)
+
+ 
+### `ts` Nesnesi
+
+- Temel `R`'da bir zaman serisi `ts` nesnesi ile temsil edilebilir. Düzenli aralıklarla ölçülmüş ve kayıp gözlemlerin olmadığı veri setleri için idealdir. 
+
+- Örnek: 
+```{r}
+set.seed(1)
+x <- rnorm(10)
+x
+class(x)
+```
+
+`x` değişkeninin sınıfı sayısaldır (numeric). Şimdi bir zaman serisi, `ts`, nesnesi oluşturalım. Zamanın yıllık olarak 2010-2019 arasında ölçüldüğünü farzedelim:  
+
+```{r}
+ts_annual <- ts(x, start = 2010, frequency = 1)
+ts_annual
+```
+
+Oluşturulan nesnenin sınıfı ve özellikleri: 
+
+```{r}
+class(ts_annual)
+attributes(ts_annual)
+```
+
+`ts_annual` vektörünün sınıfı `ts`'dir. `tsp` (attribute) zamanın başlangıç, bitiş ve frekansını gösterir. Yıllık veri için frekans 1'dir. 
+
+
+- Temel `R`'ın `plot` fonksiyonu zaman serisi nesnelerini algılar ve grafiği buna uygun olarak çizer: 
+```{r}
+plot(ts_annual)
+```
+
+- Nümerik vektör `x` ile grafik: 
+```{r}
+plot(x)
+```
+
+- Zaman serilerinden oluşan bir değişkenler kümesi: 
+```{r}
+set.seed(22)
+n <- 120
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+t <- 1:n
+y <- 10 + 0.1*t + 2*x1 - 3*x2 + rnorm(n)
+df1 <- data.frame(y, x1, x2)
+head(df1)
+```
+
+- Yukarıdaki veri çerçevesinin aylık verilerden oluştuğunu ve 2010m1'den itibaren 10 yıllık bir dönemi kapsadığını düşünelim: 
+```{r}
+ts_monthly <- ts(df1, start = c(2010, 1), end = c(2019, 12), frequency = 12)
+head(ts_monthly)
+```
+```{r}
+attributes(ts_monthly)
+```
+
+
+```{r}
+class(ts_monthly)
+```
+
+```{r}
+plot(ts_monthly)
+```
+
+
+
+- Benzer şekilde çeyreklik veriler için `frequency = 4` olarak belirlenebilir: 
+```{r}
+ts_quarterly <- ts(runif(8), start = c(2018, 1), frequency = 4)
+ts_quarterly
+```
+
+- Verilerin bir alt kümesi `window()` fonksiyonu ile oluşturulabilir. Örneğin,  
+```{r}
+ts_monthly_subset <- window(ts_monthly, start=c(2018,1))
+ts_monthly_subset
+```
+
+
+
+### `zoo` nesnesi
+
+- `ts` objelerinde zaman tanımı sadece nümerik olabilir. Aylık, çeyreklik, yıllık verilerde bu sorun olmasa da düzensiz ölçümlü verilerde ve saatlik gözlemlerin yer aldığı verilerde sorun yaratabilir. 
+
+- Alternatiflerden biri `zoo` paketidir (ve sınıfı). Bu paket [Zeileis and Grothendieck (2005)](http://dx.doi.org/10.18637/jss.v014.i06) tarafından yazılmıştır. Detaylar için bkz. : [zoo: S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)](https://cran.r-project.org/web/packages/zoo/index.html). 
+
+```{r}
+library(zoo)
+n <- 10
+dates <- seq(as.Date("2020-12-01"), length = n, by = "days")
+dates
+x_zoo <- zoo(x = rnorm(n), order.by = dates)
+x_zoo
+```
+
+```{r}
+class(x_zoo)
+```
+
+```{r}
+plot(x_zoo)
+```
+
+
+- `ts` nesnesi bir `zoo` nesnesine `as.zoo()` fonksiyonu ile dönüştürülebilir. Tersi için  `as.ts()` fonksiyonu kullanılabilir:  
+
+```{r}
+zoo_monthly <- as.zoo(ts_monthly)
+plot(zoo_monthly)
+```
+
+Örnek: `AirPassengers` verileri
+```{r}
+plot(autoplot.zoo(as.zoo(AirPassengers)))
+```
+
+
+### `xts` nesnesi
+
+- Diğer bir alternatif `xts` (Extensible Time Series) paketidir ve `zoo` paketini baz alır. Daha fazla detay için bkz. CRAN sayfası: [xts: eXtensible Time Series](https://cran.r-project.org/web/packages/xts/index.html). 
+
+
+```{r}
+library(xts)
+xts_data1 <- xts(x = runif(5), order.by=Sys.Date()-1:5) 
+colnames(xts_data1) <- "var1"
+xts_data1
+```
+
+```{r}
+# sunspots data
+data("sunspots")
+xts_sunspots <- as.xts(sunspots)
+head(xts_sunspots)
+```
+
+```{r}
+class(xts_sunspots)
+periodicity(xts_sunspots)
+```
+
+```{r}
+plot(xts_sunspots)
+```
+
+- Örnek: günlük veriler
+```{r}
+data("sample_matrix")
+xts_daily <- as.xts(sample_matrix)
+head(xts_daily)
+```
+
+```{r}
+plot(xts_daily)
+```
+
+
+
+### `tsibble` nesnesi 
+
+- Başka bir alternatif zaman serisi gruplarının tanımlanmasına izin veren `tsibble` nesnesidir.  `tidyverts` paketler topluluğunun bir parçasıdır ve  R. Hyndman vd tarafından geliştirilmiştir, bkz. [tidyverts](https://tidyverts.org/) 
+
+- `tidyverts` şu paketlerden oluşur: `tsibble`, `fable`, `feasts`, ve `tsibbledata.` Bu paketlerde yer alan fonksiyonlar `tidyverse` paketleriyle uyumlu çalışır.  
+
+- Daha fazla detay için bkz  [tsibble: Tidy Temporal Data Frames and Tools](https://cran.r-project.org/web/packages/tsibble/index.html). Ayrıca bkz.  [Hyndman, R.J., & Athanasopoulos, G. (2019) Forecasting: principles and practice, 3rd edition, OTexts: Melbourne, Australia.](https://otexts.com/fpp3/)   
+
+
+- `tsibble` nesnesi oluşturmak için 
+```{r tsibbleex1, warning=FALSE}
+# library(tidyverts)
+library(tsibble)
+tsdata1 <- tsibble(year = 2017:2019, 
+                   var1 = c(100, 90, 105), 
+                   index = year)
+tsdata1
+```
+
+- Bir `tsibble` nesnesinde zamanı temsil eden bir **index değişkeni** bulunur. Yukarıdaki örnekte zaman indeksi `year` değişkenidir 
+
+
+- Örnek: Minimal bir panel veri seti  
+```{r tsibbleex2}
+tsdata2 <- tsibble(year = c(rep(2017,3), rep(2018,3)), 
+                   province = rep(c("Istanbul", "Ankara", "Izmir"),2), 
+                   GDPpc = c(65195,51922,45102,76769,60249,54305), 
+                   index = year, 
+                   key = province
+                   )
+tsdata2
+```
+
+```{r}
+index(tsdata2)
+```
+
+```{r}
+key(tsdata2)
+```
+
+- Örnek: Ülke veri seti (`tsibbledata` paketinden) 
+
+```{r}
+library(tsibbledata)
+data("global_economy")
+global_economy
+```
+
+`global_economy` veri setinde zaman indeksi `Year` ve anahtar (key) değişkeni `Country`'dir. 
+
+- Sıklıkla kullanılan zaman formatları ve ilgili fonksiyonlar (Kaynak: [Hyndman and Athanasopoulos (2019) Forecasting: principles and practice, 3rd edition](https://otexts.com/fpp3/))
+
+| **Interval** | **Class**                 |**Function**               |
+|--------------|---------------------------|---------------------------|
+| Annual       | `integer`/`double`        | `start:end`               |
+| Quarterly    | `yearquarter`             | `yearquarter()`           |
+| Monthly      | `yearmonth`               | `yearmonth()`             |
+| Weekly       | `yearweek`                | `yearweek()`              |
+| Daily        | `Date`/`difftime`         | `as_date()`, `ymd()`      |
+| Subdaily     | `POSIXt`/`difftime`/`hms` | `as_datetime()`           |
+|                                                                      |
+
+
+
+- Mevcut bir zaman serisi nesnesi `tsibble` nesnesine dönüştürülebilir. Örneğin, 
+```{r message=FALSE, warning=FALSE}
+library(tsibble)
+library(tidyverse)
+library(lubridate)
+library(xts)
+library(fpp3)
+# use built-in daily data on closing prices from xts package
+data("sample_matrix")
+head(sample_matrix)
+```
+
+
+```{r}
+# convert sample_matrix into tibble and create a date variable
+df1 <- tibble(date = rownames(sample_matrix), 
+              close = sample_matrix[,4]
+              )
+df1 <- df1 %>% 
+  mutate(date = lubridate::ymd(date))
+df1
+```
+
+
+```{r} 
+tsibble_daily <- as_tsibble(df1, index = date)
+tsibble_daily
+```
+
+- Günlük verilerden oluşan bu veri setinden hareketle aylık ortalamaları hesaplayarak yeni bir veri seti oluşturalım. 
+
+- Bunun için önce `tsibble::yearmonth()` fonksiyonunu kullanarak `year_month` isminde yeni bir değişken oluşturalım. Bu değişkeni gruplamada kullanacağız.  
+```{r}
+tsibble_monthly <- tsibble_daily %>% 
+  mutate(year_month = yearmonth(date))
+tsibble_monthly
+```
+
+- `tsibble_monthly` veri setinde zaman indeksi `date` değişkenidir. 
+
+- Bu aşamada  `index_by()` fonksiyonunu kullanarak özet istatistikleri hesaplayabiliriz (bu `dplyr` paketindeki `group_by()` fonksiyonuna benzemektedir). 
+
+```{r}
+tsibble_monthly2 <- tsibble_monthly %>% 
+  index_by(year_month) %>% 
+  summarize(close_avr = mean(close), 
+            count = n())
+tsibble_monthly2
+```
+
+- Günlük verilerin zaman grafiği 
+```{r}
+tsibble_daily %>% autoplot(close)
+```
+
+- Aylık verilerin zaman grafiği 
+```{r}
+tsibble_monthly2 %>% autoplot(close_avr)
+```
+
+## Klasik Zaman Serisi Ayrıştırması 
+
+- Toplamsal ayrıştırma 
+$$X_t = T_t + C_t + S_t + I_t$$
+
+Bileşenler: 
+
+- $T_t$: trend bileşeni: bu yavaş hareket eden uzun dönem bileşenidir. 
+
+- $C_t$: Çevrimsel (Cyclical) bileşen: orta dönemli hareketleri yansıtan konjonktür dalgalanmaları, resesyon ve canlanma gibi dönemleri kapsayan bileşendir. Tipik olarak bir kaç yıl sürebilir. 
+
+- $S_t$: Mevsimsel (Seasonal) bileşen: aylık, çeyreklik, haftalık veya günlük verilerde gözlemlenen yılın aynı dönemlerindeki benzer hareketleri içerir. Finansal zaman serilerinde işlem günü etkisi bu çerçevede değerlendirilebilir. 
+
+- $I_t$: Düzensiz (Irregular) bileşen bu bileşenlerin dışında kalan rassal hareketlerdir.
+
+- Mevsimsel bileşen aşağı yukarı sabit hareket ediyorsa toplamsal bileşen uygundur.  
+
+- Ancak mevsimsel bileşen serinin düzeyi ile orantılı şekilde artıyorsa **çarpımsal ayrıştırma** daha uygundur: 
+$$X_t = T_t \times C_t \times S_t \times I_t$$
+
+- Doğal logaritma dönüştürmesi yapılarak mevsimsel hareketler daha stabil hale geliyorsa bu durumda log-toplamsal ayrıştırma tercih edilebilir: 
+$$\log(X_t) = T_t + C_t + S_t + I_t$$
+
+- Mevsimsel düzeltme: Ayrıştırma yapıldıktan sonra mevsimsel bileşen $S_t$ çıkarılarak mevsimsel düzeltme yapılabilir: $\log(X_t) - S_t = T_t + C_t + I_t$  
+
+### Örnek: Turist sayısı 
+
+```{r}
+library(forecast)
+# Türkiye'ye gelen toplam turist sayısı, aylık
+load("veriler/turist.rda")
+turist_ts <- ts(turist$touristnumber, start = c(1990,1), frequency = 12)
+autoplot(turist_ts)
+```
+
+
+```{r}
+# mevsimsel grafik
+forecast::ggseasonplot(turist_ts)
+```
+
+
+```{r}
+# log dönüştürme 
+autoplot(log(turist_ts))
+```
+
+```{r}
+# mevsimsel grafik
+forecast::ggseasonplot(log(turist_ts), year.labels=TRUE, year.labels.left=TRUE)
+```
+
+
+```{r}
+# polar mevsimsel grafik
+forecast::ggseasonplot(log(turist_ts), polar=TRUE)
+```
+
+
+```{r}
+# mevsimsel alt dönemler
+ggsubseriesplot(turist_ts) +
+  ylab("Turist sayısı") +
+  ggtitle("Mevsimsel alt seriler: Türkiye'ye gelen turist sayısı")
+```
+
+
+```{r}
+# mevsimsel alt dönemler, logaritmik skala
+ggsubseriesplot(log(turist_ts)) +
+  ylab("Turist sayısı Logaritmik skala") +
+  ggtitle("Mevsimsel alt seriler: Türkiye'ye gelen turist sayısı (log)")
+```
+
+```{r}
+# klasik ayrıştırma
+# çarpımsal 
+turist_ts |> decompose(type="multiplicative") |> 
+  autoplot() + xlab("Year") +
+  ggtitle("Klasik çarpımsal ayrıştırma: Gelen turist sayısı")
+```
+
+
+
+## Zaman Serilerinde Bağımlılık
+
+### Otokorelasyon Fonksiyonu (ACF)
+
+- Örneklem otokovaryans fonksiyonu  aralarındaki zaman uzaklığı $h$ olan iki rassal değişken arasındaki kovaryansın bir tahmin edicisidir: 
+$$\hat{\gamma}_h = \frac{1}{T}\sum_{t=h+1}^T (y_t-\bar{y})(y_{t-h}-\bar{y})$$
+Burada $\bar{y}=\frac{1}{T}\sum_{t=1}^T y_t$ örneklem ortalamasıdır.
+
+- Bir zaman serisinin otokorelasyon fonksiyonu (autocorrelation function, ACF) aşağıdaki gibi tanımlanır:
+$$\rho_h = \frac{Cov(y_t, y_{t-h})}{\sqrt{Var(y_t)Var(y_{t-h})}}$$
+
+
+- Durağan süreçler için
+$$\rho_h = \frac{Cov(y_t, y_{t-h})}{Var(y_t)} = \frac{\gamma_h}{\gamma_0}$$
+yazılabilir. Bu durumda ACF sadece $h$'ye bağlı olarak değişir.
+
+- $T$ gözlemden oluşan bir zaman serisi gerçekleşmesinden hareketle, $\rho_h$ aşağıda formülü verilen **örneklem otokorelasyon fonksiyonu** ile tutarlı bir şekilde tahmin edilebilir:
+$$\hat{\rho}_h = \frac{\hat{\gamma}_h}{\hat{\gamma}_0}$$
+
+- Bir zaman serisinin geçmiş değerlerle olan ilişkisinin özetlenmesinde örneklem otokorelasyon fonksiyonu, ACF ya da SACF, kullanılabilir. 
+
+- Geçmişe bağımlılığı yüksek değişkenler için ACF yüksek değerler alır. 
+
+-  Bir zaman serisi gerçekleşmesinin örneklem otokorelasyonlarının $h=1,2,\ldots$ uzaklığına göre grafiğine **korelogram** adı verilir.
+
+- Büyük örneklemlerde Merkezi Limit Teoremi'nden hareketle
+$$\hat{\rho}_j \sim N\left(0,\frac{1}{T}\right)$$
+yazılabilir (Not: $\sqrt{T}\hat{\rho}_j \sim N(0,1)$).
+
+- Öyleyse, sıfır çevresinde %95 güven aralığı $\pm \frac{1.96}{\sqrt{T}}$ formülüyle bulunabilir.
+
+- Örneklem otokorelasyon değerleri sıfır çevresindeki güven bandının içindeyse sıfır olarak kabul edilebilir. Dışındaysa istatistik bakımından sıfırdan farklıdır.  
+
+
+### Pür rassal süreç (white noise)
+ 
+- $\{\epsilon_t: t=1,2,\ldots\}$ ile gösterilen bir stokastik süreç aşağıdaki koşulları sağlıyorsa pür rassal süreç (white noise process) adı verilir:
+  - Ortalaması 0'dır, 
+  - Varyansı, $\sigma^2$,  sabittir,
+  - $t$ ve $s$ gibi iki farklı zaman noktasındaki değerler arasındaki kovaryans sıfırdır: $Cov(\epsilon_t, \epsilon_{s}) = 0,~~t\neq s$. Yani seride otokorelasyon yoktur. 
+  
+ 
+- Bu süreci kısaca $\epsilon_t \sim wn(0,\sigma^2)$ ile gösterebiliriz.
+-  200 gözlemli bir pür rassal süreç gerçekleşmesi 
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/whitenoise2.png")
+``` 
+
+- Örneklem otokorelasyon fonksiyonu (ACF) 
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/wnACF.png")
+``` 
+
+
+## Durağanlık 
+
+
+- Bir zaman serisi, $\{y_t\}_{t=1}^T$, aşağıdaki koşulları sağlıyorsa (kovaryans) durağandır:
+  - Ortalaması sabittir, zamana göre değişmez. 
+  - Varyansı sabittir, zamana göre değişmez. 
+  - İki farklı zamandaki değerler arasındaki otokorelasyon zamana bağlı değildir; ancak uzaklığa bağlı olabilir, yani her $t$ ve herhangi bir tamsayı $h$ için
+$$Cov(y_t, y_{t-h}) = E[(y_t-\mu)(y_{t-h}-\mu)] = \gamma_h$$ 
+ 
+
+- Kovaryans durağanlık, zayıf durağanlık olarak da isimlendirilir. 
+
+- Durağan bir zaman serisinin birinci ve ikinci momentleri zamana bağlı değildir.
+
+- Koşulsuz ortalama sabittir ve zaman içinde değişmez. Benzer şekilde koşulsuz varyans, pozitif, sonlu bir sayıya eşittir ve zamanla değişmez.
+
+- Otokovaryanslar ise sadece iki zaman noktası arasındaki uzaklığa, $h$, bağlıdır, zamanla birlikte değişmez. 
+
+
+
+## Birim kök ve durağanlık testleri 
+
+
+- Bir değişkenin durağan olup olmadığını birim kök testleriyle anlayabiliriz. 
+
+- Çok sayıda birim kök ve durağanlık testi geliştirilmiştir. Bunların en bilinenleri Dickey-Fuller (DF), Phillips-Perron, ve KPSS tesleridir. 
+
+- DF testi AR(1) fomülasyonuna dayanır: 
+$$y_t = \alpha + \beta y_{t-1} + \epsilon_t$$
+Rassal Yürüyüş (Random Walk) süreci bu modelin özel bir halidir. 
+
+- Birim kök testleri $\beta=1$ olup olmadığını test eder. Boş ve alternatif hipotezler aşağıdaki gibi yazılabilir: 
+$$H_0: \mbox{Değişken durağan değildir}\Leftrightarrow \beta=1$$
+$$H_1: \mbox{Değişken durağandır}\Leftrightarrow \beta<1$$
+  
+- DF ya ADF testi sol kuyruk testidir. Test istatistiği basit t-oranı olsa da dağılımı standart değildir. 
+
+- Kritik değerler modelde sabit terim ve/veya trend olup olmamasına göre değişir.
+
+- Kritik değerden daha küçük bir ADF test değeri değişkenin durağan olduğuna işaret eder. Daha büyükse H0 kabul edilir, seri durağan değildir.  
+
+```{r, echo=FALSE, out.width = "75%", fig.align='center'}
+knitr::include_graphics("img/adf2.png")
+```
+
+- Örnek: 
+
+```{r}
+library(urca)  # birim kök testleri için R paketi
+library(forecast)
+# verileri yükle
+load("veriler/gsyih_sa_endeks.RData")
+# ts nesnesi oluştur: 
+gsyih_ts <- ts(gsyih_sa_endeks$gsyih_sa, start = c(1998,1), frequency = 4)
+# log dönüştürme 
+lgsyih_ts <- log(gsyih_ts)
+# zaman serisi grafiği, forecast::autoplot()
+autoplot(lgsyih_ts)  
+```
+
+```{r}
+# ADF testi, sabit, trend yok 
+adf1 <- ur.df(lgsyih_ts ,    
+              type = c("drift"), # drift (sabit) dahil
+              lags=4,            # max gecikme sayısı
+              selectlags="AIC")  # optimal gecikme AIC ile seçilsin
+summary(adf1)
+```
+
+
+- ADF test istatistiği $-0.254$ olarak bulunmuştur. %5 düzeyinde kritik değer = $-2.89$. Karar = boş hipotez reddedilemez, GSYİH serisinde birim kök vardır.
+
+- ADF birim kök kritik değer tablosu: 
+```{r}
+urca::unitrootTable(trend = c("c"), statistic = c("t"))
+```
+- ADF testinin P değeri: 
+```{r}
+urca::punitroot(-0.2536, trend = "c", statistic = "t")
+```
+
+- Sabit + trend durumu: 
+
+
+```{r}
+# ADF testi, sabit, trend yok 
+adf2 <- ur.df(lgsyih_ts ,    
+              type = c("trend"), # sabit + trend
+              lags=4,            # max gecikme sayısı
+              selectlags="AIC")  # optimal gecikme AIC ile seçilsin
+summary(adf2)
+```
+ 
+
+ADF test istatistiği $-2.78$ olarak bulunmuştur. %5 düzeyinde kritik değer = $-3.45$. Karar = boş hipotez reddedilemez, GSYİH serisinde birim kök vardır. ADF testinin P değeri: 
+```{r}
+# deterministik: "ct" = constant + trend
+urca::punitroot(-2.78, trend = "ct", statistic = "t")
+```
+
+Karar: Boş hipotez %5 düzeyinde reddedilemez. 
+
+- GSYİH serisinin birinci farkını alarak testi tekrarlayalım. 
+
+```{r}
+dlgsyih <- diff(lgsyih_ts) # serinin birinci farkı
+autoplot(dlgsyih)
+```
+
+
+```{r}
+# ADF testi, sabit 
+adf3 <- ur.df(dlgsyih ,    
+              type = c("drift"), # sabit + trend
+              lags=4,            # max gecikme sayısı
+              selectlags="AIC")  # optimal gecikme AIC ile seçilsin
+summary(adf3)
+```
+
+
+ADF test istatistiği $-6.078$ olarak bulunmuştur. %5 düzeyinde kritik değer = $-2.89$. Karar = boş hipotez reddedilir, GSYİH serisinin birinci farkı durağandır. P değeri: 
+```{r}
+# deterministik: "c" = constant
+urca::punitroot(adf3@teststat[1], trend = "c", statistic = "t")
+```
+- KPSS testi: H0: seri durağandır 
+```{r}
+# KPSS testi, urca paketi
+kpss1 <- ur.kpss(dlgsyih)
+summary(kpss1)
+```
+
+Karar: KPSS test istatistiği = 0.112'dir. Bu değer kritik değerlerden küçüktür (%10 düzeyinde bile). Öyleyse boş hipotez kabul edilir. 
+
+- Sonuç olarak GSYİH serisinin bir I(1) seri olduğu söylenebilir. 
+
+
+
+## Zaman Serileriyle Regresyon Analizi: Statik Modeller 
+
+
+- Elimizde $y_t$ ve $x_t$ ile gösterdiğimiz iki zaman serisi olsun. Eğer $x_t$, $y_t$'yi aynı zamanda etkiliyorsa bu ilişki aşağıdaki gibi yazılabilir: 
+$$y_t = \beta_0 + \beta_1 x_t + u_t, ~~~t=1,2,\ldots, n$$
+Burada $u_t$ model dışında bırakılmış faktörleri ifade eden bir rassal değişkendir. 
+
+- Model başka zaman dilimleri için de yazılabilir. Örneğin,  
+$$y_{t-1} = \beta_0 + \beta_1 x_{t-1} + u_{t-1}$$
+
+- Modelin tahmininde Sıradan En Küçük Kareler (Ordinary Least Squares, OLS) yöntemi kullanılabilir. OLS tahmincileri belirli şartlar altında sapmasız ve en düşük varyanslıdır. 
+
+
+- $t-1$'den $t$'ye değişimi $\Delta$ ile gösterirsek, $\Delta y_t = y_t - y_{t-1}$, aşağıdaki modele ulaşırız: 
+$$\Delta y_t = \beta_1 \Delta x_t + \Delta u_t$$
+Eğer $\Delta u_t = 0$ ise, $x$'deki değişimin $y$ üzerindeki etkisi 
+$$\frac{\Delta y_t}{\Delta x_t} = \beta_1$$
+
+- Eğer $x$ değişkeninin $y$ üzerindeki etkisi aynı zaman diliminde ortaya çıkıyorsa statik modeller uygun olur. 
+
+- Bazı durumlarda bir değişkenin etkisi bir kaç dönem sürebilir. Bu durumda dinamik modeller uygun olur. 
+
+### Örnek: Statik Phillips Eğrisi 
+
+```{r message=FALSE, warning=FALSE}
+# Install packages
+library(wooldridge)
+library(dynlm)
+library(lmtest)
+library(car)
+library(forecast)
+library(tidyverse)
+```
+
+```{r}
+# create a ts object 
+inf <- ts(phillips$inf, start=1948, frequency = 1)
+unem <- ts(phillips$unem, start=1948, frequency = 1)
+# tüm veriler
+tsphillips <- ts(phillips, start=1948, frequency = 1)
+```
+
+```{r}
+# ts plots
+autoplot(inf, series = "Enflasyon") + 
+  autolayer(unem, series = "İşsizlik") +
+  xlab("") + ylab("") + 
+  ggtitle("ABD enflasyon ve işsizlik: 1948-2003")
+```
+
+
+```{r}
+# statik regresyon
+statik <- lm(inf ~ unem, data = phillips)
+summary(statik)
+```
+
+```{r}
+# dynlm paketi ile (yukarıda yüklemiştik) 
+res1 <- dynlm(inf ~ unem, data  = tsphillips)
+summary(res1)
+```
+
+Sonuçlar denklem formunda aşağıdaki gibi yazılabilir: 
+$$\widehat{inf} = 1.05+0.502~unem$$
+
+İşsizlikteki bir puanlık bir artış enflasyonu yaklaşık 0.5 puan arttırmaktadır. Bu sonuç Phillips eğrisi ile uyuşmamaktadır. 
+
+Kalıntıları inceleyelim: 
+```{r}
+# save the residuals from the static model
+uhat <- ts(resid(statik), start=1948, end=1996)
+# plot
+forecast::autoplot(uhat) + geom_point(aes(y=uhat)) +
+  geom_hline(yintercept = 0,linetype="dashed", color = "red") +
+  theme_minimal()
+```
+
+```{r}
+# ACF 
+ggAcf(uhat)
+```
+
+
+ACF birinci gecikmede anlamlıdır. Kalıntılarda birinci derece otoregresif ilişki bulunmaktadır. Bunu t testi ile de sınayabiliriz: 
+
+```{r}
+# AR(1) 
+# dynlm paketi ile kalıntıların bir gecikme üzerine regresyonu: 
+ttestreg <- dynlm(uhat ~ L(uhat)) # L() gecikme işlemi
+coeftest(ttestreg)
+```
+
+L(uhat) katsayısı anlamlıdır. Statik modelin kalıntıları otokorelasyonludur.
+
+```{r}
+# Durbin-Watson otokorelasyon testi
+library(lmtest) # lmtest::dwtest() fonksiyonunu kullanacağız
+dwtest(res1)
+```
+
+Karar: Kalıntılarda otokorelasyon olmadığını söyleyen boş hipotez reddedilir. Modelde pozitif birinci derece otokorelasyon vardır. 
+
+(Not: DW testi bağımlı değişkenin gecikmeli değerlerinin yer aldığı modellerde uygulanamaz.)
+
+
+
+### Örnek: Beklentilerle genişletilmiş Phillips eğirisi 
+
+Beklentilerle genişletilmiş Phillips eğrisine göre enflasyon sürprizleri ile işsizlik oranı arasında ters yönlü bir ilişki mevcuttur. Enflasyon sürprizi gerçekleşen enflasyon ile beklenen enflasyon arasındaki farktır. Beklenmeyen (sürpriz) enflasyonu ölçebilmemiz için beklentilerle ilgili bir varsayım yapmamız gerekir. Basitlik amacıyla beklentilerin bir önceki dönemdeki enflasyona göre oluşturulduğunu varsayalım. Böylece sürpriz enflasyon cari değerle bir önceki değer arasındaki fark olacaktır (değişim). Modelimiz: 
+$$inf_t - inf_{t-1} =\Delta inf_t =  \beta_0 + \beta_1 unem + u$$
+
+```{r}
+res2 <- dynlm( d(inf) ~ unem, data=tsphillips, end=1996)
+summary(res2)
+```
+
+$$\widehat{\Delta inf} = 3.03-0.54~unem$$
+
+```{r}
+uhat2 <- resid(res2) 
+coeftest( dynlm(uhat2 ~ L(uhat2)) )
+```
+L(uhat2) katsayısı istatistik bakımından anlamsızdır. Kalıntılarda otokorelasyon yoktur. 
+
+
+
+```{r}
+# Durbin-Watson otokorelasyon testi
+library(lmtest) # lmtest::dwtest() fonksiyonunu kullanacağız
+dwtest(res2)
+```
+
+Karar: Boş hipotez reddedilemez. Kalıntılarda otokorelasyon yoktur. 
+
+
+
+## Dinamik Modeller: Dağıtılmış Gecikme Modeli 
+
+- $x$'in etkisinin hem cari dönemde hem de gecikmeli olarak ortaya çıktığını varsayarsak:  
+$$y_t = \alpha_0 + \delta_0 x_t + \delta_1 x_{t-1} + \delta_2 x_{t-2} + u_t$$
+Bu iki gecikmeli bir sonlu dağıtılmış gecikme modelidir. 
+
+- $\delta_0$: $x$'in $y$ üzerindeki ani etkisi (cari dönemde oluşan)
+
+- $\delta_1$: bir dönem sonra ortaya çıkan etki, $\delta_2$: iki dönem sonra ortaya çıkan etki 
+
+- İki dönem sonra ortaya çıkan toplam etki ya da uzun dönem etkisi: $\delta_0+\delta_1+\delta_2$
+
+### Örnek: Vergi teşvikleri ile Doğurganlık ilişkisi 
+
+
+- Vergi teşvikleri ile doğurganlık arasında nasıl bir ilişki vardır? (kaynak: Wooldridge, 2019)
+
+```{r}
+data(fertil3, package='wooldridge')
+tsfertil <- ts(fertil3, start=1913)
+# gfr = doğurganlık oranı 
+# pe = vergi teşviği (USD cinsinden)
+# graphs
+ts.plot(tsfertil[,1:2], col = c("black", "red"), lty=1:2, xlab="")
+legend("topleft", bty="n", lty=1:2, col=c("black","red"),
+       legend=c(" gfr ", " pe "))
+```
+
+
+
+```{r}
+# Statik model
+# ww2 = ikinci dünya savaşı kuklası
+# pill = doğum kontrol hapı kuklası
+staticres <- dynlm(gfr ~ pe +  ww2 + pill, data = tsfertil)
+summary(staticres)
+```
+
+```{r}
+# dynlm paket ile dinamik model
+# Note: L(pe) = birinci gecikme
+# L(pe,2) = ikinci gecikme
+dynres <- dynlm(gfr ~ pe + L(pe) + L(pe,2) + ww2 + pill, data = tsfertil)
+summary(dynres)
+```
+
+```{r}
+# pe katsayıları birlikte anlamlı mı?
+# F test. H0: all pe coefficients are=0
+linearHypothesis(dynres, matchCoefs(dynres,"pe"))
+```
+
+F istatistiği 3.973 ve p-değeri 0.01 olarak bulundu. Boş hipotez %5 düzeyinde reddedilir. Katsayılar birlikte anlamlıdır 
+
+```{r}
+# Uzun dönem etkisi katsayıların toplamına eşittir: 
+b <- coef(dynres)
+b["pe"]+b["L(pe)"]+b["L(pe, 2)"]
+```
+
+```{r}
+# Uzun dönem etkisi istatistik bakımından anlamlı mı? 
+# F test. H0: uzun dönem katsayısı LRP=0
+# car::linearHypothesis() fonksiyonu ile doğrusal hipotezler test edilebilir: 
+linearHypothesis(dynres,"pe + L(pe) + L(pe, 2) = 0")
+```
+
+Boş hipotez reddedilir. LRP sıfırdan farklıdır. 
+
+
+
+## Vektör Otoregresyon (VAR) modeli
+
+- VAR (vector autoregression) modeli bir değişkenin $t$ zamanındaki değerini kendi geçmişiyle ve diğer değişkenlerinin geçmiş değerleriyle açıklamaya ya da öngörmeye çalışır. 
+
+- Örneğin $y_t$ ve $x_t$ için gecikme uzunluğu 1 olan VAR, yani VAR(1) 
+$$y_t = c_1 + a_{11} y_{t-1} + b_{11} x_{t-1} + \epsilon_{1t}$$
+$$x_t = c_2 + a_{21} y_{t-1} + b_{21} x_{t-1} + \epsilon_{2t}$$
+
+- VAR(2)
+$$y_t = c_1 + a_{11} y_{t-1} + a_{12} y_{t-2}+ b_{11} x_{t-1}+ b_{12} x_{t-2} + \epsilon_{1t}$$
+$$x_t = c_2 + a_{21} y_{t-1} + a_{22} y_{t-2}+ b_{21} x_{t-1}+ b_{22} x_{t-2} + \epsilon_{2t}$$
+
+ 
+
+- Benzer şekilde daha fazla gecikmeler ( $p$ ) eklenerek VAR modeli genişletilebilir. Hangi değişkenlerin ekleneceği alan bilgisi ve teorik modellerden hareketle belirlenebilir. 
+
+- VAR(p) modelleri özünde ateorik, istatistiksel modellerdir. Değişkenlerin kısa dönem davranışını betimlemede oldukça faydalıdırlar. 
+
+- Bu nedenle ağırlıklı olarak öngörü amacıyla kullanılırlar. 
+
+- Her bir denklem Sıradan En Küçük Kareler (OLS) yöntemiyle tahmin edilebilir. 
+
+- Değişkenlerin durağan olması gerekir. Trend-durağan değişkenler için uygun trend teriminin eklenmesi mümkündür. 
+
+### Örnek: BIST100 ve Döviz kurları için bir VAR modeli
+```{r}
+# Aylık veriler
+load("veriler/bist_usd.rda")
+bist100 <- ts(bist_usd$bist100, start = c(2003,1), frequency = 12)
+usd <- ts(bist_usd$usd, start = c(2003,1), frequency = 12)
+# log birinci farklar
+dlbist100 <- 100*diff(log(bist100), 1)
+dlusd <- 100*diff(log(usd), 1)
+data_bist_usd <- cbind(dlbist100, dlusd)
+autoplot(data_bist_usd)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# vars paketini aktive edelim
+library(vars)
+# VAR gecikme uzunluğu (order) 
+VARselect(data_bist_usd, lag.max = 12)
+```
+
+Akaike bilgi kriterine (AIC) göre gecikme sayısı p=2 olarak seçildi. 
+
+```{r}
+var1 <- VAR(data_bist_usd, type="const", p = 2)
+var1
+```
+
+
+```{r}
+summary(var1)
+```
+
+
+```{r}
+# Serial korelasyon testi, kalıntılar white noise olmalı
+sertest <- serial.test(var1, lags.pt = 12, type = "PT.asymptotic")
+sertest
+plot(sertest, names = "dlbist100" ) 
+plot(sertest, names = "dlusd" )
+```
+
+
+
+## Granger-nedensellik testi 
+
+- Adında geçse de Granger-nedensellik testi klasik nedensellik kavramıyla karıştırılmamalıdır. 
+
+- Granger-nedensellik testi aslında öngörülebilirlik testidir. Basit (iki değişkenli) bir VAR(2) modelinin ilk denklemini düşünelim: 
+$$y_t = c_1 + a_{11} y_{t-1} + a_{12} y_{t-2}+ b_{11} x_{t-1}+ b_{12} x_{t-2} + \epsilon_{1t}$$
+
+- Eğer $x$, $y$'nin Granger-nedeni ise bu modelde yer alan $x$'in gecikmeli katsayılarının birlikte 0 olmaması gerekir. Yani istatistiksel bakımdan anlamlı olmalılar. 
+
+- Tersi durumda $x$, $y$'nin Granger-nedeni değilse $x$'in gecikmelerinin katsayıları birlikte istatistik bakımından anlamsızdır. 
+ 
+
+- Boş ve alternatif hipotezler: 
+$$H_0: x,~y\mbox{'nin Granger-nedeni değildir}\Leftrightarrow b_{11}=b_{12}=0$$
+$$H_1: x,~y\mbox{'nin Granger-nedenidir}\Leftrightarrow b_{11}\neq b_{12}\neq 0$$
+
+- Model tahmin edildikten sonra standart F testiyle sınanabilir. 
+
+- Boş hipotez verilerle uyumluysa, $y_t$'yi öngörmekte $x$'in geçmiş değerlerinin önemli olmadığı sonucu çıkar. 
+
+- Modelin gecikme uzunluğu $p$ bilgi kriterleriyle (örneğin Akaike Information Criterion - AIC) seçilebilir. Minimum AIC değerini veren $p$ tercih edilir. 
+
+- Modelin kalıntıları white noise olmalıdır.
+
+### Örnek
+
+Önceki kısımda tahmin ettiğimiz USD ve BIST100 VAR(2) modeli sonuçlarından hareketle Granger-nedensellik testlerini hesaplayalım. 
+
+```{r}
+# Granger nedensellik testi
+gc1 <- causality(var1, cause = "dlbist100")
+gc1
+```
+
+dlbist100 dlusd'nin Granger-nedeni değildir diyen boş hipotez %5 düzeyinde reddedilebilir (p-değeri = 0.046). Borsa endeksindeki aylık değişimler döviz kurlarındaki aylık değişimleri öngörmekte başarılıdır. 
+
+```{r}
+# Granger nedensellik testi
+gc2 <- causality(var1, cause = "dlusd")
+gc2
+```
+
+dlusd dlbist100'ün Granger-nedeni değildir diyen boş hipotez kabul edilebilir (p değeri 0.5195). Döviz kurlarındaki değişim borsa endeksindeki değişimleri öngörmekte başarılı değildir. 
+
+
+VAR modeliyle öngörü: 
+```{r}
+forecast(var1, h=12) %>% autoplot()
+```
+
+
+
+## Kurmaca Regresyon Problemi 
+
+
+- Trend-durağan değişkenlerle kurulan zaman serisi regresyonlarında trend ihmal edilirse çıkarsamalar yanlış olur. 
+
+- Benzer şekilde fark-durağan değişkenlerle kurulan zaman serisi regresyonları, trend eklense bile yanlış çıkarsamaya neden olur. Yani sonuçlar kurmacadır. 
+
+- Birim kök testleri sonucunda farkı alındığında durağanlaşan değişkenlerin olduğu modellerde regresyon sonuçlarının kurmaca olmadığını nasıl anlarız? 
+
+- Eğer değişkenler arasında eşbütünleşme ilişkisi varsa regresyon sonuçları uzun dönem ilişkisini yansıtır. Yani sonuçlar kurmaca değildir. 
+
+- Eşbütünleşme yoksa sonuçlar kurmaca olabilir.
+
+## Eşbütünleşme (cointegration)
+
+- $y_t$ ve $x_t$'nin fark-durağan olduğunu düşünelim (bunu birim kök testleriyle sınayabiliriz)
+
+- Basit modelde 
+$$y_t = \beta_0 + \beta_1 x_t + u_t$$
+hata terimi $u_t$ durağansa $y_t$ ve $x_t$ eşbütünleşiktir. Bu ADF birim kök testi ile sınanabilir. 
+
+- Bu yaklaşımın adı **Engle-Granger eşbütünleşme** (cointegration) testidir. 
+
+- Eğer $u_t$ durağan değilse değişkenler eşbütünleşik değildir. Bu durumda statik model uzun dönem denge ilişkisini yansıtmaz. 
+
+- Finans ve iktisatta çok sayıda eşbütünleşme örneği bulunabilir. Çoğu zaman arbitraj mekanizması ile iki ya da daha fazla fark-durağan değişken uzun dönemde birbirlerine bağlı olarak hareket ederler. Kısa dönemde sapmalar mümkün olsa da bunlar geçicidir. 
+
+- Spot ve futures fiyatları: bir varlığın zamanın farklı noktalarındaki fiyatları arasında uzun dönemde bir denge ilişkisi beklenir. 
+
+- Tek fiyat kuralı (Law of One Price - LOP): homojen bir malın farklı coğrafi piyasalarda benzer şekilde hareket etmesi beklenir. Aradaki fark ticaret maliyetlerini yansıtır. İki fiyat arasındaki fark taşıma maliyetlerinden yüksekse arbitraj olanağı doğar; ticaret yoluyla fiyatlar dengelenir. 
+
+- Satın alma gücü paritesi (Purchasing Power Parity - PPP): iki ülkenin fiyatlar genel düzeyinin birbirlerine oranı ile nominal döviz kurları arasında uzun dönem bir denge ilişkisi beklenir.
+
+- Hisse senedi fiyatları ile kar payları (dividends) arasında uzun dönem denge ilişkisi. Gayrimenkul fiyatları ile kira ilişkisi, vb.
+
+## Engle-Granger eşbütünleşme testi
+
+- EG testinin ilk adımında aşağıdaki model OLS ile tahmin edilir 
+$$\hat{y}_t = \hat{\alpha} + \hat{\beta} x_t$$
+
+- Eğer bu iki seri eşbütünleşik ise kalıntı, $\hat{u}_t = y_t - \hat{\alpha} - \hat{\beta} x_t$, durağan olmalıdır, I(0). 
+
+- İkinci adımda kalıntılara birim kök testi, örneğin ADF testi, uygulanır. Böylece kalıntıların durağan olup olmadığı araştırılır. 
+
+- Kritik değerler ADF kritik değerlerinden farklıdır.  
+ 
+- EG testinin boş hipotezi
+$$H_0: u_t~\mbox{durağan değildir (Eşbütünleşme yok)}$$
+alternatif: 
+$$H_1: u_t~\mbox{durağandır (Eşbütünleşme var)}$$
+- Boş hipotez altında kurmaca regresyon mevcuttur (eşbütünleşme yok). 
+
+- Boş hipotezin reddi değişkenlerin eşbütünleşik olduğu anlamına gelir. Bu durumda kısa dönemde bir hata düzeltme modeli tahmin edilebilir. 
+
+- Değişkenler eşbütünleşik değilse birinci farkları alınarak bir dinamik model, VAR, vs. kurulabilir. 
+
+## Hata Düzeltme Modeli 
+
+- Hata düzeltme modeli (Error Correction Model - ECM) eşbütünleşik değişkenler için tanımlanabilir. 
+
+- Örnek olarak kira ve ev fiyatları ilişkisini ele alalım. $r_t$ logaritmik kira, $p_t$ ise logaritmik ev fiyatları endeksi olsun. 
+
+- Her iki değişken de fark-durağan olsun (birinci farkları durağan). 
+
+- Ayrıca $r_t$ ve $p_t$ eşbütünleşik olsun. Yani 
+$$s_t = r_t - \beta p_t\sim~\mbox{Durağan}$$
+uzun dönem denge ilişkisinden sapmaları gösterir ve eşbütünleşik modeller için her zaman durağandır. 
+ 
+
+- Bu iki değişken arasındaki kısa dönem ilişkisi bir ECM ile betimlenebilir: 
+$$\begin{aligned} 
+  \Delta r_t &= \delta s_{t-1} + \Delta r_t \mbox{ gecikmeleri} + \Delta p_t \mbox{ gecikmeleri} + sabit + hata\\
+    &= \delta (r_{t-1} - \beta p_{t-1})+ \Delta r_t \mbox{ gecikmeleri} + \Delta p_t \mbox{ gecikmeleri} + sabit + hata 
+\end{aligned}$$
+
+- Hata düzeltme parametresi: $\delta<0$ (ayarlanma hızı)
+
+- Önceki dönemde $s_{t-1}>0$ ise yani kiralar denge ilişkisinin üzerindeyse $\delta<0$ olduğundan sonraki dönemde $\delta$ kadar azalır. Kiralar denge ilişkisine doğru ayarlanır. 
+
+- Tersi durumda isa kiralar yukarı yönlü hareket ederek denge ilişkisine yaklaşır.
+
+
+### Örnek: 3-aylık ve 6-aylık hazine bonosu faiz oranları eşbütünleşik mi? 
+
+```{r}
+library(wooldridge)
+r6 <- ts(intqrt$r6, start = 1950, frequency = 4)
+r3 <- ts(intqrt$r3, start = 1950, frequency = 4)
+spr <- r6-r3
+autoplot(cbind(r6, r3))  
+```
+
+```{r}
+intreg1 <- dynlm(r6 ~ r3)
+summary(intreg1)
+```
+
+Tahmin sonuçları: 
+$$\widehat{r6}_t = 0.135 + 1.03 r3_t$$
+
+$r3_t$'nin katsayı tahmini bire çok yakındır; beklenndiği gibi bu iki değişken arasında birebir ilişki vardır. 
+
+Kalıntıların birim kök içermediğinin testi (Engle-Granger testi): 
+```{r}
+# Residuals from the static regression
+uhat <- residuals(intreg1)
+autoplot(uhat)
+```
+
+
+```{r}
+library(urca)
+summary( ur.df(uhat , type = c("drift"), selectlags="AIC"))
+```
+
+
+$$\begin{aligned}\widehat{\Delta \hat{u}}_t =& -0.004 -0.632 \hat{u}_{t-1} -0.146 \Delta \hat{u}_{t-1} \\&~~~~(0.023)~~~~(0.112) ~~~~~~~~~~(0.091)
+\end{aligned}$$
+
+$$EG = \frac{-0.632}{0.112}=-5.64$$
+
+ADF kritik değerleri kullanılmamalıdır. EG kritik değerleri farklıdır. Wooldridge (2016) Tablo 18.4'de verilen %1 kritik değeri -3.90'dır. EG test değeri bu değerden daha küçük olduğu için $H_0$ reddedilir. Bu iki değişken eşbütünleşiktir.
+
+Hata düzeltme modeli: 
+```{r}
+# an ECM 
+ecm1 <- dynlm(d(r6) ~ L(uhat) +   d(r3) + L(d(r3)))
+summary(ecm1)
+```
+
+$$\widehat{\Delta r6_t} = -0.00004-0.77\hat{u}_{t-1}+0.99\Delta r3_t - 0.04\Delta r3_{t-1}$$
+
+Hata düzeltme (EC) terimi, veya ayarlanma hızı, $-0.77$ olarak tahmin edilmiştir. Beklendiği gibi negatif işaretli ve anlamlıdır. 6-aylık faiz oranları denge ilişkisinin 1 puan üzerindeyse izleyen dönemde yaklaşık 0.77 puan azalacaktır. 
+
+
+ 
+## Vektör Hata Düzeltme Modeli (VEC) vs. VAR
+
+- Seviyelerde durağan olmayan ve aralarında eşbütünleşme ilişkisi olmayan değişkenlerin olduğu sistemlerde 
+  - Tüm değişkenlerin birinci farkları alınarak durağanlaştırılır
+  - Birinci farklarla VAR(p) model kurularak öngörü modelleri geliştirilebilir
+  
+- Seviyelerde durağan olmayan ancak aralarında bir eşbütünleşme ilişkisi olan değişkenlerin olduğu sistemlerde 
+  - Uzun dönem ilişkisini betimleyen bir statik model kurulabilir
+  - Kısa dönem davranışını betimlemek amacıyla birinci farklarla bir VAR kurulur ve bu modele uzun dönem ilişkisinden sapmalar eklenir (VEC modeli)
+  
+## Çok değişkenli modellerde eşbütünleşme 
+
+- Elimizde $k$ birinci farkı alınınca durağanlaşan, yani $I(1)$ değişken varsa bunlar arasında en fazla $k-1$ tane eşbütünleşme ilişkisi olabilir.
+
+- Eğer bu değişkenlerin bir doğrusal bileşkesi durağan ise yani
+$$\beta_1 y_{1t} + \beta_2 y_{2t} +\ldots+ \beta_k y_{kt} \sim~I(0)$$
+
+sağlayan $\beta$ katsayıları bulunabilirse bu değişkenlerin eşbütünleşik olduğu söylenebilir. 
+
+- Bu durumda uzun dönem ilişkisi aşağıdaki gibi yazılabilir:
+$$y_{1t} - \beta_2 y_{2t} - \beta_3 y_{3t} - \ldots - \beta_k y_{kt} = u_t\sim~I(0)$$
+burada $\beta_1=1$ olarak normalize edildi. 
+
+
+- $k$ değişkenin olduğu bir sistemde en fazla $r$, $0<r<k$, doğrusal bağımsız eşbütünleşme vektörü bulunabilir.  
+ 
+- Değişkenler eşbütünleşik ise kısa dönem davranışları vektör hata düzeltme modelleri ile özetlenebilir(VEC)
+
+- Engle-Granger yöntemi çok değişkenli durumlarda genellikle uygulanmaz. Bunun için uygulamada daha çok VAR yaklaşımını baz alan Johansen yaklaşımı kullanılır. 
+
+- Johansen eşbütünleşme testleri maksimum olabilirlik tahmin çerçevesi içinde geliştirilmiştir. Johansen testleri (Trace ve Max Eigenvalue) kullanılarak eşbütünleşme vektörleri tahmin edilebilir. 
+
+- Detaylar için daha ileri düzeyde zaman serisi kaynaklarına başvurulabilir, örneğin, Hamilton (1994, Time Series Analysis),  Lutkepohl (2005, Introduction to Multiple Time Series Analysis).
+
+
